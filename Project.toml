@@ -1,0 +1,7 @@
+name = "QEDfields"
+uuid = "ac3a6c97-e859-4b9f-96bb-63d2a216042c"
+authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de>", "Simeon Ehrig", "Klaus Steiniger", "Tom Jungnickel", "Anton Reinhard"]
+version = "0.1.0"
+
+[compat]
+julia = "1.9"
