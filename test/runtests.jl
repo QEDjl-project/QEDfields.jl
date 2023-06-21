@@ -11,6 +11,11 @@ end
 @testset "QEDfields.jl" begin
     # Write your tests here.
     
-    @test isinstalled("QEDbase")
+    @testset "Integration: QEDbase" begin
+      
+      @test isinstalled("QEDbase")
+      @test length(dummy_QEDbase(rand(4)))==4
+    end
+
 
 end
