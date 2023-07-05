@@ -1,6 +1,17 @@
-run_test:
-  image: alpine:latest
+stages:
+  - unit-test
+
+unit_tests_julia1.9:
+  image: julia:1.9
+  stage: unit-test
   script:
-    - echo "Hello World"
+    - apt update && apt install -y git
+    # TODO: replace me with the upstream
+    - git clone --depth 1 -b initialGitlabCI https://github.com/SimeonEhrig/QED.jl.git /QEDjl
+    - julia --project=. -e 'import Pkg; Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/QEDjl-project/registry.git"));'
+    - julia --project=. -e 'import Pkg; Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/JuliaRegistries/General"));'
+    - julia --project=. /QEDjl/SetupDevEnv/src/SetupDevEnv.jl ${CI_PROJECT_DIR}/Project.toml
+    - julia --project=. -e 'import Pkg; Pkg.instantiate()'
+    - julia --project=. -e 'import Pkg; Pkg.test(; coverage = true)'
   tags:
     - cpuonly
