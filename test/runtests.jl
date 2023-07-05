@@ -15,6 +15,7 @@ end
       
       @test isinstalled("QEDbase")
       @test length(dummy_QEDbase(rand(4)))==4
+      # fix via Git meesage ;-)
       @test bar()==42
     end
 
