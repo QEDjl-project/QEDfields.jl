@@ -1,0 +1,6 @@
+run_test:
+  image: alpine:latest
+  script:
+    - echo "Hello World"
+  tags:
+    - cpuonly
