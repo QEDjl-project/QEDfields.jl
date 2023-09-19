@@ -36,3 +36,16 @@ To install the locally downloaded package on Windows, change to the parent direc
 ```julia
 (@v1.9) pkg> add ./QEDfields.jl
 ```
+
+# Development
+
+## Formatting
+
+We use [JuliaFormatter.jl](https://domluna.github.io/JuliaFormatter.jl/dev/) and the [Blue style](https://github.com/invenia/BlueStyle) to format our code. The correct form of the code is checked by a CI job. To format the code manually, run the following commands:
+
+```bash
+# install dependencies
+julia --project=.formatting -e 'import Pkg; Pkg.instantiate()'
+# format all documents
+julia --project=.formatting .formatting/format_all.jl
+```

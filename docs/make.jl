@@ -9,11 +9,7 @@ makedocs(;
     repo="https://github.com/QEDjl-project/QEDfields.jl/blob/{commit}{path}#{line}",
     sitename="QEDfields.jl",
     format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true",
-        edit_link="main",
-        assets=String[],
+        prettyurls=get(ENV, "CI", "false") == "true", edit_link="main", assets=String[]
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
 )
