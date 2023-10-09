@@ -21,17 +21,20 @@ Abstract base type for pulsed plane-wave fields.
 
     ```Julia
 
-    domain(::AbstractPulsedPlaneWaveFields)
+    domain(::AbstractPulsedPlaneWaveField)
     pulse_width()
     pulse_envelope()
 
     ```
 
 """
-abstract type AbstractPulsedPlaneWaveFields <: AbstractBackgroundField end
+abstract type AbstractPulsedPlaneWaveField <: AbstractBackgroundField end
+
+
+function reference_momentum end
 
 """
-    domain(::AbstractPulsedPlaneWaveFields)
+    domain(::AbstractPulsedPlaneWaveField)
 
 Return domain for the given BG field. 
 
@@ -40,33 +43,73 @@ function domain end
 
 """
     
-    pulse_width(::AbstractPulsedPlaneWaveFields) -> Float64
+    phase_duration(::AbstractPulsedPlaneWaveField) -> Float64
 
 """
-function pulse_width end
+function phase_duration end
 
 """
 
-    _pulse_envelope(::AbstractPulsedPlaneWaveFields, x::Real)
+    _pulse_envelope(::AbstractPulsedPlaneWaveField, x::Real)
 
 Unsafe version of the pulse envelope function. Implement this function without domain check. 
 
 """
 function _pulse_envelope end
 
+function _pulse_envelope(field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}) where T<:Real
+    map(x->_pulse_envelope(field,x),phi)
+end
 
 """
     
-    pulse_envelope(::AbstractPulsedPlaneWaveFields, x::Real)
+    pulse_envelope(::AbstractPulsedPlaneWaveField, x::Real)
     
 Pulse envelope funtion. Performs domain check on `x` before calling [`_pulse_envelope`](@ref); returns zero if `x` is not in the domain.
 """
-function pulse_envelope(field::AbstractPulsedPlaneWaveFields, x)
-    x in domain(field) ? _pulse_envelope(field,x) : zero(x)
+function pulse_envelope(field::AbstractPulsedPlaneWaveField, phi::Real)
+    phi in domain(field) ? _pulse_envelope(field,phi) : zero(phi)
 end
 
+function pulse_envelope(field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}) where T<:Real
+    map(x->pulse_envelope(field,x),phi)
+end
 
-function _amplitude(field::AbstractPulsedPlaneWaveFields, pol::AbstractDefinitePolarisation, x)
-    return polarisation_vector(field, pol)*cos(x)*_pulse_envelope(x)
+# amplitude functions
+
+function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::Real)
+    return _oscillator(pol,phi)*_pulse_envelope(phi)
+end
+
+function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::AbstractVector{T}) where T<:Real
+    return map(x->_amplitude(field,pol,x), phi)
+end
+
+function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::Real)
+    phi in domain(field) ? _amplitude(field,phi) : zero(phi)
+end
+
+function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::AbstractVector{T}) T<:Real
+    map(x->amplitude(field,pol,x),phi)
+end
+
+# generic spectrum
+"""
+    
+    _fourier_transform(func::Function, domain::Interval, l::Real)
+
+Generic implementation of the bounded Fourier transform of `func` at `l` in frequency space.
+
+"""
+@inline function _fourier_transform(func::Function, domain::Interval, l::Real)
+    return quadgk(t -> func(t) * exp(1im * t * l), endpoints(domain)...)[1]
+end
+
+function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarisation, photon_number_parameter::Real)
+    return _fourier_transform(t->amplitude(field, pol,t), domain(field), photon_number_parameter)
+end
+
+function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarisation, photon_number_parameter::AbstractVector{T}) where T<:Real
+    map(x->generic_spectrum(field, pol,x), photon_number_parameter)
 end
 
