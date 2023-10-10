@@ -3,17 +3,47 @@ using QEDfields
 using Random
 using IntervalSets
 
-RNG = MersenneTwister(137137)
+RNG = MersenneTwister(137)
 ATOL = 0.0
 RTOL = sqrt(eps())
 
 RND_MOM = SFourMomentum(rand(RNG,4))
+
+# Test pulse: box profile
 RND_DOMAIN = Interval(-rand(RNG),rand(RNG))
 RND_DOMAIN_WIDTH = width(RND_DOMAIN)
 _groundtruth_envelope(x::Real) = one(x)
 _groundtruth_envelope(x::AbstractVector) = ones(size(x))
 _groundtruth_amplitude(::QEDfields.PolX, x) = cos(x)
 _groundtruth_amplitude(::QEDfields.PolY, x) = sin(x)
+
+function _indefinite_integral(::QEDfields.PolX, x,l)
+    # according to wolframalpha.com
+    if l==zero(l)
+        return sin(x)
+    elseif l==one(l)
+        # integral cos(x) e^(i x) dx = x/2 - 1/4 i e^(2 i x) + constant
+        return 0.5*(x-0.5im*exp(2im*x))
+    else
+        # integral cos(x) e^(i k x) dx = -(i e^(i k x) (k cos(x) - i sin(x)))/(k^2 - 1) + constant
+        return -1im*exp(1im*x*l)*(l*cos(x) - 1im*sin(x))/(l^2 - 1)
+    end
+end
+
+function _indefinite_integral(::QEDfields.PolY, x,l)
+    # according to wolframalpha.com
+    if l==zero(l)
+        return -cos(x)
+    elseif l==one(l)
+        # integral sin(x) e^(i x) dx = (i x)/2 - 1/4 e^(2 i x) + constant
+        return 0.5*(1im*x-0.5*exp(2im*x))
+    else
+        # integral sin(x) e^(i k x) dx = (e^(i k x) (cos(x) - i k sin(x)))/(k^2 - 1) + constant
+        return exp(1im*x*l)*(cos(x) - 1im*l*sin(x))/(l^2 - 1)
+    end
+end
+
+_groundtruth_generic_spectrum(pol,l) = _indefinite_integral(pol,rightendpoint(RND_DOMAIN),l) - _indefinite_integral(pol,leftendpoint(RND_DOMAIN),l)
 
 struct TestBGfield <: AbstractPulsedPlaneWaveField end
 
@@ -85,20 +115,48 @@ end
         end
 
         @testset "compute vector" begin
-            @test false
+        rnd_phis = rand(RNG,RND_DOMAIN, 2)
+        push!(rnd_phis,leftendpoint(RND_DOMAIN))
+        push!(rnd_phis,leftendpoint(RND_DOMAIN)-eps()) 
+        push!(rnd_phis,rightendpoint(RND_DOMAIN))
+        push!(rnd_phis,rightendpoint(RND_DOMAIN)+eps()) 
+
+        test_amplitude_values = amplitude(test_field,pol,rnd_phis)
+
+        groundtruth_amplitude_values = Vector{Float64}(undef,length(rnd_phis))
+        for (idx,phi) in enumerate(rnd_phis)
+            if phi in RND_DOMAIN
+                groundtruth_amplitude_values[idx] = _groundtruth_amplitude(pol,phi)
+            else
+                groundtruth_amplitude_values[idx] = zero(phi)
+            end
+        end
+
+        @test isapprox(test_amplitude_values,groundtruth_amplitude_values, atol = ATOL, rtol = RTOL)
         end
     end
 end
+
 @testset "generic spectrum" begin
     @testset "$pol" for pol in (QEDfields.PolX(), QEDfields.PolY())
         test_field = TestBGfield()
 
         @testset "compute single" begin
-            @test false
+
+            @testset "pnum = $rnd_pnum" for rnd_pnum in (1+(0.2*rand(RNG)-0.1),1-(0.2*rand(RNG)-0.1),1.0,0.0)
+                @test isapprox(generic_spectrum(test_field,pol,rnd_pnum),_groundtruth_generic_spectrum(pol,rnd_pnum), atol = ATOL, rtol = RTOL)
+            end
         end
 
         @testset "compute vector" begin
-            @test false
+            rnd_pnum = [1.0,0.0]
+            push!(rnd_pnum, 1+(0.2*rand(RNG) - 0.1))
+            push!(rnd_pnum , 1-(0.2*rand(RNG) - 0.1)) 
+            test_generic_spectrum_values = generic_spectrum(test_field,pol,rnd_pnum)
+
+            groundtruth_generic_spectrum_values = _groundtruth_generic_spectrum.(Ref(pol),rnd_pnum) 
+
+            @test isapprox(test_generic_spectrum_values,groundtruth_generic_spectrum_values, atol = ATOL, rtol = RTOL)
         end
     end
 end
