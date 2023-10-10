@@ -17,13 +17,14 @@ Abstract base type for pulsed plane-wave fields.
 
 !!! note "Pulsed field interface"
 
-    For every subtype, the following functions need to be implemented.
+For every subtype, the following functions need to be implemented.
 
     ```Julia
 
+    reference_momentum(::AbstractBackgroundField)
     domain(::AbstractPulsedPlaneWaveField)
-    pulse_width()
-    pulse_envelope()
+    pulse_width(::AbstractBackgroundField)
+    pulse_envelope(::AbstractBackgroundField,x::Real)
 
     ```
 
@@ -77,19 +78,19 @@ end
 
 # amplitude functions
 
-function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::Real)
+function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization,  phi::Real)
     return _oscillator(pol,phi)*_pulse_envelope(phi)
 end
 
-function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::AbstractVector{T}) where T<:Real
+function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::AbstractVector{T}) where T<:Real
     return map(x->_amplitude(field,pol,x), phi)
 end
 
-function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::Real)
+function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::Real)
     phi in domain(field) ? _amplitude(field,phi) : zero(phi)
 end
 
-function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarisation, phi::AbstractVector{T}) T<:Real
+function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::AbstractVector{T}) where T<:Real
     map(x->amplitude(field,pol,x),phi)
 end
 
@@ -105,11 +106,11 @@ Generic implementation of the bounded Fourier transform of `func` at `l` in freq
     return quadgk(t -> func(t) * exp(1im * t * l), endpoints(domain)...)[1]
 end
 
-function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarisation, photon_number_parameter::Real)
+function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarization, photon_number_parameter::Real)
     return _fourier_transform(t->amplitude(field, pol,t), domain(field), photon_number_parameter)
 end
 
-function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarisation, photon_number_parameter::AbstractVector{T}) where T<:Real
+function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarization, photon_number_parameter::AbstractVector{T}) where T<:Real
     map(x->generic_spectrum(field, pol,x), photon_number_parameter)
 end
 

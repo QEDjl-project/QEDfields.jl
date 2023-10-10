@@ -14,3 +14,7 @@ end
         @test length(dummy_QEDbase(rand(4))) == 4
     end
 end
+
+@testset "background field interface" begin
+    include("interfaces/background_field_interface.jl")
+end
