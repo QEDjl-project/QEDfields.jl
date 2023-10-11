@@ -7,5 +7,5 @@ version = "0.1.0-dev"
 QEDbase = "10e22c08-3ccb-4172-bfcf-7d7aa3d04d93"
 
 [compat]
-julia = "1.9"
+julia = "1.6"
 QEDbase = "0.1.4"
