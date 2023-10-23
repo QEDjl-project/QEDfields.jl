@@ -18,9 +18,6 @@ end
 export AbstractBackgroundField, AbstractPulsedPlaneWaveField 
 export reference_momentum, domain, phase_duration, pulse_envelope, amplitude, generic_spectrum
 
-
-include("QEDbase_polarisation_mock.jl")
-
 include("interfaces/background_field_interface.jl")
 include("polarisation.jl")
 
