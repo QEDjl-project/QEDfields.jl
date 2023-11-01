@@ -3,7 +3,7 @@ using Test
 using SafeTestsets
 
 @time @safetestset "downstream" begin
-        include("downstream.jl")
+    include("downstream.jl")
 end
 
 @time @safetestset "background field interface" begin
@@ -13,4 +13,3 @@ end
 @time @safetestset "polarization" begin
     include("polarization.jl")
 end
-

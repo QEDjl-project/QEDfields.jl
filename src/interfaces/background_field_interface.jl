@@ -11,7 +11,6 @@ The only supported class of background fields yet, are the pulsed plane-wave fie
 """
 abstract type AbstractBackgroundField end
 
-
 #####
 # pulsed plane-wave fields
 #####
@@ -83,9 +82,11 @@ Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns the
 """
 function _pulse_envelope end
 
-function _pulse_envelope(field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}) where T<:Real
+function _pulse_envelope(
+    field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}
+) where {T<:Real}
     # TODO: maybe use broadcasting here 
-    map(x->_pulse_envelope(field,x),phi)
+    return map(x -> _pulse_envelope(field, x), phi)
 end
 
 """
@@ -95,23 +96,31 @@ end
 Pulse envelope funtion. Performs domain check on `phi` before calling [`_pulse_envelope`](@ref); returns zero if `phi` is not in the domain.
 """
 function pulse_envelope(field::AbstractPulsedPlaneWaveField, phi::Real)
-    phi in domain(field) ? _pulse_envelope(field,phi) : zero(phi)
+    return phi in domain(field) ? _pulse_envelope(field, phi) : zero(phi)
 end
 
-function pulse_envelope(field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}) where T<:Real
+function pulse_envelope(
+    field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}
+) where {T<:Real}
     # TODO: maybe use broadcasting here 
-    map(x->pulse_envelope(field,x),phi)
+    return map(x -> pulse_envelope(field, x), phi)
 end
 
 # amplitude functions
 
-function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization,  phi::Real)
-    return oscillator(pol,phi)*_pulse_envelope(field,phi)
+function _amplitude(
+    field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::Real
+)
+    return oscillator(pol, phi) * _pulse_envelope(field, phi)
 end
 
-function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::AbstractVector{T}) where T<:Real
+function _amplitude(
+    field::AbstractPulsedPlaneWaveField,
+    pol::AbstractDefinitePolarization,
+    phi::AbstractVector{T},
+) where {T<:Real}
     # TODO: maybe use broadcasting here 
-    return map(x->_amplitude(field,pol,x), phi)
+    return map(x -> _amplitude(field, pol, x), phi)
 end
 
 """
@@ -133,13 +142,19 @@ Returns the value of the field amplitude for a given polarization direction and 
     
     In this function, a domain check is performed, i.e. if `phi` is in the domain of the field, the value of the amplitude is returned, and zero otherwise.
 """
-function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::Real)
-    phi in domain(field) ? _amplitude(field,pol,phi) : zero(phi)
+function amplitude(
+    field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::Real
+)
+    return phi in domain(field) ? _amplitude(field, pol, phi) : zero(phi)
 end
 
-function amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::AbstractVector{T}) where T<:Real
+function amplitude(
+    field::AbstractPulsedPlaneWaveField,
+    pol::AbstractDefinitePolarization,
+    phi::AbstractVector{T},
+) where {T<:Real}
     # TODO: maybe use broadcasting here 
-    map(x->amplitude(field,pol,x),phi)
+    return map(x -> amplitude(field, pol, x), phi)
 end
 
 # generic spectrum
@@ -164,12 +179,17 @@ Return the generic spectrum of the given field, for the given polarization direc
     ```
     # where ``g(\\phi)`` is the [`pulse_envelope`](@ref) and ``l`` the photon number parameter.
 """
-function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarization, pnum::Real)
-    return _fourier_transform(t->amplitude(field, pol,t), domain(field), pnum)
+function generic_spectrum(
+    field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, pnum::Real
+)
+    return _fourier_transform(t -> amplitude(field, pol, t), domain(field), pnum)
 end
 
-function generic_spectrum(field::AbstractPulsedPlaneWaveField,pol::AbstractDefinitePolarization, photon_number_parameter::AbstractVector{T}) where T<:Real
+function generic_spectrum(
+    field::AbstractPulsedPlaneWaveField,
+    pol::AbstractDefinitePolarization,
+    photon_number_parameter::AbstractVector{T},
+) where {T<:Real}
     # TODO: maybe use broadcasting here 
-    map(x->generic_spectrum(field, pol,x), photon_number_parameter)
+    return map(x -> generic_spectrum(field, pol, x), photon_number_parameter)
 end
-

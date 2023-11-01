@@ -5,7 +5,6 @@ using QEDbase
 using IntervalSets
 using QuadGK
 
-
 export dummy_QEDbase
 
 # Write your package code here.
@@ -15,8 +14,9 @@ function dummy_QEDbase(x::AbstractVector{T}) where {T<:Real}
     @inbounds SFourMomentum(x...)
 end
 
-export AbstractBackgroundField, AbstractPulsedPlaneWaveField 
-export reference_momentum, domain, phase_duration, pulse_envelope, amplitude, generic_spectrum
+export AbstractBackgroundField, AbstractPulsedPlaneWaveField
+export reference_momentum,
+    domain, phase_duration, pulse_envelope, amplitude, generic_spectrum
 
 export polarization_vector, oscillator
 

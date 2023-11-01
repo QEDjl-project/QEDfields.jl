@@ -6,10 +6,9 @@ using Pkg: Pkg
 
 # QEDbase.jl
 
-import QEDbase
+using QEDbase: QEDbase
 
 @testset "Integration: QEDbase" begin
-
     QEDbase_exports = names(QEDbase)
 
     @testset "General" begin
@@ -26,4 +25,3 @@ import QEDbase
         @test :AllPol in QEDbase_exports
     end
 end
-
