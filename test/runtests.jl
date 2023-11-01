@@ -10,3 +10,7 @@ end
     include("interfaces/background_field_interface.jl")
 end
 
+@time @safetestset "polarization" begin
+    include("polarization.jl")
+end
+

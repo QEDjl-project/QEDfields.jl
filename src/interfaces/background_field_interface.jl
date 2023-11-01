@@ -106,7 +106,7 @@ end
 # amplitude functions
 
 function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization,  phi::Real)
-    return _oscillator(pol,phi)*_pulse_envelope(field,phi)
+    return oscillator(pol,phi)*_pulse_envelope(field,phi)
 end
 
 function _amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::AbstractVector{T}) where T<:Real

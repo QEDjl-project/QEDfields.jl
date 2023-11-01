@@ -18,7 +18,9 @@ end
 export AbstractBackgroundField, AbstractPulsedPlaneWaveField 
 export reference_momentum, domain, phase_duration, pulse_envelope, amplitude, generic_spectrum
 
+export polarization_vector 
+
 include("interfaces/background_field_interface.jl")
-include("polarisation.jl")
+include("polarization.jl")
 
 end
