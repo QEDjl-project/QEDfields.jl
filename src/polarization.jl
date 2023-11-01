@@ -9,7 +9,7 @@
 #   * write doc strings
 #   * implement elliptical/circular polarisation
 
-@inline polarization_vector(pol::AbstractDefinitePolarization, mom) = base_state(Photon(),Incoming(), mom, pol)
+@inline polarization_vector(pol::AbstractPolarization, mom) = base_state(Photon(),Incoming(), mom, pol)
 
 @inline oscillator(::PolX, x) = cos(x)
 @inline oscillator(::PolY, x) = sin(x)  
