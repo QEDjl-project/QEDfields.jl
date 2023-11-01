@@ -5,7 +5,7 @@
 # is defined. 
 ####################
 """
-Abstract base type for describing classical background fields in general.
+Abstract base type for describing classical background fields.
 
 The only supported class of background fields yet, are the pulsed plane-wave field (see [`AbstractPulsedPlaneWaveField`](@ref) for details).
 """
@@ -27,7 +27,7 @@ Abstract base type for pulsed plane-wave fields.
     reference_momentum(::AbstractPulsedPlaneWaveField)
     domain(::AbstractPulsedPlaneWaveField)
     phase_duration(::AbstractPulsedPlaneWaveField)
-    pulse_envelope(::AbstractPulsedPlaneWaveField,x::Real)
+    phase_envelope(::AbstractPulsedPlaneWaveField,x::Real)
     ```
 
 """
@@ -59,9 +59,9 @@ function phase_duration end
 
 """
 
-    _pulse_envelope(::AbstractPulsedPlaneWaveField, phi::Real)
+    _phase_envelope(::AbstractPulsedPlaneWaveField, phi::Real)
 
-Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns the value of the pulse envelope function for a given phase variable.
+Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns the value of the phase envelope function (also referred to as pulse envelope) for a given phase variable.
 
 !!! note "Single point implementation"
 
@@ -69,41 +69,43 @@ Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns the
     However, if there is a better custom implementation for vectors in input values, consider implementing 
     ```Julia
     
-        _pulse_envelope(::AbstractPulsedPlaneWaveField, phi::AbstractVector{T<:Real})
+        _phase_envelope(::AbstractPulsedPlaneWaveField, phi::AbstractVector{T<:Real})
 
     ```
 
 !!! note "unsafe implementation"
     
-    This is the unsafe version of the pulse envelope function, i.e. this should be implement without input checks like the domain check. 
-    In the safe version [`pulse_envelope`](@ref), a domain check is performed, i.e. it returns the value of `_pulse_envelope` if the passed in `phi` 
+    This is the unsafe version of the phase envelope function, i.e. this should be implement without input checks like the domain check. 
+    In the safe version [`phase_envelope`](@ref), a domain check is performed, i.e. it returns the value of `_phase_envelope` if the passed in `phi` 
     is in the `domain` of the field, and zero otherwise. 
 
 """
-function _pulse_envelope end
+function _phase_envelope end
 
-function _pulse_envelope(
+function _phase_envelope(
     field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}
 ) where {T<:Real}
     # TODO: maybe use broadcasting here 
-    return map(x -> _pulse_envelope(field, x), phi)
+    return map(x -> _phase_envelope(field, x), phi)
 end
 
 """
     
-    pulse_envelope(::AbstractPulsedPlaneWaveField, phi::Real)
+    phase_envelope(::AbstractPulsedPlaneWaveField, phi::Real)
     
-Pulse envelope funtion. Performs domain check on `phi` before calling [`_pulse_envelope`](@ref); returns zero if `phi` is not in the domain.
+Return the value of the phase envelope funtion (also referred to as pulse envelope or pulse shape) 
+for given `pulsed_field` and phase `phi`. Performs domain check on `phi` before calling [`_pulse_envelope`](@ref); 
+returns zero if `phi` is not in the domain returned by `[phase_domain](@ref)`.
 """
-function pulse_envelope(field::AbstractPulsedPlaneWaveField, phi::Real)
-    return phi in domain(field) ? _pulse_envelope(field, phi) : zero(phi)
+function phase_envelope(field::AbstractPulsedPlaneWaveField, phi::Real)
+    return phi in domain(field) ? _phase_envelope(field, phi) : zero(phi)
 end
 
-function pulse_envelope(
+function phase_envelope(
     field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}
 ) where {T<:Real}
     # TODO: maybe use broadcasting here 
-    return map(x -> pulse_envelope(field, x), phi)
+    return map(x -> phase_envelope(field, x), phi)
 end
 
 # amplitude functions
@@ -111,7 +113,7 @@ end
 function _amplitude(
     field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::Real
 )
-    return oscillator(pol, phi) * _pulse_envelope(field, phi)
+    return oscillator(pol, phi) * _phase_envelope(field, phi)
 end
 
 function _amplitude(
@@ -134,8 +136,8 @@ Returns the value of the field amplitude for a given polarization direction and 
     There are two directions supported:
 
     ```Julia
-    pol::PolX # -> return pulse_envelope(phi)*cos(phi)
-    pol::PolY # -> return pulse_envelope(phi)*sin(phi)
+    pol::PolX # -> return phase_envelope(phi)*cos(phi)
+    pol::PolY # -> return phase_envelope(phi)*sin(phi)
     ```
 
 !!! note "Safe implementation"
@@ -177,12 +179,12 @@ Return the generic spectrum of the given field, for the given polarization direc
     x-\\mathrm{pol} \\to \\int_{-\\infty}^{\\infty} g(\\phi) \\cos(\\phi) \\exp{il\\phi}
     y-\\mathrm{pol} \\to \\int_{-\\infty}^{\\infty} g(\\phi) \\sin(\\phi) \\exp{il\\phi}
     ```
-    # where ``g(\\phi)`` is the [`pulse_envelope`](@ref) and ``l`` the photon number parameter.
+    # where ``g(\\phi)`` is the [`phase_envelope`](@ref) and ``l`` the photon number parameter.
 """
 function generic_spectrum(
     field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, pnum::Real
 )
-    return _fourier_transform(t -> amplitude(field, pol, t), domain(field), pnum)
+    return _fourier_transform(t -> _amplitude(field, pol, t), domain(field), pnum)
 end
 
 function generic_spectrum(
