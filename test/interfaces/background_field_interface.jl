@@ -53,7 +53,7 @@ struct TestBGfield <: AbstractPulsedPlaneWaveField end
 QEDfields.reference_momentum(field::TestBGfield) = RND_MOM
 QEDfields.domain(::TestBGfield) = RND_DOMAIN
 QEDfields.phase_duration(::TestBGfield) = RND_DOMAIN_WIDTH
-QEDfields._phase_envelope(::TestBGfield, x::Real) = one(x)
+QEDfields._envelope(::TestBGfield, x::Real) = one(x)
 
 struct TestBGfieldFAIL <: AbstractPulsedPlaneWaveField end
 
@@ -77,31 +77,31 @@ end
     @testset "compute single" begin
         rnd_phi = rand(RNG, RND_DOMAIN)
         @test isapprox(
-            phase_envelope(test_field, rnd_phi),
+            envelope(test_field, rnd_phi),
             _groundtruth_envelope(rnd_phi),
             atol=ATOL,
             rtol=RTOL,
         )
         @test isapprox(
-            phase_envelope(test_field, leftendpoint(RND_DOMAIN)),
+            envelope(test_field, leftendpoint(RND_DOMAIN)),
             _groundtruth_envelope(leftendpoint(RND_DOMAIN)),
             atol=ATOL,
             rtol=RTOL,
         )
         @test isapprox(
-            phase_envelope(test_field, leftendpoint(RND_DOMAIN) - eps()),
+            envelope(test_field, leftendpoint(RND_DOMAIN) - eps()),
             zero(Float64),
             atol=ATOL,
             rtol=RTOL,
         )
         @test isapprox(
-            phase_envelope(test_field, rightendpoint(RND_DOMAIN)),
+            envelope(test_field, rightendpoint(RND_DOMAIN)),
             _groundtruth_envelope(rightendpoint(RND_DOMAIN)),
             atol=ATOL,
             rtol=RTOL,
         )
         @test isapprox(
-            phase_envelope(test_field, rightendpoint(RND_DOMAIN) + eps()),
+            envelope(test_field, rightendpoint(RND_DOMAIN) + eps()),
             zero(Float64),
             atol=ATOL,
             rtol=RTOL,
@@ -114,7 +114,7 @@ end
         push!(rnd_phis, rightendpoint(RND_DOMAIN))
         push!(rnd_phis, rightendpoint(RND_DOMAIN) + eps())
 
-        test_envelope_values = phase_envelope(test_field, rnd_phis)
+        test_envelope_values = envelope(test_field, rnd_phis)
 
         groundtruth_envelope_values = Vector{Float64}(undef, length(rnd_phis))
         for (idx, phi) in enumerate(rnd_phis)

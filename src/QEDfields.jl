@@ -16,7 +16,7 @@ end
 
 export AbstractBackgroundField, AbstractPulsedPlaneWaveField
 export reference_momentum,
-    domain, phase_duration, phase_envelope, amplitude, generic_spectrum
+    domain, phase_duration, envelope, amplitude, generic_spectrum
 
 export polarization_vector, oscillator
 
