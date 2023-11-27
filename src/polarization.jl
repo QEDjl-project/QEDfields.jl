@@ -6,15 +6,15 @@
 ################
 #
 # TODO:
-#   * write doc strings
 #   * implement elliptical/circular polarisation
 
 """
+
     polarization_vector(pol::AbstractPolarization, mom::QEDbase.AbstractFourMomentum)
 
-Return the polarisation vector for a given polarization and four-momentum `mom`.
-For a definite polarisation, the respective `LorentzVector` is returned, 
-where as for an indefinite polarisation, a tuple of polarisation vectors is returned.
+Return the polarization vector for a given polarization and four-momentum `mom`.
+For a definite polarization, the respective `LorentzVector` is returned, 
+where as for an indefinite polarization, a tuple of polarization vectors is returned.
 """
 @inline function polarization_vector(pol::AbstractPolarization, mom)
     return base_state(Photon(), Incoming(), mom, pol)
@@ -22,9 +22,9 @@ end
 
 """
 
-    oscillator(pol::AbstractPolarisaion, phi::Real)
+    oscillator(pol::AbstractPolarizaion, phi::Real)
 
-Return the value of the base oscillator associated with a given polarisation `pol` at a given point `phi`.
+Return the value of the base oscillator associated with a given polarization `pol` at a given point `phi`.
 
 !!! note "Convention"
 

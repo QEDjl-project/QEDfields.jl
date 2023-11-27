@@ -1,13 +1,13 @@
 ####################
 # The abstract background field interface
 #
-# In this file, the abstract interfaces for different types of background fields
+# In this file, the abstract interface for different types of background fields
 # is defined. 
 ####################
 """
 Abstract base type for describing classical background fields.
 
-The only supported class of background fields yet, are the pulsed plane-wave field (see [`AbstractPulsedPlaneWaveField`](@ref) for details).
+The only supported class of background fields yet, is the pulsed plane-wave field (see [`AbstractPulsedPlaneWaveField`](@ref) for details).
 """
 abstract type AbstractBackgroundField end
 
@@ -130,7 +130,7 @@ end
 
     amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi)
 
-Returns the value of the amplitude fourfor a given polarization direction and phase variable `phi`. 
+Returns the value of the amplitude for a given polarization direction and phase variable `phi`. 
 
 !!! note "Conventions"
 

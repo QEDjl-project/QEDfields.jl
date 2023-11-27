@@ -25,7 +25,7 @@ function _indefinite_integral(::QEDfields.PolX, x, l)
         # integral cos(x) e^(i x) dx = x/2 - 1/4 i e^(2 i x) + constant
         return 0.5 * (x - 0.5im * exp(2im * x))
     else
-        # integral cos(x) e^(i k x) dx = -(i e^(i k x) (k cos(x) - i sin(x)))/(k^2 - 1) + constant
+        # integral cos(x) e^(i l x) dx = -(i e^(i l x) (l cos(x) - i sin(x)))/(l^2 - 1) + constant
         return -1im * exp(1im * x * l) * (l * cos(x) - 1im * sin(x)) / (l^2 - 1)
     end
 end
@@ -38,7 +38,7 @@ function _indefinite_integral(::QEDfields.PolY, x, l)
         # integral sin(x) e^(i x) dx = (i x)/2 - 1/4 e^(2 i x) + constant
         return 0.5 * (1im * x - 0.5 * exp(2im * x))
     else
-        # integral sin(x) e^(i k x) dx = (e^(i k x) (cos(x) - i k sin(x)))/(k^2 - 1) + constant
+        # integral sin(x) e^(i l x) dx = (e^(i l x) (cos(x) - i l sin(x)))/(l^2 - 1) + constant
         return exp(1im * x * l) * (cos(x) - 1im * l * sin(x)) / (l^2 - 1)
     end
 end
@@ -199,12 +199,12 @@ end
         test_field = TestBGfield()
 
         @testset "compute single" begin
-            @testset "pnum = $rnd_pnum" for rnd_pnum in (
-                1 + (0.2 * rand(RNG) - 0.1), 1 - (0.2 * rand(RNG) - 0.1), 1.0, 0.0
+            @testset "pnum = $l_test" for l_test in (
+                1 + (0.1 * rand(RNG)), 1 - (0.1 * rand(RNG)), 1.0, 0.0
             )
                 @test isapprox(
-                    generic_spectrum(test_field, pol, rnd_pnum),
-                    _groundtruth_generic_spectrum(pol, rnd_pnum),
+                    generic_spectrum(test_field, pol, l_test),
+                    _groundtruth_generic_spectrum(pol, l_test),
                     atol=ATOL,
                     rtol=RTOL,
                 )
@@ -212,13 +212,13 @@ end
         end
 
         @testset "compute vector" begin
-            rnd_pnum = [1.0, 0.0]
-            push!(rnd_pnum, 1 + (0.2 * rand(RNG) - 0.1))
-            push!(rnd_pnum, 1 - (0.2 * rand(RNG) - 0.1))
-            test_generic_spectrum_values = generic_spectrum(test_field, pol, rnd_pnum)
+            l_test = [1.0, 0.0]
+            push!(l_test, 1 + (0.1 * rand(RNG)))
+            push!(l_test, 1 - (0.1 * rand(RNG)))
+            test_generic_spectrum_values = generic_spectrum(test_field, pol, l_test)
 
             groundtruth_generic_spectrum_values =
-                _groundtruth_generic_spectrum.(Ref(pol), rnd_pnum)
+                _groundtruth_generic_spectrum.(Ref(pol), l_test)
 
             @test isapprox(
                 test_generic_spectrum_values,
