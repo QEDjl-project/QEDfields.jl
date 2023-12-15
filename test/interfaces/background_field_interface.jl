@@ -117,7 +117,7 @@ end
 
         test_envelope_values = envelope(test_field, rnd_phis)
 
-        groundtruth_envelope_values = -ones(Float64,length(rnd_phis))
+        groundtruth_envelope_values = -ones(Float64, length(rnd_phis))
         for (idx, phi) in enumerate(rnd_phis)
             if phi in RND_DOMAIN
                 groundtruth_envelope_values[idx] = _groundtruth_envelope(phi)
@@ -179,7 +179,7 @@ end
 
             test_amplitude_values = amplitude(test_field, pol, rnd_phis)
 
-            groundtruth_amplitude_values = -2*ones(Float64,length(rnd_phis))
+            groundtruth_amplitude_values = -2 * ones(Float64, length(rnd_phis))
             for (idx, phi) in enumerate(rnd_phis)
                 if phi in RND_DOMAIN
                     groundtruth_amplitude_values[idx] = _groundtruth_amplitude(pol, phi)
