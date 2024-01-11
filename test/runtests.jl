@@ -1,16 +1,15 @@
 using QEDfields
 using Test
-using Pkg: Pkg
+using SafeTestsets
 
-function isinstalled(pk::AbstractString)
-    return pk in [v.name for v in values(Pkg.dependencies())]
+@time @safetestset "downstream" begin
+    include("downstream.jl")
 end
 
-@testset "QEDfields.jl" begin
-    # Write your tests here.
+@time @safetestset "background field interface" begin
+    include("interfaces/background_field_interface.jl")
+end
 
-    @testset "Integration: QEDbase" begin
-        @test isinstalled("QEDbase")
-        @test length(dummy_QEDbase(rand(4))) == 4
-    end
+@time @safetestset "polarization" begin
+    include("polarization.jl")
 end
