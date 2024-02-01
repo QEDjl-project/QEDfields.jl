@@ -44,3 +44,25 @@ end
 phase_duration(pulse::CosSquarePulse) = pulse.pulse_width
 _envelope(pulse::CosSquarePulse,phi::Real) = _unsafe_cos_square_envelope(phi,pulse.pulse_width)
 
+#######
+# Special implementation for the generic spectrum
+#######
+
+@inline function _gsinc(x::T) where {T<:Real}
+    abs(x) == 1 ? one(x) / 2 : sinc(x) / (1 - x^2)
+end
+
+@inline function _generic_FT(l::Real, sig::Real)
+    sig * _gsinc(sig * l / pi)
+end
+
+
+function generic_spectrum(field::CosSquarePulse, pol::PolX, pnum::Real)
+    dphi = field.pulse_width
+    0.5 * (_generic_FT(pnum + 1, dphi) + _generic_FT(pnum - 1, dphi))
+end
+
+function generic_spectrum(field::CosSquarePulse, pol::PolY, pnum::Real)
+    dphi = field.pulse_width
+    -0.5im * (_generic_FT(pnum + 1, dphi) - _generic_FT(pnum - 1, dphi))
+end
