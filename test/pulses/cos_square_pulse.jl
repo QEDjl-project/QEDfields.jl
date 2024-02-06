@@ -53,7 +53,6 @@ end
 
             groundtruth_xpol = generic_spectrum(wrapper_pulse, PolX(), pnum)
             groundtruth_ypol = generic_spectrum(wrapper_pulse, PolY(), pnum)
-            #groundtruth_xpol = quadgk(t -> amplitude(test_pulse,PolX(), t) * exp(1im * t * pnum ),  endpoints(domain(test_pulse))...,)[1]
 
             @test isapprox(test_val_xpol, groundtruth_xpol, atol=ATOL, rtol=RTOL)
             @test isapprox(test_val_ypol, groundtruth_ypol, atol=ATOL, rtol=RTOL)
