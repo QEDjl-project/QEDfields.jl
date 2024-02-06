@@ -13,3 +13,7 @@ end
 @time @safetestset "polarization" begin
     include("polarization.jl")
 end
+
+@time @safetestset "pulses" begin
+    include("pulses/cos_square_pulse.jl")
+end

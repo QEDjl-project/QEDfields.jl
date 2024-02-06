@@ -178,8 +178,10 @@ Return the generic spectrum of the given field, for the given polarization direc
     The generic spectrum is defined as the Fourier transform of the respective amplitude function for the given polarization direction:
 
     ```math
-    x-\\mathrm{pol} \\to \\int_{-\\infty}^{\\infty} g(\\phi) \\cos(\\phi) \\exp{il\\phi}
-    y-\\mathrm{pol} \\to \\int_{-\\infty}^{\\infty} g(\\phi) \\sin(\\phi) \\exp{il\\phi}
+    \\begin{align*}
+        x-\\mathrm{pol} &\\to \\int_{-\\infty}^{\\infty} g(\\phi) \\cos(\\phi) \\exp(il\\phi)\\\\
+        y-\\mathrm{pol} &\\to \\int_{-\\infty}^{\\infty} g(\\phi) \\sin(\\phi) \\exp(il\\phi)
+    \\end{align*}
     ```
     where ``g(\\phi)`` is the [`envelope`](@ref) and ``l`` the photon number parameter.
 """
