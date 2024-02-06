@@ -8,7 +8,7 @@ RNG = MersenneTwister(123456789)
 ATOL = 0.0
 RTOL = sqrt(eps())
 
-DPHIS = [rand(RNG), rand(RNG) * 10, rand(RNG) * 100, rand(RNG) * 1000, rand(RNG), 10000]
+DPHIS = [rand(RNG), rand(RNG) * 10, rand(RNG) * 100, rand(RNG) * 1000, rand(RNG) * 10000]
 
 # wrapper implementation to test analytical solutions of the generic spectrum
 
