@@ -16,4 +16,5 @@ end
 
 @time @safetestset "pulses" begin
     include("pulses/cos_square.jl")
+    include("pulses/gaussian.jl")
 end
