@@ -39,7 +39,7 @@ function domain(pulse::CosSquarePulse)
     return Interval(-delta_phi, delta_phi)
 end
 
-phase_duration(pulse::CosSquarePulse) = pulse.pulse_width
+pulse_duration(pulse::CosSquarePulse) = pulse.pulse_width
 
 function _envelope(pulse::CosSquarePulse, phi::Real)
     return _unsafe_cos_square_envelope(phi, pulse.pulse_width)
