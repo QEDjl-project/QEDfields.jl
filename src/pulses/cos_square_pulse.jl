@@ -28,21 +28,19 @@ end
     return cos(pi * phi / (2 * dphi))^2
 end
 
-function _cos_square_envelope(x, dphi)
-    return -dphi <= x <= dphi ? unsafe_envelope(x, dphi) : zero(x)
-end
-
 ####
 # interface functions
 ####
 
 reference_momentum(pulse::CosSquarePulse) = pulse.mom
+
 function domain(pulse::CosSquarePulse)
     delta_phi = pulse.pulse_width
     return Interval(-delta_phi, delta_phi)
 end
 
 phase_duration(pulse::CosSquarePulse) = pulse.pulse_width
+
 function _envelope(pulse::CosSquarePulse, phi::Real)
     return _unsafe_cos_square_envelope(phi, pulse.pulse_width)
 end
