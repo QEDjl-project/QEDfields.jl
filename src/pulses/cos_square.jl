@@ -15,7 +15,7 @@ Concrete implementation of an `AbstractPulsedPlaneWaveField` for cos-square puls
     ```math
     g(\\phi) = \\cos^2(\\frac{\\pi\\phi}{2\\Delta\\phi})
     ```
-    for \$\\phi\\in (-\\Delta\\phi,\\Delta\\phi),\$where \$\\Delta\\phi`\$ denotes the `pulse_width`, and zero otherwise.
+    for \$\\phi\\in (-\\Delta\\phi,\\Delta\\phi)\$, where \$\\Delta\\phi\$ denotes the `pulse_width`, and zero otherwise.
 
 """
 struct CosSquarePulse{M<:QEDbase.AbstractFourMomentum,T<:Real} <:
