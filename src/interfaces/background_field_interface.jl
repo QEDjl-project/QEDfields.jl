@@ -26,7 +26,7 @@ Abstract base type for pulsed plane-wave fields.
 
     reference_momentum(::AbstractPulsedPlaneWaveField)
     domain(::AbstractPulsedPlaneWaveField)
-    pulse_duration(::AbstractPulsedPlaneWaveField)
+    pulse_length(::AbstractPulsedPlaneWaveField)
     envelope(::AbstractPulsedPlaneWaveField,x::Real)
     ```
 
@@ -52,12 +52,12 @@ function domain end
 
 """
     
-    pulse_duration(::AbstractPulsedPlaneWaveField)
+    pulse_length(::AbstractPulsedPlaneWaveField)
 
 Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns a dimensionless representative number for the duration of the background field,
 i.e. a half-width or standard deviation in units of phase periods.
 """
-function pulse_duration end
+function pulse_length end
 
 """
 

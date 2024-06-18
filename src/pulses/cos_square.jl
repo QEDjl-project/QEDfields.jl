@@ -4,7 +4,7 @@
 
 """
 
-    CosSquarePulse(mom::M,pulse_width::T) where {M<:QEDbase.AbstractFourMomentum,T<:Real}
+    CosSquarePulse(mom::M,pulse_length::T) where {M<:QEDbase.AbstractFourMomentum,T<:Real}
 
 Concrete implementation of an `AbstractPulsedPlaneWaveField` for cos-square pulses.
 
@@ -15,13 +15,13 @@ Concrete implementation of an `AbstractPulsedPlaneWaveField` for cos-square puls
     ```math
     g(\\phi) = \\cos^2(\\frac{\\pi\\phi}{2\\Delta\\phi})
     ```
-    for \$\\phi\\in (-\\Delta\\phi,\\Delta\\phi)\$, where \$\\Delta\\phi\$ denotes the `pulse_width`, and zero otherwise.
+    for \$\\phi\\in (-\\Delta\\phi,\\Delta\\phi)\$, where \$\\Delta\\phi\$ denotes the `pulse_length`, and zero otherwise.
 
 """
 struct CosSquarePulse{M<:QEDbase.AbstractFourMomentum,T<:Real} <:
        AbstractPulsedPlaneWaveField
     mom::M
-    pulse_width::T
+    pulse_length::T
 end
 
 @inline function _unsafe_cos_square_envelope(phi, dphi)
@@ -35,14 +35,14 @@ end
 reference_momentum(pulse::CosSquarePulse) = pulse.mom
 
 function domain(pulse::CosSquarePulse)
-    delta_phi = pulse.pulse_width
+    delta_phi = pulse.pulse_length
     return Interval(-delta_phi, delta_phi)
 end
 
-pulse_duration(pulse::CosSquarePulse) = pulse.pulse_width
+pulse_length(pulse::CosSquarePulse) = pulse.pulse_length
 
 function _envelope(pulse::CosSquarePulse, phi::Real)
-    return _unsafe_cos_square_envelope(phi, pulse.pulse_width)
+    return _unsafe_cos_square_envelope(phi, pulse.pulse_length)
 end
 
 #######
@@ -58,11 +58,11 @@ end
 end
 
 function generic_spectrum(field::CosSquarePulse, pol::PolX, pnum::Real)
-    dphi = field.pulse_width
+    dphi = field.pulse_length
     return 0.5 * (_generic_FT(pnum + 1, dphi) + _generic_FT(pnum - 1, dphi))
 end
 
 function generic_spectrum(field::CosSquarePulse, pol::PolY, pnum::Real)
-    dphi = field.pulse_width
+    dphi = field.pulse_length
     return -0.5im * (_generic_FT(pnum + 1, dphi) - _generic_FT(pnum - 1, dphi))
 end

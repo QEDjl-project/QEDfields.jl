@@ -17,13 +17,13 @@ struct CosSquarePulseWrapper{C<:CosSquarePulse} <: AbstractPulsedPlaneWaveField
 end
 QEDfields.reference_momentum(p::CosSquarePulseWrapper) = reference_momentum(p.pulse)
 QEDfields.domain(p::CosSquarePulseWrapper) = domain(p.pulse)
-QEDfields.pulse_duration(p::CosSquarePulseWrapper) = pulse_duration(p.pulse)
+QEDfields.pulse_length(p::CosSquarePulseWrapper) = pulse_length(p.pulse)
 QEDfields._envelope(p::CosSquarePulseWrapper, x) = QEDfields._envelope(p.pulse, x)
 
 @testset "pulse interface" begin
     @test hasmethod(reference_momentum, Tuple{CosSquarePulse})
     @test hasmethod(domain, Tuple{CosSquarePulse})
-    @test hasmethod(pulse_duration, Tuple{CosSquarePulse})
+    @test hasmethod(pulse_length, Tuple{CosSquarePulse})
     @test hasmethod(QEDfields._envelope, Tuple{CosSquarePulse,Real})
 end
 @testset "dphi: $dphi" for dphi in DPHIS
@@ -33,7 +33,7 @@ end
     @testset "properties" begin
         @test reference_momentum(test_pulse) == test_mom
         @test domain(test_pulse) == Interval(-dphi, dphi) # cos_square specific
-        @test pulse_duration(test_pulse) == dphi
+        @test pulse_length(test_pulse) == dphi
     end
 
     @testset "envelope" begin

@@ -15,7 +15,7 @@ function dummy_QEDbase(x::AbstractVector{T}) where {T<:Real}
 end
 
 export AbstractBackgroundField, AbstractPulsedPlaneWaveField
-export reference_momentum, domain, pulse_duration, envelope, amplitude, generic_spectrum
+export reference_momentum, domain, pulse_length, envelope, amplitude, generic_spectrum
 
 export polarization_vector, oscillator
 
