@@ -1,6 +1,12 @@
 name = "QEDfields"
 uuid = "ac3a6c97-e859-4b9f-96bb-63d2a216042c"
-authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de>", "Simeon Ehrig", "Klaus Steiniger", "Tom Jungnickel", "Anton Reinhard"]
+authors = [
+    "Uwe Hernandez Acosta <u.hernandez@hzdr.de>",
+    "Simeon Ehrig",
+    "Klaus Steiniger",
+    "Tom Jungnickel",
+    "Anton Reinhard",
+]
 version = "0.1.0-dev"
 
 [deps]
@@ -14,3 +20,12 @@ IntervalSets = "0.7"
 QEDbase = "0.1.5"
 QuadGK = "2"
 julia = "1.6"
+
+[extras]
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Pkg", "Random", "SafeTestsets", "Test"]
