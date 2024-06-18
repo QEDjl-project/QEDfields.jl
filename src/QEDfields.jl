@@ -15,7 +15,7 @@ function dummy_QEDbase(x::AbstractVector{T}) where {T<:Real}
 end
 
 export AbstractBackgroundField, AbstractPulsedPlaneWaveField
-export reference_momentum, domain, phase_duration, envelope, amplitude, generic_spectrum
+export reference_momentum, domain, pulse_length, envelope, amplitude, generic_spectrum
 
 export polarization_vector, oscillator
 
@@ -23,6 +23,6 @@ export CosSquarePulse
 
 include("interfaces/background_field_interface.jl")
 include("polarization.jl")
-include("pulses/cos_square_pulse.jl")
+include("pulses/cos_square.jl")
 
 end

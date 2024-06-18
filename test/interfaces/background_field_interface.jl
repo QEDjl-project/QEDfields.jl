@@ -52,7 +52,7 @@ struct TestBGfield <: AbstractPulsedPlaneWaveField end
 
 QEDfields.reference_momentum(field::TestBGfield) = RND_MOM
 QEDfields.domain(::TestBGfield) = RND_DOMAIN
-QEDfields.phase_duration(::TestBGfield) = RND_DOMAIN_WIDTH
+QEDfields.pulse_length(::TestBGfield) = RND_DOMAIN_WIDTH
 QEDfields._envelope(::TestBGfield, x::Real) = one(x)
 
 struct TestBGfieldFAIL <: AbstractPulsedPlaneWaveField end
@@ -61,14 +61,14 @@ struct TestBGfieldFAIL <: AbstractPulsedPlaneWaveField end
     test_field = TestBGfield()
     @test reference_momentum(test_field) == RND_MOM
     @test domain(test_field) == RND_DOMAIN
-    @test phase_duration(test_field) == RND_DOMAIN_WIDTH
+    @test pulse_length(test_field) == RND_DOMAIN_WIDTH
 end
 
 @testset "failed interface" begin
     test_field_FAIL = TestBGfieldFAIL()
     @test_throws MethodError reference_momentum(test_field_FAIL)
     @test_throws MethodError domain(test_field_FAIL)
-    @test_throws MethodError phase_duration(test_field_FAIL)
+    @test_throws MethodError pulse_length(test_field_FAIL)
 end
 
 @testset "pulse envelope" begin
