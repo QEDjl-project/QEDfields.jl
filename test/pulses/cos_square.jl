@@ -1,7 +1,7 @@
 using Random
 using IntervalSets
 using QEDfields
-import QEDbase
+using QEDbase: QEDbase
 using QEDcore
 using QuadGK
 

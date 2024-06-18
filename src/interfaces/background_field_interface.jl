@@ -113,7 +113,9 @@ end
 # amplitude functions
 
 function _amplitude(
-    field::AbstractPulsedPlaneWaveField, pol::QEDbase.AbstractDefinitePolarization, phi::Real
+    field::AbstractPulsedPlaneWaveField,
+    pol::QEDbase.AbstractDefinitePolarization,
+    phi::Real,
 )
     return oscillator(pol, phi) * _envelope(field, phi)
 end
@@ -148,7 +150,9 @@ Returns the value of the amplitude for a given polarization direction and phase 
     the value of the amplitude is returned, and zero otherwise.
 """
 function amplitude(
-    field::AbstractPulsedPlaneWaveField, pol::QEDbase.AbstractDefinitePolarization, phi::Real
+    field::AbstractPulsedPlaneWaveField,
+    pol::QEDbase.AbstractDefinitePolarization,
+    phi::Real,
 )
     return phi in domain(field) ? _amplitude(field, pol, phi) : zero(phi)
 end
@@ -187,7 +191,9 @@ Return the generic spectrum of the given field, for the given polarization direc
     where ``g(\\phi)`` is the [`envelope`](@ref) and ``l`` the photon number parameter.
 """
 function generic_spectrum(
-    field::AbstractPulsedPlaneWaveField, pol::QEDbase.AbstractDefinitePolarization, pnum::Real
+    field::AbstractPulsedPlaneWaveField,
+    pol::QEDbase.AbstractDefinitePolarization,
+    pnum::Real,
 )
     return _fourier_transform(t -> _amplitude(field, pol, t), domain(field), pnum)
 end

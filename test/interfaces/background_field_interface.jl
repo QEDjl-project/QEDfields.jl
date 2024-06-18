@@ -1,4 +1,4 @@
-import QEDbase
+using QEDbase: QEDbase
 using QEDcore
 using QEDfields
 using Random

@@ -1,6 +1,6 @@
 module QEDfields
 
-import QEDbase
+using QEDbase: QEDbase
 using QEDcore
 
 using IntervalSets
