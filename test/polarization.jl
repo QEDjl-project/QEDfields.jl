@@ -1,5 +1,6 @@
 
-using QEDbase
+import QEDbase
+using QEDcore
 using QEDfields
 using Random
 using IntervalSets
@@ -9,7 +10,7 @@ ATOL = eps()
 RTOL = sqrt(eps())
 
 RND_MOM = SFourMomentum(rand(RNG, 4))
-POL_SET = [PolX(), PolY()]
+POL_SET = [QEDbase.PolX(), QEDbase.PolY()]
 
 @testset "polarization vectors" begin
     @testset "$mom" for mom in [SFourMomentum(1, 0, 0, 1), RND_MOM]
@@ -34,9 +35,9 @@ POL_SET = [PolX(), PolY()]
         end
 
         @testset "All pols" begin
-            test_all_pol_vec = polarization_vector(AllPol(), mom)
-            groundtruth_polx_vec = polarization_vector(PolX(), mom)
-            groundtruth_poly_vec = polarization_vector(PolY(), mom)
+            test_all_pol_vec = polarization_vector(QEDbase.AllPol(), mom)
+            groundtruth_polx_vec = polarization_vector(QEDbase.PolX(), mom)
+            groundtruth_poly_vec = polarization_vector(QEDbase.PolY(), mom)
 
             @test isapprox(test_all_pol_vec[1], groundtruth_polx_vec, atol=ATOL, rtol=RTOL)
             @test isapprox(test_all_pol_vec[2], groundtruth_poly_vec, atol=ATOL, rtol=RTOL)
@@ -49,14 +50,14 @@ end
         rnd_arg = rand(RNG, 0:(2pi))
 
         groundtruth_polX = cos(rnd_arg)
-        test_val_polX = oscillator(PolX(), rnd_arg)
+        test_val_polX = oscillator(QEDbase.PolX(), rnd_arg)
         @test isapprox(test_val_polX, groundtruth_polX, atol=ATOL, rtol=RTOL)
 
         groundtruth_polY = sin(rnd_arg)
-        test_val_polY = oscillator(PolY(), rnd_arg)
+        test_val_polY = oscillator(QEDbase.PolY(), rnd_arg)
         @test isapprox(test_val_polY, groundtruth_polY, atol=ATOL, rtol=RTOL)
 
-        test_val_AllPol = oscillator(AllPol(), rnd_arg)
+        test_val_AllPol = oscillator(QEDbase.AllPol(), rnd_arg)
         @test isapprox(test_val_AllPol[1], groundtruth_polX, atol=ATOL, rtol=RTOL)
         @test isapprox(test_val_AllPol[2], groundtruth_polY, atol=ATOL, rtol=RTOL)
     end

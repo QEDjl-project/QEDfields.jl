@@ -1,7 +1,8 @@
 using Random
 using IntervalSets
 using QEDfields
-using QEDbase
+import QEDbase
+using QEDcore
 using QuadGK
 
 RNG = MersenneTwister(123456789)
@@ -48,11 +49,11 @@ end
         wrapper_pulse = CosSquarePulseWrapper(test_pulse)
         test_pnums = [1.0, -1.0, 1 + rand(RNG) * 0.1, -1 - rand(RNG) * 0.1]
         @testset "pnum: $pnum" for pnum in test_pnums
-            test_val_xpol = generic_spectrum(test_pulse, PolX(), pnum)
-            test_val_ypol = generic_spectrum(test_pulse, PolY(), pnum)
+            test_val_xpol = generic_spectrum(test_pulse, QEDbase.PolX(), pnum)
+            test_val_ypol = generic_spectrum(test_pulse, QEDbase.PolY(), pnum)
 
-            groundtruth_xpol = generic_spectrum(wrapper_pulse, PolX(), pnum)
-            groundtruth_ypol = generic_spectrum(wrapper_pulse, PolY(), pnum)
+            groundtruth_xpol = generic_spectrum(wrapper_pulse, QEDbase.PolX(), pnum)
+            groundtruth_ypol = generic_spectrum(wrapper_pulse, QEDbase.PolY(), pnum)
 
             @test isapprox(test_val_xpol, groundtruth_xpol, atol=ATOL, rtol=RTOL)
             @test isapprox(test_val_ypol, groundtruth_ypol, atol=ATOL, rtol=RTOL)

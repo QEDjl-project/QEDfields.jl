@@ -57,12 +57,12 @@ end
     return sig * _gsinc(sig * l / pi)
 end
 
-function generic_spectrum(field::CosSquarePulse, pol::PolX, pnum::Real)
+function generic_spectrum(field::CosSquarePulse, pol::QEDbase.PolX, pnum::Real)
     dphi = field.pulse_length
     return 0.5 * (_generic_FT(pnum + 1, dphi) + _generic_FT(pnum - 1, dphi))
 end
 
-function generic_spectrum(field::CosSquarePulse, pol::PolY, pnum::Real)
+function generic_spectrum(field::CosSquarePulse, pol::QEDbase.PolY, pnum::Real)
     dphi = field.pulse_length
     return -0.5im * (_generic_FT(pnum + 1, dphi) - _generic_FT(pnum - 1, dphi))
 end
