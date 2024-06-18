@@ -1,4 +1,5 @@
-using QEDbase
+using QEDbase: QEDbase
+using QEDcore
 using QEDfields
 using Random
 using IntervalSets
@@ -14,10 +15,10 @@ RND_DOMAIN = Interval(-rand(RNG), rand(RNG))
 RND_DOMAIN_WIDTH = width(RND_DOMAIN)
 _groundtruth_envelope(x::Real) = one(x)
 _groundtruth_envelope(x::AbstractVector) = ones(size(x))
-_groundtruth_amplitude(::QEDfields.PolX, x) = cos(x)
-_groundtruth_amplitude(::QEDfields.PolY, x) = sin(x)
+_groundtruth_amplitude(::QEDbase.PolX, x) = cos(x)
+_groundtruth_amplitude(::QEDbase.PolY, x) = sin(x)
 
-function _indefinite_integral(::QEDfields.PolX, x, l)
+function _indefinite_integral(::QEDbase.PolX, x, l)
     # according to wolframalpha.com
     if l == zero(l)
         return sin(x)
@@ -30,7 +31,7 @@ function _indefinite_integral(::QEDfields.PolX, x, l)
     end
 end
 
-function _indefinite_integral(::QEDfields.PolY, x, l)
+function _indefinite_integral(::QEDbase.PolY, x, l)
     # according to wolframalpha.com
     if l == zero(l)
         return -cos(x)
@@ -133,7 +134,7 @@ end
 end
 
 @testset "pulse amplitude" begin
-    @testset "$pol" for pol in (QEDfields.PolX(), QEDfields.PolY())
+    @testset "$pol" for pol in (QEDbase.PolX(), QEDbase.PolY())
         test_field = TestBGfield()
 
         @testset "compute single" begin
@@ -196,7 +197,7 @@ end
 end
 
 @testset "generic spectrum" begin
-    @testset "$pol" for pol in (QEDfields.PolX(), QEDfields.PolY())
+    @testset "$pol" for pol in (QEDbase.PolX(), QEDbase.PolY())
         test_field = TestBGfield()
 
         @testset "compute single" begin
