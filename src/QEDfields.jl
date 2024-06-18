@@ -1,6 +1,7 @@
 module QEDfields
 
 using QEDbase
+using QEDcore
 
 using IntervalSets
 using QuadGK
