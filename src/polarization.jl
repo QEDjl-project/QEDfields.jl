@@ -22,7 +22,7 @@ where as for an indefinite polarization, a tuple of polarization vectors is retu
 
 """
 @inline function polarization_vector(pol::QEDbase.AbstractPolarization, mom)
-    return QEDbase.base_state(QEDbase.Photon(), QEDbase.Incoming(), mom, pol)
+    return base_state(Photon(), QEDbase.Incoming(), mom, pol)
 end
 
 """
