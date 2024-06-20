@@ -2,6 +2,8 @@
 # check if upstream packages provide the assumed functionality
 ###################
 
+# TODO: remove this because it is covered by the integration tests
+
 using Pkg: Pkg
 
 # QEDbase.jl
