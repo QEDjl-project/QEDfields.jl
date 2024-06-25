@@ -6,7 +6,7 @@
 
 :warning: This package is under construction and only contains dummy functionality for testing.
 
-: warning: currently this is based on a dev-version of QEDcore. Please make sure that you use the QEDjl registry below.
+:warning: currently this is based on a dev-version of QEDcore. Please make sure that you use the QEDjl registry below.
 
 ## Installation
 
