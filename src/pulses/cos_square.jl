@@ -18,8 +18,7 @@ Concrete implementation of an `AbstractPulsedPlaneWaveField` for cos-square puls
     for \$\\phi\\in (-\\Delta\\phi,\\Delta\\phi)\$, where \$\\Delta\\phi\$ denotes the `pulse_length`, and zero otherwise.
 
 """
-struct CosSquarePulse{M<:AbstractFourMomentum,T<:Real} <:
-       AbstractPulsedPlaneWaveField
+struct CosSquarePulse{M<:AbstractFourMomentum,T<:Real} <: AbstractPulsedPlaneWaveField
     mom::M
     pulse_length::T
 end
