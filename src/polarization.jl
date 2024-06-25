@@ -21,8 +21,8 @@ where as for an indefinite polarization, a tuple of polarization vectors is retu
     In the current implementation, we use the `base_state` function for `Photon` provided by `QEDcore.jl`.
 
 """
-@inline function polarization_vector(pol::QEDbase.AbstractPolarization, mom)
-    return base_state(Photon(), QEDbase.Incoming(), mom, pol)
+@inline function polarization_vector(pol::AbstractPolarization, mom)
+    return base_state(Photon(), Incoming(), mom, pol)
 end
 
 """
@@ -44,9 +44,9 @@ Return the value of the base oscillator associated with a given polarization `po
 """
 function oscillator end
 
-@inline oscillator(::QEDbase.PolX, phi) = cos(phi)
-@inline oscillator(::QEDbase.PolY, phi) = sin(phi)
-@inline function oscillator(::QEDbase.AbstractIndefinitePolarization, phi)
+@inline oscillator(::PolX, phi) = cos(phi)
+@inline oscillator(::PolY, phi) = sin(phi)
+@inline function oscillator(::AbstractIndefinitePolarization, phi)
     sincos_res = sincos(phi)
     @inbounds cossin_res = (sincos_res[2], sincos_res[1])
     return cossin_res

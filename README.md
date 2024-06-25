@@ -4,8 +4,11 @@
 [![Doc Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://qedjl-project.github.io/QEDfields.jl/dev)
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 
-
 :warning: This package is under construction and only contains dummy functionality for testing.
+:> [!WARNING]
+
+> currently this is based on a dev-version of QEDcore. Please make sure that you use the
+> QEDjl registry below.
 
 ## Installation
 

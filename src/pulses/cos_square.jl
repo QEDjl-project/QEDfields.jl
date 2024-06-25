@@ -18,7 +18,7 @@ Concrete implementation of an `AbstractPulsedPlaneWaveField` for cos-square puls
     for \$\\phi\\in (-\\Delta\\phi,\\Delta\\phi)\$, where \$\\Delta\\phi\$ denotes the `pulse_length`, and zero otherwise.
 
 """
-struct CosSquarePulse{M<:QEDbase.AbstractFourMomentum,T<:Real} <:
+struct CosSquarePulse{M<:AbstractFourMomentum,T<:Real} <:
        AbstractPulsedPlaneWaveField
     mom::M
     pulse_length::T
@@ -57,12 +57,12 @@ end
     return sig * _gsinc(sig * l / pi)
 end
 
-function generic_spectrum(field::CosSquarePulse, pol::QEDbase.PolX, pnum::Real)
+function generic_spectrum(field::CosSquarePulse, pol::PolX, pnum::Real)
     dphi = field.pulse_length
     return 0.5 * (_generic_FT(pnum + 1, dphi) + _generic_FT(pnum - 1, dphi))
 end
 
-function generic_spectrum(field::CosSquarePulse, pol::QEDbase.PolY, pnum::Real)
+function generic_spectrum(field::CosSquarePulse, pol::PolY, pnum::Real)
     dphi = field.pulse_length
     return -0.5im * (_generic_FT(pnum + 1, dphi) - _generic_FT(pnum - 1, dphi))
 end
