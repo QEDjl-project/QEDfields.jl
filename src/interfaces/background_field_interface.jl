@@ -113,16 +113,14 @@ end
 # amplitude functions
 
 function _amplitude(
-    field::AbstractPulsedPlaneWaveField,
-    pol::QEDbase.AbstractDefinitePolarization,
-    phi::Real,
+    field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::Real
 )
     return oscillator(pol, phi) * _envelope(field, phi)
 end
 
 function _amplitude(
     field::AbstractPulsedPlaneWaveField,
-    pol::QEDbase.AbstractDefinitePolarization,
+    pol::AbstractDefinitePolarization,
     phi::AbstractVector{T},
 ) where {T<:Real}
     # TODO: maybe use broadcasting here 
@@ -150,16 +148,14 @@ Returns the value of the amplitude for a given polarization direction and phase 
     the value of the amplitude is returned, and zero otherwise.
 """
 function amplitude(
-    field::AbstractPulsedPlaneWaveField,
-    pol::QEDbase.AbstractDefinitePolarization,
-    phi::Real,
+    field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi::Real
 )
     return phi in domain(field) ? _amplitude(field, pol, phi) : zero(phi)
 end
 
 function amplitude(
     field::AbstractPulsedPlaneWaveField,
-    pol::QEDbase.AbstractDefinitePolarization,
+    pol::AbstractDefinitePolarization,
     phi::AbstractVector{T},
 ) where {T<:Real}
     # TODO: maybe use broadcasting here 
@@ -191,16 +187,14 @@ Return the generic spectrum of the given field, for the given polarization direc
     where ``g(\\phi)`` is the [`envelope`](@ref) and ``l`` the photon number parameter.
 """
 function generic_spectrum(
-    field::AbstractPulsedPlaneWaveField,
-    pol::QEDbase.AbstractDefinitePolarization,
-    pnum::Real,
+    field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, pnum::Real
 )
     return _fourier_transform(t -> _amplitude(field, pol, t), domain(field), pnum)
 end
 
 function generic_spectrum(
     field::AbstractPulsedPlaneWaveField,
-    pol::QEDbase.AbstractDefinitePolarization,
+    pol::AbstractDefinitePolarization,
     photon_number_parameter::AbstractVector{T},
 ) where {T<:Real}
     # TODO: maybe use broadcasting here 
