@@ -1,12 +1,6 @@
 name = "QEDfields"
 uuid = "ac3a6c97-e859-4b9f-96bb-63d2a216042c"
-authors = [
-    "Uwe Hernandez Acosta <u.hernandez@hzdr.de>",
-    "Simeon Ehrig",
-    "Klaus Steiniger",
-    "Tom Jungnickel",
-    "Anton Reinhard",
-]
+authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de>", "Simeon Ehrig", "Klaus Steiniger", "Tom Jungnickel", "Anton Reinhard"]
 version = "0.1.0-dev"
 
 [deps]
@@ -17,6 +11,7 @@ QuadGK = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
 
 [compat]
 IntervalSets = "0.7"
+QEDcore = "0.1"
 QuadGK = "2"
 julia = "1.6"
 
