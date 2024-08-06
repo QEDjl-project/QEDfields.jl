@@ -63,7 +63,7 @@ unit_tests_nightly:
   allow_failure: true
 
 generate_integration_tests:
-  image: julia:1.9
+  image: julia:1.10
   stage: generate_integration_test
   script:
     # extract package name
@@ -102,8 +102,8 @@ run_integration_tests:
         job: generate_integration_tests
     strategy: depend
 
-verify-unit-test-deps_julia1.9:
-  image: julia:1.9
+verify-unit-test-deps_julia1.10:
+  image: julia:1.10
   stage: verify-unit-test-deps
   script:
     - apt update && apt install -y git
