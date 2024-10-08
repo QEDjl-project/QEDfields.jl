@@ -11,10 +11,11 @@ export reference_momentum, domain, pulse_length, envelope, amplitude, generic_sp
 
 export polarization_vector, oscillator
 
-export CosSquarePulse
+export CosSquarePulse, GaussianPulse
 
 include("interfaces/background_field_interface.jl")
 include("polarization.jl")
 include("pulses/cos_square.jl")
+include("pulses/gaussian.jl")
 
 end
