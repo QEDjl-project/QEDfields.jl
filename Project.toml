@@ -20,7 +20,7 @@ QEDbase = "0.2.2"
 QEDcore = "0.1"
 IntervalSets = "0.7"
 QuadGK = "2"
-julia = "1.6"
+julia = "1.10"
 
 [extras]
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
