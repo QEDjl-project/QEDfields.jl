@@ -1,9 +1,9 @@
-######################
-# First phase integral
-######################
+#######################
+# Second phase integral
+#######################
 
 # Does it need to be the same T for all arguments?
-function phase_integral_1(
+function phase_integral_2(
     field::AbstractPulsedPlaneWaveField,
     pol::AbstractPolarization,
     p_in::T,
@@ -13,7 +13,7 @@ function phase_integral_1(
     return quadgk(t -> , endpoints(domain(field))...)[1]
 end
 
-function phase_integral_1(
+function phase_integral_2(
     field::AbstractPulsedPlaneWaveField,
     pol::AbstractPolarization,
     p_in::T,
@@ -21,6 +21,6 @@ function phase_integral_1(
     photon_number_parameter::AbstractVector{T}
 ) where {T<:Real}
     # TODO: maybe use broadcasting here
-    return map(x -> phase_integral_1(field, pol, p_in, p_out, x), photon_number_parameter)
+    return map(x -> phase_integral_2(field, p_in, p_out, x), photon_number_parameter)
 end
 
