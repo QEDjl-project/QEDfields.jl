@@ -200,3 +200,37 @@ function generic_spectrum(
     # TODO: maybe use broadcasting here 
     return map(x -> generic_spectrum(field, pol, x), photon_number_parameter)
 end
+
+# phase integrals B_i(l)
+#
+# TODO: Up to now, all of this is just copy paste and needs to be adapted to phase integrals
+"""
+
+    phase_integral_1(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, p_in::, p_out::, pnum)
+
+Return the first phase integral of the given field, for the given phase space point `p_in, p_out` and a given photon number parameter `pnum`.
+
+!!! note "Convention"
+
+    The first phase integral is defined as:
+
+    ```math
+    \\begin{align*}
+        B_0(l, p, p^\\prime)& = \\int \\mathrm{d}\\varphi \\exp[\\imath l \\varphi + \\imath G(\\varphi)] \\\\
+    \\end{align*}
+    ```
+    where ``G(\\varphi,p, p^\\prime)`` is the [`phase function`](@ref), ``(p,p^\\prime)`` the given phase space point, and ``l`` the photon number parameter.
+"""
+function phase_integral_1 end
+
+# integrand shared by all phase integrals
+@inline function _shared_integrand(
+    field::AbstractPulsedPlaneWaveField,
+    pol::AbstractPolarization,
+    p_in::T,
+    p_out::T,
+    phi::T,
+    pnum::T
+) where {T<:Real}
+    return exp(1im*(pnum*phi + _phase_function(field, pol, p_in, p_out, phi)))
+end
