@@ -2,6 +2,25 @@
 # Definitions common to all phase integrals
 ###########################################
 
+# TODO: We need to talk about the handling of field polarization!
+# Since some of the quantities required in phase integral computation are four-vectors, just as the bg-field itself,
+# we need to return these as four-vectors, or their components.
+# However, we do not even provide the field as a four-vector, yet.
+# We just return its "amplitude", which is only the oscillator times the envelope,
+# not even taking the correct maximum value a_0 of the field into account. (TODO!)
+#
+# I think both the polarization and the maximum value of the field should be a user defined quantity,
+# but then these should also be members of the field struct, shouldn't they?
+# Or are these separately set in the Process?
+#
+# All in all, I wonder how we should treat four-vectors in QEDfields.
+# The problem of missing vectorial information appears here in _field_integral(), _kinematic_vector_phase_factor(), and phase_integral_1().
+
+# TODO: The factors and integrals should not depend on the momenta of particles
+# but on the Process and Phase Space Point (the latter of which holds the momenta)
+# Question: Does the process hold a reference to the background field?
+#   If so, the explicit dependence on the background field should be removed to.
+
 # from QEDprocesses.jl/src/constants.jl
 # TODO: we might want to move the constants.jl file to QEDbase? See also TODO in QEDprocesses.jl/src/processes/one_photon_compton/perturbative/cross_section.jl
 const ALPHA = inv(137.035999074)
@@ -51,6 +70,25 @@ end
 end
 
 # non-linear Volkov phase
+"""
+
+    _phase_function(field::AbstractPulsedPlaneWaveField, pol::AbstractPolarization, p_in::, p_out::, phi::)
+
+Return the phase function (or non-linear Volkov phase), for the given phase space point `p_in, p_out` and a given phase value `phi`.
+
+!!! note "Convention"
+
+    The non-linear Volkov phase is defined as:
+
+    ```math
+    \\begin{align*}
+        G(\\varphi,p, p^\\prime)& = \\alpha_1^\\mu \\int\\limits_0^\\varphi \\mathrm{d}\\varphi^\\prime A_\\mu(\\varphi^\\prime)
+            + \\alpha_2 \\int\\limits_0^\\varphi \\mathrm{d}\\varphi^\\prime A^2(\\varphi^\\prime) \\\\
+    \\end{align*}
+    ```
+    where ``A^\\mu(\\varphi)`` is the background field, ``\\alpha_1^\\mu`` is the [`kinematic vector phase factor`](@ref), and ``\\alpha_2`` is the [`kinematic scalar phase factor`](@ref).
+    Both ``\\alpha_1^\\mu`` and ``\\alpha_2`` depend on the given phase space point ``(p,p^\\prime)`` and the field's reference momentum ``k^\\mu`` the photon number parameter.
+"""
 @inline function _phase_function(
     field::AbstractPulsedPlaneWaveField,
     pol::AbstractPolarization,

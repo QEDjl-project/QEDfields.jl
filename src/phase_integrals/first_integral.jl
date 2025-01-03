@@ -10,7 +10,7 @@ function phase_integral_1(
     p_out::T,
     pnum::T
 ) where {T<:Real}
-    return quadgk(t -> , endpoints(domain(field))...)[1]
+    return quadgk(t -> amplitude(field, pol, t)*_shared_integrand(field, pol, p_in, p_out, t, pnum), endpoints(domain(field))...)[1]
 end
 
 function phase_integral_1(

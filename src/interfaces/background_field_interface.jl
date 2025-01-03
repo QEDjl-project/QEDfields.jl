@@ -216,9 +216,27 @@ Return the first phase integral of the given field, for the given phase space po
 
     ```math
     \\begin{align*}
-        B_1(l, p, p^\\prime)& = \\int \\mathrm{d}\\varphi \\exp[\\imath l \\varphi + \\imath G(\\varphi)] \\\\
+        B_1^\\mu(l, p, p^\\prime)& = \\int \\mathrm{d}\\varphi A^\\mu(\\varphi)\\exp[\\imath l \\varphi + \\imath G(\\varphi)] \\\\
     \\end{align*}
     ```
-    where ``G(\\varphi,p, p^\\prime)`` is the [`phase function`](@ref), ``(p,p^\\prime)`` the given phase space point, and ``l`` the photon number parameter.
+    where ``A^\\mu(\\varphi)`` is the background field, ``G(\\varphi,p, p^\\prime)`` is the [`phase function`](@ref), ``(p,p^\\prime)`` the given phase space point, and ``l`` the photon number parameter.
 """
 function phase_integral_1 end
+
+"""
+
+    phase_integral_2(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, p_in::, p_out::, pnum)
+
+Return the second phase integral of the given field, for the given phase space point `p_in, p_out` and a given photon number parameter `pnum`.
+
+!!! note "Convention"
+
+    The second phase integral is defined as:
+
+    ```math
+    \\begin{align*}
+        B_2(l, p, p^\\prime)& = \\int \\mathrm{d}\\varphi A(\\varphi)^2 \\exp[\\imath l \\varphi + \\imath G(\\varphi)] \\\\
+    \\end{align*}
+    ```
+"""
+function phase_integral_2 end
