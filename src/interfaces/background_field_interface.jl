@@ -2,7 +2,7 @@
 # The abstract background field interface
 #
 # In this file, the abstract interface for different types of background fields
-# is defined. 
+# is defined.
 ####################
 """
 Abstract base type for describing classical background fields.
@@ -45,13 +45,13 @@ function reference_momentum end
 
     domain(::AbstractPulsedPlaneWaveField)
 
-Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns interval (as a `IntervalSets.Interval`) for the given background field. 
+Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns interval (as a `IntervalSets.Interval`) for the given background field.
 
 """
 function domain end
 
 """
-    
+
     pulse_length(::AbstractPulsedPlaneWaveField)
 
 Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns a dimensionless representative number for the duration of the background field,
@@ -68,18 +68,18 @@ Interface function for [`AbstractPulsedPlaneWaveField`](@ref), which returns the
 !!! note "Single point implementation"
 
     The interface function can be implemented for just one phase point as input. With that, evaluation on a vector of inputs is generically implemented by broadcasting.
-    However, if there is a better custom implementation for vectors in input values, consider implementing 
+    However, if there is a better custom implementation for vectors in input values, consider implementing
     ```Julia
-    
+
         _envelope(::AbstractPulsedPlaneWaveField, phi::AbstractVector{T<:Real})
 
     ```
 
 !!! note "unsafe implementation"
-    
-    This is the unsafe version of the phase envelope function, i.e. this should be implement without input checks like the domain check. 
-    In the safe version [`envelope`](@ref), a domain check is performed, i.e. it returns the value of `_envelope` if the passed in `phi` 
-    is in the `domain` of the field, and zero otherwise. 
+
+    This is the unsafe version of the phase envelope function, i.e. this should be implement without input checks like the domain check.
+    In the safe version [`envelope`](@ref), a domain check is performed, i.e. it returns the value of `_envelope` if the passed in `phi`
+    is in the `domain` of the field, and zero otherwise.
 
 """
 function _envelope end
@@ -87,16 +87,16 @@ function _envelope end
 function _envelope(
     field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}
 ) where {T<:Real}
-    # TODO: maybe use broadcasting here 
+    # TODO: maybe use broadcasting here
     return map(x -> _envelope(field, x), phi)
 end
 
 """
-    
+
     envelope(pulsed_field::AbstractPulsedPlaneWaveField, phi::Real)
-    
-Return the value of the phase envelope function (also referred to as pulse envelope or pulse shape) 
-for given `pulsed_field` and phase `phi`. Performs domain check on `phi` before calling [`_envelope`](@ref); 
+
+Return the value of the phase envelope function (also referred to as pulse envelope or pulse shape)
+for given `pulsed_field` and phase `phi`. Performs domain check on `phi` before calling [`_envelope`](@ref);
 returns zero if `phi` is not in the domain returned by `[domain](@ref)`.
 """
 function envelope(field::AbstractPulsedPlaneWaveField, phi::Real)
@@ -106,7 +106,7 @@ end
 function envelope(
     field::AbstractPulsedPlaneWaveField, phi::AbstractVector{T}
 ) where {T<:Real}
-    # TODO: maybe use broadcasting here 
+    # TODO: maybe use broadcasting here
     return map(x -> envelope(field, x), phi)
 end
 
@@ -123,7 +123,7 @@ function _amplitude(
     pol::AbstractDefinitePolarization,
     phi::AbstractVector{T},
 ) where {T<:Real}
-    # TODO: maybe use broadcasting here 
+    # TODO: maybe use broadcasting here
     return map(x -> _amplitude(field, pol, x), phi)
 end
 
@@ -131,7 +131,7 @@ end
 
     amplitude(field::AbstractPulsedPlaneWaveField, pol::AbstractDefinitePolarization, phi)
 
-Returns the value of the amplitude for a given polarization direction and phase variable `phi`. 
+Returns the value of the amplitude for a given polarization direction and phase variable `phi`.
 
 !!! note "Conventions"
 
@@ -143,7 +143,7 @@ Returns the value of the amplitude for a given polarization direction and phase 
     ```
 
 !!! note "Safe implementation"
-    
+
     In this function, a domain check is performed, i.e. if `phi` is in the domain of the field,
     the value of the amplitude is returned, and zero otherwise.
 """
@@ -158,7 +158,7 @@ function amplitude(
     pol::AbstractDefinitePolarization,
     phi::AbstractVector{T},
 ) where {T<:Real}
-    # TODO: maybe use broadcasting here 
+    # TODO: maybe use broadcasting here
     return map(x -> amplitude(field, pol, x), phi)
 end
 
@@ -197,6 +197,6 @@ function generic_spectrum(
     pol::AbstractDefinitePolarization,
     photon_number_parameter::AbstractVector{T},
 ) where {T<:Real}
-    # TODO: maybe use broadcasting here 
+    # TODO: maybe use broadcasting here
     return map(x -> generic_spectrum(field, pol, x), photon_number_parameter)
 end
