@@ -25,8 +25,8 @@ In order to fulfill the vacuum dispersion relation, k_mu*k^mu=0 is required.
     There is no envelope in the transverse directions.
 
 """
-struct GaussianPulse{M<:QEDbase.AbstractFourMomentum,T<:Real} <:
-       AbstractPulsedPlaneWaveField
+struct GaussianPulse{M <: QEDbase.AbstractFourMomentum, T <: Real} <:
+    AbstractPulsedPlaneWaveField
     mom::M
     pulse_length::T
 end

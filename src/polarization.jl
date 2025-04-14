@@ -1,6 +1,6 @@
 #################
 # polarization vectors
-# 
+#
 # In this file, we provide an extension of the Polarizations of Photons from
 # QEDbase to define polarization states of background fields
 ################
@@ -13,7 +13,7 @@
     polarization_vector(pol::AbstractPolarization, mom::QEDbase.AbstractFourMomentum)
 
 Return the polarization vector for a given polarization and four-momentum `mom`.
-For a definite polarization, the respective `LorentzVector` is returned, 
+For a definite polarization, the respective `LorentzVector` is returned,
 where as for an indefinite polarization, a tuple of polarization vectors is returned.
 
 !!! note "Convention"
@@ -33,7 +33,7 @@ Return the value of the base oscillator associated with a given polarization `po
 
 !!! note "Convention"
 
-    The current default implementation are 
+    The current default implementation are
 
     ```Julia
     PolX() -> cos(phi)
