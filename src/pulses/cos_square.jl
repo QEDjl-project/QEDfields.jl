@@ -10,7 +10,7 @@ Concrete implementation of an `AbstractPulsedPlaneWaveField` for cos-square puls
 
 !!! note "Pulse shape"
 
-    The pulse envelope of a cos-square pulse is defined as 
+    The pulse envelope of a cos-square pulse is defined as
 
     ```math
     g(\\phi) = \\cos^2(\\frac{\\pi\\phi}{2\\Delta\\phi})
@@ -18,7 +18,7 @@ Concrete implementation of an `AbstractPulsedPlaneWaveField` for cos-square puls
     for \$\\phi\\in (-\\Delta\\phi,\\Delta\\phi)\$, where \$\\Delta\\phi\$ denotes the `pulse_length`, and zero otherwise.
 
 """
-struct CosSquarePulse{M<:AbstractFourMomentum,T<:Real} <: AbstractPulsedPlaneWaveField
+struct CosSquarePulse{M <: AbstractFourMomentum, T <: Real} <: AbstractPulsedPlaneWaveField
     mom::M
     pulse_length::T
 end
@@ -48,7 +48,7 @@ end
 # Special implementation for the generic spectrum
 #######
 
-@inline function _gsinc(x::T) where {T<:Real}
+@inline function _gsinc(x::T) where {T <: Real}
     return abs(x) == 1 ? one(x) / 2 : sinc(x) / (1 - x^2)
 end
 

@@ -13,7 +13,7 @@ DPHIS = [rand(RNG), rand(RNG) * 10, rand(RNG) * 100, rand(RNG) * 1000, rand(RNG)
 
 # wrapper implementation to test analytical solutions of the generic spectrum
 
-struct CosSquarePulseWrapper{C<:CosSquarePulse} <: AbstractPulsedPlaneWaveField
+struct CosSquarePulseWrapper{C <: CosSquarePulse} <: AbstractPulsedPlaneWaveField
     pulse::C
 end
 QEDfields.reference_momentum(p::CosSquarePulseWrapper) = reference_momentum(p.pulse)
@@ -25,7 +25,7 @@ QEDfields._envelope(p::CosSquarePulseWrapper, x) = QEDfields._envelope(p.pulse, 
     @test hasmethod(reference_momentum, Tuple{CosSquarePulse})
     @test hasmethod(domain, Tuple{CosSquarePulse})
     @test hasmethod(pulse_length, Tuple{CosSquarePulse})
-    @test hasmethod(QEDfields._envelope, Tuple{CosSquarePulse,Real})
+    @test hasmethod(QEDfields._envelope, Tuple{CosSquarePulse, Real})
 end
 @testset "dphi: $dphi" for dphi in DPHIS
     test_mom = rand(RNG, SFourMomentum)
@@ -42,8 +42,8 @@ end
         @test envelope(test_pulse, 0.0) == 1.0
 
         # zero at the endpoints
-        @test isapprox(envelope(test_pulse, -Inf), 0.0, atol=ATOL, rtol=RTOL)
-        @test isapprox(envelope(test_pulse, Inf), 0.0, atol=ATOL, rtol=RTOL)
+        @test isapprox(envelope(test_pulse, -Inf), 0.0, atol = ATOL, rtol = RTOL)
+        @test isapprox(envelope(test_pulse, Inf), 0.0, atol = ATOL, rtol = RTOL)
     end
     @testset "generic spectrum" begin
         wrapper_pulse = CosSquarePulseWrapper(test_pulse)
@@ -55,8 +55,8 @@ end
             groundtruth_xpol = generic_spectrum(wrapper_pulse, QEDbase.PolX(), pnum)
             groundtruth_ypol = generic_spectrum(wrapper_pulse, QEDbase.PolY(), pnum)
 
-            @test isapprox(test_val_xpol, groundtruth_xpol, atol=ATOL, rtol=RTOL)
-            @test isapprox(test_val_ypol, groundtruth_ypol, atol=ATOL, rtol=RTOL)
+            @test isapprox(test_val_xpol, groundtruth_xpol, atol = ATOL, rtol = RTOL)
+            @test isapprox(test_val_ypol, groundtruth_ypol, atol = ATOL, rtol = RTOL)
         end
     end
 end
