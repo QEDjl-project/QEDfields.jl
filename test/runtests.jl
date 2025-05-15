@@ -11,6 +11,9 @@ using SafeTestsets
     include("interfaces/background_field_interface.jl")
 end
 
+@time @safetestset "phase integrals" begin
+    include("interfaces/phase_integrals.jl")
+
 @time @safetestset "polarization" begin
     include("polarization.jl")
 end
