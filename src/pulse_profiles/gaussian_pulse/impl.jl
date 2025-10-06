@@ -1,7 +1,3 @@
-############################
-# Gaussian pulsed plane wave
-############################
-
 """
     GaussianPulse(mom::M,pulse_length::T) where {M<:QEDbase.AbstractFourMomentum,T<:Real}
 
@@ -25,9 +21,7 @@ In order to fulfill the vacuum dispersion relation, k_mu*k^mu=0 is required.
     There is no envelope in the transverse directions.
 
 """
-struct GaussianPulse{M <: QEDbase.AbstractFourMomentum, T <: Real} <:
-    AbstractPulsedPlaneWaveField
-    mom::M
+struct GaussianPulse{T <: Real} <: AbstractPulseProfile
     pulse_length::T
 end
 
@@ -45,10 +39,7 @@ end
 # interface functions
 ####
 
-reference_momentum(pulse::GaussianPulse) = pulse.mom
-
 function domain(pulse::GaussianPulse)
-    dphi = pulse.pulse_length
     return Interval(-Inf, Inf)
 end
 
