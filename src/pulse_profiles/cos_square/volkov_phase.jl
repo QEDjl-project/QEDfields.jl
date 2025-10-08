@@ -8,27 +8,7 @@ end
     return pi^2 / 2 * sin(dphi) / (pi^2 - dphi^2)
 end
 
-"""
-
-    integral11(::InternalIntegral,phi::Real)
-
-"""
-function integral11 end
-
-"""
-
-    integral11(::InternalIntegral,phi::Real)
-
-"""
-function integral12 end
-
-"""
-
-    integral2(::InternalIntegral,phi::Real)
-
-"""
-function integral2 end
-
+#=
 function InternalIntegral1(x, dphi)
     if x <= -dphi
         return -_integral11_cos_square(dphi)
@@ -38,13 +18,31 @@ function InternalIntegral1(x, dphi)
         return _integral11_cos_square(x, dphi)
     end
 end
+=#
 
-function unsafe_InternalIntegral1(x, dphi)
-    return _integral11_cos_square(x, dphi)
+function _internal_integral1(pulse::CosSquarePulse, pol::XPol, method::Analytical, phi::Real)
+    res = _integral11_cos_square(phi, pulse_length(pulse))
+    return res
 end
 
-function InternalIntegral1_quad(x, dphi)
-    tmp_func = t -> envelope(t, dphi) * cos(t)
-    res, err = quadgk(tmp_func, 0, x)
+function _internal_integral1(pulse::CosSquarePulse, pol::YPol, method::Analytical, phi::Real)
+    res = _integral12_cos_square(phi, pulse_length(pulse))
+    return res
+end
+
+function _internal_integral2(pulse::CosSquarePulse, pol::XPol, method::Analytical, phi::Real)
+    res = _integral21_cos_square(phi, pulse_length(pulse))
+    return res
+end
+
+function _internal_integral2(pulse::CosSquarePulse, pol::YPol, method::Analytical, phi::Real)
+    res = _integral22_cos_square(phi, pulse_length(pulse))
+    return res
+end
+
+# TODO: extent this to arbitrary polarizations
+function _internal_integral2(pulse::CosSquarePulse, pol::AbstractDefinitePolarization, method::AbstractNumericalIntegrationMethod, phi::Real)
+    tmp_func = t -> (envelope(t, dphi) * oscillator(pol, t))^2
+    res = integrate(method, tmp_func, 0, phi)
     return res
 end

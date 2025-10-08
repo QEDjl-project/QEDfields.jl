@@ -4,7 +4,7 @@ using QEDfields
 using Random
 using IntervalSets
 
-RNG = MersenneTwister(137)
+RNG = Xoshiro(137)
 ATOL = eps()
 RTOL = sqrt(eps())
 
