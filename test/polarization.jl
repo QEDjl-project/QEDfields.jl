@@ -1,4 +1,3 @@
-
 using QEDbase: QEDbase
 using QEDcore
 using QEDfields
@@ -17,12 +16,12 @@ POL_SET = [QEDbase.PolX(), QEDbase.PolY()]
         @testset "single pol" begin
             @testset "$pol" for pol in POL_SET
                 pol_vec = polarization_vector(pol, mom)
-                @test isapprox(pol_vec * mom, zero(eltype(mom)), atol=ATOL, rtol=RTOL)
+                @test isapprox(pol_vec * mom, zero(eltype(mom)), atol = ATOL, rtol = RTOL)
             end
         end
         @testset "pol combination" begin
             @testset "($pol1, $pol2)" for (pol1, pol2) in
-                                          Iterators.product(POL_SET, POL_SET)
+                Iterators.product(POL_SET, POL_SET)
                 pol_vec1 = polarization_vector(pol1, mom)
                 pol_vec2 = polarization_vector(pol2, mom)
                 if pol1 == pol2
@@ -30,7 +29,7 @@ POL_SET = [QEDbase.PolX(), QEDbase.PolY()]
                 else
                     groundtruth = zero(eltype(pol_vec1))
                 end
-                @test isapprox(pol_vec1 * pol_vec2, groundtruth, atol=ATOL, rtol=RTOL)
+                @test isapprox(pol_vec1 * pol_vec2, groundtruth, atol = ATOL, rtol = RTOL)
             end
         end
 
@@ -39,8 +38,8 @@ POL_SET = [QEDbase.PolX(), QEDbase.PolY()]
             groundtruth_polx_vec = polarization_vector(QEDbase.PolX(), mom)
             groundtruth_poly_vec = polarization_vector(QEDbase.PolY(), mom)
 
-            @test isapprox(test_all_pol_vec[1], groundtruth_polx_vec, atol=ATOL, rtol=RTOL)
-            @test isapprox(test_all_pol_vec[2], groundtruth_poly_vec, atol=ATOL, rtol=RTOL)
+            @test isapprox(test_all_pol_vec[1], groundtruth_polx_vec, atol = ATOL, rtol = RTOL)
+            @test isapprox(test_all_pol_vec[2], groundtruth_poly_vec, atol = ATOL, rtol = RTOL)
         end
     end
 end
@@ -51,14 +50,14 @@ end
 
         groundtruth_polX = cos(rnd_arg)
         test_val_polX = oscillator(QEDbase.PolX(), rnd_arg)
-        @test isapprox(test_val_polX, groundtruth_polX, atol=ATOL, rtol=RTOL)
+        @test isapprox(test_val_polX, groundtruth_polX, atol = ATOL, rtol = RTOL)
 
         groundtruth_polY = sin(rnd_arg)
         test_val_polY = oscillator(QEDbase.PolY(), rnd_arg)
-        @test isapprox(test_val_polY, groundtruth_polY, atol=ATOL, rtol=RTOL)
+        @test isapprox(test_val_polY, groundtruth_polY, atol = ATOL, rtol = RTOL)
 
         test_val_AllPol = oscillator(QEDbase.AllPol(), rnd_arg)
-        @test isapprox(test_val_AllPol[1], groundtruth_polX, atol=ATOL, rtol=RTOL)
-        @test isapprox(test_val_AllPol[2], groundtruth_polY, atol=ATOL, rtol=RTOL)
+        @test isapprox(test_val_AllPol[1], groundtruth_polX, atol = ATOL, rtol = RTOL)
+        @test isapprox(test_val_AllPol[2], groundtruth_polY, atol = ATOL, rtol = RTOL)
     end
 end

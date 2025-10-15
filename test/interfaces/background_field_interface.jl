@@ -46,7 +46,7 @@ end
 
 function _groundtruth_generic_spectrum(pol, l)
     return _indefinite_integral(pol, rightendpoint(RND_DOMAIN), l) -
-           _indefinite_integral(pol, leftendpoint(RND_DOMAIN), l)
+        _indefinite_integral(pol, leftendpoint(RND_DOMAIN), l)
 end
 
 struct TestBGfield <: AbstractPulsedPlaneWaveField end
@@ -80,32 +80,32 @@ end
         @test isapprox(
             envelope(test_field, rnd_phi),
             _groundtruth_envelope(rnd_phi),
-            atol=ATOL,
-            rtol=RTOL,
+            atol = ATOL,
+            rtol = RTOL,
         )
         @test isapprox(
             envelope(test_field, leftendpoint(RND_DOMAIN)),
             _groundtruth_envelope(leftendpoint(RND_DOMAIN)),
-            atol=ATOL,
-            rtol=RTOL,
+            atol = ATOL,
+            rtol = RTOL,
         )
         @test isapprox(
             envelope(test_field, leftendpoint(RND_DOMAIN) - eps()),
             zero(Float64),
-            atol=ATOL,
-            rtol=RTOL,
+            atol = ATOL,
+            rtol = RTOL,
         )
         @test isapprox(
             envelope(test_field, rightendpoint(RND_DOMAIN)),
             _groundtruth_envelope(rightendpoint(RND_DOMAIN)),
-            atol=ATOL,
-            rtol=RTOL,
+            atol = ATOL,
+            rtol = RTOL,
         )
         @test isapprox(
             envelope(test_field, rightendpoint(RND_DOMAIN) + eps()),
             zero(Float64),
-            atol=ATOL,
-            rtol=RTOL,
+            atol = ATOL,
+            rtol = RTOL,
         )
     end
 
@@ -128,7 +128,7 @@ end
         end
 
         @test isapprox(
-            test_envelope_values, groundtruth_envelope_values, atol=ATOL, rtol=RTOL
+            test_envelope_values, groundtruth_envelope_values, atol = ATOL, rtol = RTOL
         )
     end
 end
@@ -142,32 +142,32 @@ end
             @test isapprox(
                 amplitude(test_field, pol, rnd_phi),
                 _groundtruth_amplitude(pol, rnd_phi),
-                atol=ATOL,
-                rtol=RTOL,
+                atol = ATOL,
+                rtol = RTOL,
             )
             @test isapprox(
                 amplitude(test_field, pol, leftendpoint(RND_DOMAIN)),
                 _groundtruth_amplitude(pol, leftendpoint(RND_DOMAIN)),
-                atol=ATOL,
-                rtol=RTOL,
+                atol = ATOL,
+                rtol = RTOL,
             )
             @test isapprox(
                 amplitude(test_field, pol, leftendpoint(RND_DOMAIN) - eps()),
                 zero(Float64),
-                atol=ATOL,
-                rtol=RTOL,
+                atol = ATOL,
+                rtol = RTOL,
             )
             @test isapprox(
                 amplitude(test_field, pol, rightendpoint(RND_DOMAIN)),
                 _groundtruth_amplitude(pol, rightendpoint(RND_DOMAIN)),
-                atol=ATOL,
-                rtol=RTOL,
+                atol = ATOL,
+                rtol = RTOL,
             )
             @test isapprox(
                 amplitude(test_field, pol, rightendpoint(RND_DOMAIN) + eps()),
                 zero(Float64),
-                atol=ATOL,
-                rtol=RTOL,
+                atol = ATOL,
+                rtol = RTOL,
             )
         end
 
@@ -190,7 +190,7 @@ end
             end
 
             @test isapprox(
-                test_amplitude_values, groundtruth_amplitude_values, atol=ATOL, rtol=RTOL
+                test_amplitude_values, groundtruth_amplitude_values, atol = ATOL, rtol = RTOL
             )
         end
     end
@@ -202,13 +202,13 @@ end
 
         @testset "compute single" begin
             @testset "pnum = $l_test" for l_test in (
-                1 + (0.1 * rand(RNG)), 1 - (0.1 * rand(RNG)), 1.0, 0.0
-            )
+                    1 + (0.1 * rand(RNG)), 1 - (0.1 * rand(RNG)), 1.0, 0.0,
+                )
                 @test isapprox(
                     generic_spectrum(test_field, pol, l_test),
                     _groundtruth_generic_spectrum(pol, l_test),
-                    atol=ATOL,
-                    rtol=RTOL,
+                    atol = ATOL,
+                    rtol = RTOL,
                 )
             end
         end
@@ -225,8 +225,8 @@ end
             @test isapprox(
                 test_generic_spectrum_values,
                 groundtruth_generic_spectrum_values,
-                atol=ATOL,
-                rtol=RTOL,
+                atol = ATOL,
+                rtol = RTOL,
             )
         end
     end
