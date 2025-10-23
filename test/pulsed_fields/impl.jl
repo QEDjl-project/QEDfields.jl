@@ -1,3 +1,8 @@
+# TODO:
+# - build list of profiles automatically
+# - maybe use `InteractiveTools.subtypes` for it
+
+
 using Random
 using IntervalSets
 using QEDbase

@@ -41,6 +41,7 @@ function reference_momentum end
 function classical_nonlinearity_parameter end
 const a0_parameter = classical_nonlinearity_parameter
 
+# assumes unit system with m_e = 1.0 (all energy dims in units of the electron mass)
 function maximum_amplitude(field::AbstractPlaneWaveField)
     return a0_parameter(field) / ELEMENTARY_CHARGE
 end

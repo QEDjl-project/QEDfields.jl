@@ -1,3 +1,6 @@
+# TODO
+# - unify this test for all implemented pulse shapes
+
 using Random
 using IntervalSets
 using QEDbase

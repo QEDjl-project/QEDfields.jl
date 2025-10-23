@@ -1,3 +1,10 @@
+# TODO
+# - unify this test for all implemented pulse shapes
+# - consider implementing a `DefaultPulseWrapper` which just wraps an existing pulse to
+# test its analytical solution against the generic numerical ones.
+# - this wrapper type should be stored in some `TestUtils`, maybe as an ext
+
+
 using Random
 using IntervalSets
 using QEDbase

@@ -1,3 +1,8 @@
+# TODO:
+# - unify tests for all methods
+# - think about analytical tests
+
+
 using QEDfields
 
 using Random
@@ -11,7 +16,6 @@ _test_integrand(x) = sin(x)
 _groundtruth(a, b) = cos(a) - cos(b)
 
 LIMITS = (-rand(RNG), rand(RNG))
-
 
 @testset "Gauss-Kronrod" begin
     method = GaussKronrodQuadrature()
