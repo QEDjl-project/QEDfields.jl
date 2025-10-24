@@ -12,20 +12,6 @@ Abstract base type for pulse profiles.
 - `pulse_length(::AbstractPulseProfile)::Real`
 - `_envelope(::AbstractPulseProfile,phi::Real)::Real`
 
-### Phase integral interface (optional)
-
-```Julia
-_internal_integral1(
-    pulse::AbstractPulseProfile,
-    pol::AbstractPolarization,
-    method::AbstractIntegrationMethod,
-    ::Real)
-
-_internal_integral2(
-    pulse::AbstractPulseProfile,
-    pol::AbstractPolarization,
-    method::AbstractIntegrationMethod,
-    ::Real)
 ```
 """
 abstract type AbstractPulseProfile end

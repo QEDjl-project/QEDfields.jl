@@ -6,8 +6,8 @@ Abstract base type for describing classical background fields.
 Currently, only plane-wave fields are supported.
 
 """
-abstract type AbstractBackgroundField end
-
+abstract type AbstractBackgroundField{P <: AbstractPolarization} end
+polarization(::AbstractBackgroundField{P}) where {P} = P
 
 ### plane-wave fields
 
@@ -23,7 +23,15 @@ Interface functions:
 - `classical_nonlinearity_parameter(::AbstractBackgroundField)::Real`
 - `polarization(::AbstractBackgroundField)::AbstractPolarization`
 """
-abstract type AbstractPlaneWaveField <: AbstractBackgroundField end
+abstract type AbstractPlaneWaveField{P} <: AbstractBackgroundField{P} end
+
+"""
+
+    _amplitude(::AbstractPlaneWaveField, phi)
+
+Interface function for background fields. Returns the value of the amplitude at a given point `phi`.
+"""
+function _amplitude end
 
 """
 
@@ -46,10 +54,25 @@ function maximum_amplitude(field::AbstractPlaneWaveField)
     return a0_parameter(field) / ELEMENTARY_CHARGE
 end
 
+
 """
 
-    polarization(::AbstractPlaneWaveField)
+    _internal_integrals(::AbstractBackgroundField)
 
-Return type of polarization for the given field.
+Returns the tuple of internal integrals: (I1, I2) for linear polarization, and (I11,I12,I2) for elliptic polarization
 """
-function polarization end
+function _internal_integrals end
+
+"""
+
+    _volkov_phase(
+        ::AbstractBackgroundField,
+        ::IntegrationMethod,
+        phi::Real,
+        beta1::Real,
+        beta2::Real
+    )
+
+
+"""
+function _volkov_phase end

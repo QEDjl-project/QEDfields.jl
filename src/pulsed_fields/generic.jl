@@ -1,3 +1,7 @@
+# TODO:
+# - extent the implementation to arbitrary polarization (be aware of the type parameter of
+# AbstractBackgroundField)
+
 ### generic implementations for pulsed plane wave fields
 
 # deligations
