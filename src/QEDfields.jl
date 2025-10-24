@@ -12,7 +12,8 @@ export AbstractBackgroundField
 
 # plane-wave fields
 export AbstractPlaneWaveField
-export amplitude, reference_momentum, polarization, classical_nonlinearity_parameter, a0_parameter, internal_integrals
+export amplitude, reference_momentum, polarization, classical_nonlinearity_parameter
+export a0_parameter, internal_integrals, volkov_phase
 export maximum_amplitude
 
 # pulsed fields

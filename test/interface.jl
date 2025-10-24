@@ -30,6 +30,18 @@ function _groundtruth_internal_integral_endpoint(phi, pol)
         return _groundtruth_internal_integals(maximum(RND_DOMAIN), pol)
     end
 end
+function _groundtruth_volkov_phase(f::TestPlaneWaveField, phi::T, beta1::T, beta2::T) where {T}
+    ii = _groundtruth_internal_integals(phi, f.pol)
+    max_ampl = f.a0 / ELEMENTARY_CHARGE
+    return max_ampl * beta1 * ii.I1 - max_ampl^2 * beta2 * ii.I2
+end
+function _groundtruth_volkov_phase_endpoints(f::TestPlaneWaveField, phi, beta1, beta2)
+    if phi <= minimum(RND_DOMAIN)
+        return _groundtruth_volkov_phase(f, minimum(RND_DOMAIN), beta1, beta2)
+    else
+        return _groundtruth_volkov_phase(f, maximum(RND_DOMAIN), beta1, beta2)
+    end
+end
 
 QEDfields._amplitude(field::TestPlaneWaveField, pol, phi::Real) = _groundtruth_amplitude(phi, pol)
 QEDfields.domain(field::TestPlaneWaveField) = RND_DOMAIN
@@ -90,6 +102,21 @@ end
 
                 @test isapprox(value.I1, groundtruth.I1)
                 @test isapprox(value.I2, groundtruth.I2)
+            end
+        end
+    end
+
+    @testset "non-linear volkov phase" begin
+        PHIS = (-rand(RNG), rand(RNG), minimum(RND_DOMAIN) - rand(RNG), maximum(RND_DOMAIN) + rand(RNG), 0.0, -0.0, Inf, -Inf)
+        BETAS = (-rand(RNG), rand(RNG), 0.0, -0.0)
+        @testset "method = $method" for method in INTEG_METHODS
+            @testset "phi = $phi" for phi in PHIS
+                @testset "beta0 = $beta1, beta2 = $beta2" for (beta1, beta2) in Iterators.product(BETAS, BETAS)
+                    value = @inferred volkov_phase(test_field, method, phi, beta1, beta2)
+                    groundtruth = phi in RND_DOMAIN ? _groundtruth_volkov_phase(test_field, phi, beta1, beta2) : _groundtruth_volkov_phase_endpoints(test_field, phi, beta1, beta2)
+
+                    @test isapprox(value, groundtruth)
+                end
             end
         end
     end
