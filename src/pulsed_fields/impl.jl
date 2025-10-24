@@ -11,7 +11,7 @@
     )
 
 """
-struct PulsedPlaneWaveField{P <: AbstractPulseProfile, POL <: AbstractPolarization, T <: Real, MOM <: AbstractFourMomentum} <: AbstractPulsedPlaneWaveField
+struct PulsedPlaneWaveField{P <: AbstractPulseProfile, POL <: AbstractPolarization, T <: Real, MOM <: AbstractFourMomentum} <: AbstractPulsedPlaneWaveField{POL}
     pulse::P
     mom::MOM
     a0::T

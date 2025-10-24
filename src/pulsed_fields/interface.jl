@@ -13,7 +13,7 @@ Additional interface functions:
 
 - `pulse_profile(::AbstractPulsedPlaneWaveField)::AbstractPulseProfile`
 """
-abstract type AbstractPulsedPlaneWaveField <: AbstractPlaneWaveField end
+abstract type AbstractPulsedPlaneWaveField{P} <: AbstractPlaneWaveField{P} end
 
 """
 

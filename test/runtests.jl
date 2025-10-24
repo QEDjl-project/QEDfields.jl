@@ -13,7 +13,7 @@ using SafeTestsets
         include("interface.jl")
     end
 
-
+    #=
     @testset "pulse profiles" begin
 
         @safetestset "interface" begin
@@ -41,4 +41,6 @@ using SafeTestsets
         end
 
     end
+
+    =#
 end

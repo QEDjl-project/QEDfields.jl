@@ -32,6 +32,7 @@ Abstract base type for plane-wave fields.
 Interface functions:
 
 - `_amplitude(::AbstractPlaneWaveField, ::AbstractDefinitePolarization, ::Real)`
+_ `_domain(field::AbstractPlaneWaveField)`
 - `reference_momentum(::AbstractBackgroundField)::AbstractFourMomentum`
 - `classical_nonlinearity_parameter(::AbstractBackgroundField)::Real`
 - `polarization(::AbstractBackgroundField)::AbstractPolarization`
@@ -52,11 +53,11 @@ end
 
 """
 
-    _domain(field::AbstractPlaneWaveField)
+    domain(field::AbstractPlaneWaveField)
 
 Interface function for plane-wave background fields. Return the domain of the field, i.e. the intervall, where the field has non-zero values.
 """
-function _domain end
+function domain end
 
 """
 
