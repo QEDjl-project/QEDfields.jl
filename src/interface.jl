@@ -5,9 +5,21 @@ Abstract base type for describing classical background fields.
 
 Currently, only plane-wave fields are supported.
 
+Interface funcitons:
+
+- `polarization(::AbstractBackgroundField)::AbstractPolarization`
+
 """
 abstract type AbstractBackgroundField{P <: AbstractPolarization} end
-polarization(::AbstractBackgroundField{P}) where {P} = P
+polarization_type(::AbstractBackgroundField{P}) where {P} = P
+
+"""
+
+    polarization(field::AbstractBackgroundField)
+
+Interface function for general background fields. Return object which is subtype of `AbstractPolarization`.
+"""
+function polarization end
 
 ### plane-wave fields
 
@@ -19,6 +31,7 @@ Abstract base type for plane-wave fields.
 
 Interface functions:
 
+- `_amplitude(::AbstractPlaneWaveField, ::AbstractDefinitePolarization, ::Real)`
 - `reference_momentum(::AbstractBackgroundField)::AbstractFourMomentum`
 - `classical_nonlinearity_parameter(::AbstractBackgroundField)::Real`
 - `polarization(::AbstractBackgroundField)::AbstractPolarization`
@@ -27,17 +40,29 @@ abstract type AbstractPlaneWaveField{P} <: AbstractBackgroundField{P} end
 
 """
 
-    _amplitude(::AbstractPlaneWaveField, phi)
+    _amplitude(::AbstractPlaneWaveField, pol::AbstractDefinitePolarization, phi)
 
 Interface function for background fields. Returns the value of the amplitude at a given point `phi`.
 """
 function _amplitude end
 
+@inline function _amplitude(field::AbstractPlaneWaveField{P}, phi::Real) where {P <: AbstractDefinitePolarization}
+    return _amplitude(field, polarization(field), phi)
+end
+
+"""
+
+    _domain(field::AbstractPlaneWaveField)
+
+Interface function for plane-wave background fields. Return the domain of the field, i.e. the intervall, where the field has non-zero values.
+"""
+function _domain end
+
 """
 
     reference_momentum(::AbstractPlaneWaveField)
 
-Return a reference momentum indicating the direction the field is propagating.
+Interface function for plane-wave background fields. Return a reference momentum indicating the direction the field is propagating.
 """
 function reference_momentum end
 
@@ -45,6 +70,7 @@ function reference_momentum end
 
     classical_nonlinearity_parameter(::AbstractPlaneWaveField)
 
+Interface function for plane-wave background fields. Return the classical nonlinearity parameter.
 """
 function classical_nonlinearity_parameter end
 const a0_parameter = classical_nonlinearity_parameter

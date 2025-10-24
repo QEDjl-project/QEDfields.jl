@@ -1,13 +1,23 @@
+# TODO: implement in-place versions:
+# - amplitude!
+# - compute!
+# - internal_integals!
+# - volkov_phase!
+# - integrate!
+#
 module QEDfields
 
 # background fields
-export AbstractBackgroundField, AbstractPlaneWaveField, AbstractPulsedPlaneWaveField
-export reference_momentum, polarization, classical_nonlinearity_parameter, a0_parameter
+export AbstractBackgroundField
+
+# plane-wave fields
+export AbstractPlaneWaveField
+export amplitude, reference_momentum, polarization, classical_nonlinearity_parameter, a0_parameter
 export maximum_amplitude
 
 # pulsed fields
+export AbstractPulsedPlaneWaveField
 export pulse_profile
-export amplitude
 export PulsedPlaneWaveField
 
 # pulse profiles
