@@ -23,7 +23,7 @@ QEDfields.domain(::TestProfile) = RND_DOMAIN
 QEDfields.pulse_length(::TestProfile) = RND_DOMAIN_WIDTH
 QEDfields._envelope(::TestProfile, x::Real) = one(x)
 
-struct TestPulsedField{P} <: AbstractPulsedPlaneWaveField
+struct TestPulsedField{P} <: AbstractPulsedPlaneWaveField{P}
     pol::P
 end
 

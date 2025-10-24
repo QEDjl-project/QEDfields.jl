@@ -13,15 +13,6 @@ RTOL = sqrt(eps())
 
 DPHIS = [rand(RNG), rand(RNG) * 10, rand(RNG) * 100, rand(RNG) * 1000, rand(RNG) * 10000]
 
-# wrapper implementation to test analytical solutions of the generic spectrum
-
-struct GaussianPulseWrapper{G <: GaussianPulse} <: AbstractPulsedPlaneWaveField
-    pulse::G
-end
-QEDfields.domain(p::GaussianPulseWrapper) = domain(p.pulse)
-QEDfields.pulse_length(p::GaussianPulseWrapper) = pulse_length(p.pulse)
-QEDfields._envelope(p::GaussianPulseWrapper, x) = QEDCompton._envelope(p.pulse, x)
-
 @testset "pulse interface" begin
     @test hasmethod(domain, Tuple{GaussianPulse})
     @test hasmethod(pulse_length, Tuple{GaussianPulse})
@@ -43,22 +34,4 @@ end
         @test isapprox(envelope(test_pulse, -Inf), 0.0, atol = ATOL, rtol = RTOL)
         @test isapprox(envelope(test_pulse, Inf), 0.0, atol = ATOL, rtol = RTOL)
     end
-
-    # TODO: set in after refac
-    #=
-    @testset "generic spectrum" begin
-        wrapper_pulse = GaussianPulseWrapper(test_pulse)
-        test_pnums = [1.0, -1.0, 1 + rand(RNG) * 0.1, -1 - rand(RNG) * 0.1]
-        @testset "pnum: $pnum" for pnum in test_pnums
-            test_val_xpol = generic_spectrum(test_pulse, PolX(), pnum)
-            test_val_ypol = generic_spectrum(test_pulse, PolY(), pnum)
-
-            groundtruth_xpol = generic_spectrum(wrapper_pulse, PolX(), pnum)
-            groundtruth_ypol = generic_spectrum(wrapper_pulse, PolY(), pnum)
-
-            @test isapprox(test_val_xpol, groundtruth_xpol, atol = ATOL, rtol = RTOL)
-            @test isapprox(test_val_ypol, groundtruth_ypol, atol = ATOL, rtol = RTOL)
-        end
-    end
-    =#
 end
