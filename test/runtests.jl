@@ -9,7 +9,11 @@ using SafeTestsets
     end
 
     # fields tests
-    @safetestset "general field interface" begin
+    @safetestset "result types" begin
+        include("results.jl")
+    end
+
+    @safetestset "field interface" begin
         include("interface.jl")
     end
 

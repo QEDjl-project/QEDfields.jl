@@ -21,8 +21,8 @@ end
 _groundtruth_amplitude(phi, ::PolX) = phi
 _groundtruth_amplitude(phi, ::PolY) = phi^2
 
-_groundtruth_internal_integals(phi::T, ::PolX) where {T <: Real} = (I1 = phi^2 / 2, I2 = phi^3 / 3)
-_groundtruth_internal_integals(phi::T, ::PolY) where {T <: Real} = (I1 = phi^3 / 3, I2 = phi^5 / 5)
+_groundtruth_internal_integals(phi::T, ::PolX) where {T <: Real} = InternalIntegrals(phi^2 / 2, phi^3 / 3)
+_groundtruth_internal_integals(phi::T, ::PolY) where {T <: Real} = InternalIntegrals(phi^3 / 3, phi^5 / 5)
 function _groundtruth_internal_integral_endpoint(phi, pol)
     if phi <= minimum(RND_DOMAIN)
         return _groundtruth_internal_integals(minimum(RND_DOMAIN), pol)
@@ -71,6 +71,10 @@ end
         @test classical_nonlinearity_parameter(test_field) == RND_A0
         @test a0_parameter(test_field) == RND_A0
         @test polarization(test_field) == pol
+    end
+
+    @testset "generics" begin
+        @test polarization_type(test_field) == typeof(pol)
     end
 
     @testset "maximum amplitude" begin

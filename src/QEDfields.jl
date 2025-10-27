@@ -7,11 +7,14 @@
 #
 module QEDfields
 
+# result types
+export InternalIntegrals, PhaseIntegralResult
+
 # background fields
 export AbstractBackgroundField
 
 # plane-wave fields
-export AbstractPlaneWaveField
+export AbstractPlaneWaveField, polarization_type
 export amplitude, reference_momentum, polarization, classical_nonlinearity_parameter
 export a0_parameter, internal_integrals, volkov_phase
 export maximum_amplitude
@@ -33,8 +36,6 @@ export GaussKronrodQuadrature
 export GaussLegendreQuadrature
 export Analytical
 
-# internal integrals
-
 using QuadGK
 using FastGaussQuadrature
 using IntervalSets
@@ -44,6 +45,7 @@ using QEDcore
 using QEDbase
 
 include("patch_QEDcore.jl")
+include("results.jl")
 
 include("integration_methods/interface.jl")
 include("integration_methods/gauss_kronrod.jl")

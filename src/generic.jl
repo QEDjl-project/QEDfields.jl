@@ -1,5 +1,6 @@
 ### Generic implementations for plane-wave fields
 
+# TODO: move oscillator to pulsed plane wave field. (or oscillating fields as a subtype?)
 # deligations
 oscillator(field::AbstractPlaneWaveField, phi::Real) = oscillator(polarization(field), phi)
 polarization_vector(field::AbstractPlaneWaveField) = polarization_vector(polarization(field), reference_momentum(field))
@@ -35,7 +36,7 @@ function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractI
 
     res1 = integrate(method, tmp_func1, zero(T), phi)
     res2 = integrate(method, tmp_func2, zero(T), phi)
-    return (I1 = res1, I2 = res2)
+    return InternalIntegrals(res1, res2)
 end
 
 # TODO: this needs to be tested
@@ -47,20 +48,16 @@ function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractI
     res11 = integrate(method, tmp_func11, zero(T), phi)
     res12 = integrate(method, tmp_func12, zero(T), phi)
     res2 = integrate(method, tmp_func2, zero(T), phi)
-    return (I11 = res12, I12 = res12, I2 = res2)
+    return InternalIntegrals(res12, res12, res2)
 end
 
-function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T)::@NamedTuple{I1::T, I2::T} where {T <: Real, P <: AbstractDefinitePolarization}
+function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T} where {T <: Real, P <: AbstractDefinitePolarization}
 
     dom = domain(field)
 
-    if phi in dom
-        res = _internal_integrals(field, method, phi)
-    else
-        res = phi <= minimum(dom) ? _internal_integrals(field, method, minimum(dom)) : _internal_integrals(field, method, maximum(dom))
-    end
+    phi_eval = phi <= minimum(dom) ? minimum(dom) : min(phi, maximum(dom))
+    return _internal_integrals(field, method, phi_eval)
 
-    return res
 end
 
 ### non-linear Volkov phase
