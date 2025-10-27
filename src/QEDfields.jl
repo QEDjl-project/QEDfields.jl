@@ -1,7 +1,7 @@
 # TODO: implement in-place versions:
 # - amplitude!
 # - compute!
-# - internal_integals!
+# - internal_integrals!
 # - volkov_phase!
 # - integrate!
 #
@@ -53,7 +53,10 @@ include("integration_methods/gauss_legendre.jl")
 include("integration_methods/analytical.jl")
 
 include("interface.jl")
-include("generic.jl")
+include("generic/amplitude.jl")
+include("generic/internal_integrals.jl")
+include("generic/volkov_phase.jl")
+include("generic/phase_integrals.jl")
 
 include("pulse_profiles/interface.jl")
 include("pulse_profiles/cos_square/impl.jl")
