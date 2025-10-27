@@ -13,7 +13,7 @@ function _volkov_phase(
     ii = _internal_integrals(field, method, phi)
 
     # "-" comes from eps_BG*eps_BG
-    return max_amp * beta1 * ii.I1 - max_amp^2 * beta2 * ii.I2
+    return max_amp * beta1 * ii.I1.value - max_amp^2 * beta2 * ii.I2.value
 end
 
 function volkov_phase(

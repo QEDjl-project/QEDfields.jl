@@ -33,7 +33,7 @@ end
 function _groundtruth_volkov_phase(f::TestPlaneWaveField, phi::T, beta1::T, beta2::T) where {T}
     ii = _groundtruth_internal_integals(phi, f.pol)
     max_ampl = f.a0 / ELEMENTARY_CHARGE
-    return max_ampl * beta1 * ii.I1 - max_ampl^2 * beta2 * ii.I2
+    return max_ampl * beta1 * ii.I1.value - max_ampl^2 * beta2 * ii.I2.value
 end
 function _groundtruth_volkov_phase_endpoints(f::TestPlaneWaveField, phi, beta1, beta2)
     if phi <= minimum(RND_DOMAIN)

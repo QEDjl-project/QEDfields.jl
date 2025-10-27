@@ -8,7 +8,7 @@
 module QEDfields
 
 # result types
-export InternalIntegrals, PhaseIntegralResult
+export InternalIntegralResult, InternalIntegrals, PhaseIntegralResult, PhaseIntegrals
 
 # background fields
 export AbstractBackgroundField

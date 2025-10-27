@@ -1,6 +1,6 @@
 ### internal integrals
 
-function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Real, P <: AbstractDefinitePolarization}
+@inline function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Real, P <: AbstractDefinitePolarization}
     tmp_func1 = t -> _amplitude(field, t)
     tmp_func2 = t -> _amplitude(field, t)^2
 
@@ -10,7 +10,7 @@ function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractI
 end
 
 # TODO: this needs to be tested
-function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Real, P <: AbstractIndefinitePolarization}
+@inline function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Real, P <: AbstractIndefinitePolarization}
     tmp_func11 = t -> _amplitude(field, t, PolX())
     tmp_func12 = t -> _amplitude(field, t, PolY())
     tmp_func2 = t -> _amplitude(field, t, PolX())^2 + _amplitude(field, t, PolY())^2
