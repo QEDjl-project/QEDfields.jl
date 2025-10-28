@@ -15,13 +15,48 @@ function phase_integrals(
     }
 
     dom = domain(field)
+    max_amp = maximum_amplitude(field)
 
-    integrand1 = x -> _amplitude(field, x) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta1, beta2))
-    integrand2 = x -> _amplitude(field, x)^2 * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta1, beta2))
+    # TODO: make max_amp factors global
+    integrand1 = x -> max_amp * _amplitude(field, x) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta1, beta2))
+    integrand2 = x -> max_amp^2 * _amplitude(field, x)^2 * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta1, beta2))
 
     res1 = integrate(method, integrand1, dom)
     res2 = integrate(method, integrand2, dom)
 
-    # TODO: check prefac of amplitude
-    return PhaseIntegralResult(_tuple_pack(res1)...), PhaseIntegralResult(_tuple_pack(res2)...)
+    return PhaseIntegrals(
+        PhaseIntegralResult(_tuple_pack(res1)...),
+        PhaseIntegralResult(_tuple_pack(res2)...),
+    )
+end
+
+function phase_integrals(
+        field::AbstractPlaneWaveField{P},
+        internal_integral_method::AbstractIntegrationMethod,
+        phase_integral_method::AbstractIntegrationMethod,
+        pnum::Real,
+        beta11::Real,
+        beta12::Real,
+        beta2::Real
+    ) where {
+        P <: AbstractIndefinitePolarization,
+    }
+
+    dom = domain(field)
+    max_amp = maximum_amplitude(field)
+
+    # TODO: make max_amp factors global
+    integrand11 = x -> max_amp * _amplitude(field, PolX(), x) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta11, beta12, beta2))
+    integrand12 = x -> max_amp * _amplitude(field, PolY(), x) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta11, beta12, beta2))
+    integrand2 = x -> max_amp^2 * (_amplitude(field, PolX(), x)^2 + _amplitude(field, PolY(), x)^2) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta11, beta12, beta2))
+
+    res11 = integrate(method, integrand11, dom)
+    res12 = integrate(method, integrand12, dom)
+    res2 = integrate(method, integrand2, dom)
+
+    return PhaseIntegrals(
+        PhaseIntegralResult(_tuple_pack(res11)...),
+        PhaseIntegralResult(_tuple_pack(res12)...),
+        PhaseIntegralResult(_tuple_pack(res2)...),
+    )
 end

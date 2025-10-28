@@ -3,7 +3,7 @@ using QEDfields
 
 RNG = Xoshiro(137)
 
-DTYPES = (Float64,) #(Float16, Float32, Float64)
+DTYPES = (Float16, Float32, Float64, Complex{Float16}, Complex{Float32}, Complex{Float64})
 
 function _check_internal_ints(internal_ints, I1, I2)
     @test isbits(internal_ints)

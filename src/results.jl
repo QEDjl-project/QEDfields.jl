@@ -5,7 +5,7 @@ Result of computing the internal integral I(phi, beta1, beta2)
 - value: the computed integral value
 - error: error estimate (Nothing if not available)
 """
-struct InternalIntegralResult{T <: Real}
+struct InternalIntegralResult{T <: Number}
     value::T
     error::T
 end
@@ -16,6 +16,7 @@ InternalIntegralResult(value::T) where {T} = InternalIntegralResult(value, T(NaN
 function Base.isapprox(res1::InternalIntegralResult, res2::InternalIntegralResult, kwargs...)
     return isapprox(res1.value, res2.value, kwargs...)
 end
+
 """
     InternalIntegrals
 
@@ -37,21 +38,23 @@ I_12 = \\int_0^x f_y(y)\\,\\mathrm{d}y\\\\
 I_2 = \\int_0^x f_x^2(y)+ f_y^2(y)\\,\\mathrm{d}y
 ```
 """
-struct InternalIntegrals{T <: Real, N}
+struct InternalIntegrals{T <: Number, N}
     data::NTuple{N, InternalIntegralResult{T}}
     function InternalIntegrals(
             data::NTuple{N, TT}
         ) where {
             N,
-            T <: Real,
+            T <: Number,
             TT <: InternalIntegralResult{T},
         }
+
+        # TODO: check if N is 2 or 3, throw otherwise
         return new{T, N}(data)
     end
 end
 
 InternalIntegrals(data::TT...) where {TT <: InternalIntegralResult} = InternalIntegrals(data)
-function InternalIntegrals(data::T...) where {T <: Real}
+function InternalIntegrals(data::T...) where {T <: Number}
     return InternalIntegrals(
         InternalIntegralResult.(data)...
     )
@@ -75,7 +78,7 @@ Result of computing the phase integral B(pnum,beta1,beta2).
 - value: the computed integral value
 - error: error estimate (Nothing if not available)
 """
-struct PhaseIntegralResult{T <: Real}
+struct PhaseIntegralResult{T <: Number}
     value::T
     error::T
 end
@@ -93,22 +96,24 @@ end
 
 Stores the results of phase integrals.
 """
-struct PhaseIntegrals{T <: Real, N}
+struct PhaseIntegrals{T <: Number, N}
     data::NTuple{N, PhaseIntegralResult{T}}
 
     function PhaseIntegrals(
             data::NTuple{N, TT}
         ) where {
             N,
-            T <: Real,
+            T <: Number,
             TT <: PhaseIntegralResult{T},
         }
+        # TODO: check if N is 2 or 3, throw otherwise
+
         return new{T, N}(data)
     end
 end
 
 PhaseIntegrals(data::TT...) where {TT <: PhaseIntegralResult} = PhaseIntegrals(data)
-function PhaseIntegrals(data::T...) where {T <: Real}
+function PhaseIntegrals(data::T...) where {T <: Number}
     return PhaseIntegrals(
         PhaseIntegralResult.(data)...
     )

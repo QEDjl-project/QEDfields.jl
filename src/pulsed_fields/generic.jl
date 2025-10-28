@@ -4,7 +4,7 @@
 
 ### generic implementations for pulsed plane wave fields
 
-# deligations
+# delegations
 domain(field::AbstractPulsedPlaneWaveField) = domain(pulse_profile(field))
 _envelope(field::AbstractPulsedPlaneWaveField, phi::Real) = _envelope(pulse_profile(field), phi)
 envelope(field::AbstractPulsedPlaneWaveField, phi::Real) = envelope(pulse_profile(field), phi)
