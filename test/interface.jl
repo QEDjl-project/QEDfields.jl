@@ -1,3 +1,7 @@
+# TODO:
+# - implement tests for indefinite polarization
+
+
 using QEDcore
 using QEDfields
 
@@ -9,8 +13,8 @@ ATOL = 0.0
 RTOL = sqrt(eps())
 
 RND_MOM = SFourMomentum(rand(RNG, 4))
-RND_A0 = rand(RNG)
-RND_DOMAIN = ClosedInterval(-rand(RNG), rand(RNG))
+RND_A0 = 1.0 #rand(RNG)
+RND_DOMAIN = ClosedInterval(0.0, 1.0)
 INTEG_METHODS = (GaussKronrodQuadrature(), GaussLegendreQuadrature(20))
 
 struct TestPlaneWaveField{T, P} <: AbstractPlaneWaveField{P}
@@ -18,11 +22,11 @@ struct TestPlaneWaveField{T, P} <: AbstractPlaneWaveField{P}
     pol::P
 end
 
-_groundtruth_amplitude(phi, ::PolX) = phi
-_groundtruth_amplitude(phi, ::PolY) = phi^2
+_groundtruth_amplitude(phi, ::PolX) = one(phi)
+_groundtruth_amplitude(phi::T, ::PolY) where {T} = T(0.5)
 
-_groundtruth_internal_integals(phi::T, ::PolX) where {T <: Real} = InternalIntegrals(phi^2 / 2, phi^3 / 3)
-_groundtruth_internal_integals(phi::T, ::PolY) where {T <: Real} = InternalIntegrals(phi^3 / 3, phi^5 / 5)
+_groundtruth_internal_integals(phi::T, ::PolX) where {T <: Real} = InternalIntegrals(phi, phi)
+_groundtruth_internal_integals(phi::T, ::PolY) where {T <: Real} = InternalIntegrals(phi / 2, phi / 4)
 function _groundtruth_internal_integral_endpoint(phi, pol)
     if phi <= minimum(RND_DOMAIN)
         return _groundtruth_internal_integals(minimum(RND_DOMAIN), pol)
@@ -30,17 +34,43 @@ function _groundtruth_internal_integral_endpoint(phi, pol)
         return _groundtruth_internal_integals(maximum(RND_DOMAIN), pol)
     end
 end
+
 function _groundtruth_volkov_phase(f::TestPlaneWaveField, phi::T, beta1::T, beta2::T) where {T}
     ii = _groundtruth_internal_integals(phi, f.pol)
     max_ampl = f.a0 / ELEMENTARY_CHARGE
     return max_ampl * beta1 * ii.I1.value - max_ampl^2 * beta2 * ii.I2.value
 end
+
 function _groundtruth_volkov_phase_endpoints(f::TestPlaneWaveField, phi, beta1, beta2)
     if phi <= minimum(RND_DOMAIN)
         return _groundtruth_volkov_phase(f, minimum(RND_DOMAIN), beta1, beta2)
     else
         return _groundtruth_volkov_phase(f, maximum(RND_DOMAIN), beta1, beta2)
     end
+end
+
+function _groundtruth_phase_integral_B1(f::TestPlaneWaveField, ::PolX, pnum, beta1, beta2)
+    max_ampl = maximum_amplitude(f)
+    fac = pnum + max_ampl * beta1 - max_ampl^2 * beta2
+    return max_ampl * (exp(1im * (fac)) - one(pnum)) / (1im * fac)
+end
+
+function _groundtruth_phase_integral_B1(f::TestPlaneWaveField, ::PolY, pnum, beta1, beta2)
+    max_ampl = maximum_amplitude(f)
+    fac = pnum + max_ampl * beta1 / 2 - max_ampl^2 * beta2 / 4
+    return max_ampl * (exp(1im * (fac)) - one(pnum)) / (1im * 2 * fac)
+end
+
+function _groundtruth_phase_integral_B2(f::TestPlaneWaveField, ::PolX, pnum, beta1, beta2)
+    max_ampl = maximum_amplitude(f)
+    fac = pnum + max_ampl * beta1 - max_ampl^2 * beta2
+    return max_ampl^2 * (exp(1im * (fac)) - one(pnum)) / (1im * fac)
+end
+
+function _groundtruth_phase_integral_B2(f::TestPlaneWaveField, ::PolY, pnum, beta1, beta2)
+    max_ampl = maximum_amplitude(f)
+    fac = pnum + max_ampl * beta1 / 2 - max_ampl^2 * beta2 / 4
+    return max_ampl^2 * (exp(1im * (fac)) - one(pnum)) / (1im * 4 * fac)
 end
 
 QEDfields._amplitude(field::TestPlaneWaveField, pol, phi::Real) = _groundtruth_amplitude(phi, pol)
@@ -115,11 +145,30 @@ end
         BETAS = (-rand(RNG), rand(RNG), 0.0, -0.0)
         @testset "method = $method" for method in INTEG_METHODS
             @testset "phi = $phi" for phi in PHIS
-                @testset "beta0 = $beta1, beta2 = $beta2" for (beta1, beta2) in Iterators.product(BETAS, BETAS)
+                @testset "beta1 = $beta1, beta2 = $beta2" for (beta1, beta2) in Iterators.product(BETAS, BETAS)
                     value = @inferred volkov_phase(test_field, method, phi, beta1, beta2)
                     groundtruth = phi in RND_DOMAIN ? _groundtruth_volkov_phase(test_field, phi, beta1, beta2) : _groundtruth_volkov_phase_endpoints(test_field, phi, beta1, beta2)
 
                     @test isapprox(value, groundtruth)
+                end
+            end
+        end
+    end
+    @testset "phase integrals" begin
+
+        PNUMS = (-rand(RNG), rand(RNG))
+        BETAS = (-rand(RNG), rand(RNG), 0.0, -0.0)
+        @testset "internal method = $internal_method" for internal_method in INTEG_METHODS
+            @testset "top level method = $top_method" for top_method in INTEG_METHODS
+                @testset "pnum = $pnum" for pnum in PNUMS
+                    @testset "beta1 = $beta1, beta2 = $beta2" for (beta1, beta2) in Iterators.product(BETAS, BETAS)
+                        phase_int = @inferred phase_integrals(test_field, internal_method, top_method, pnum, beta1, beta2)
+                        groundtruth_B1 = _groundtruth_phase_integral_B1(test_field, pol, pnum, beta1, beta2)
+                        groundtruth_B2 = _groundtruth_phase_integral_B2(test_field, pol, pnum, beta1, beta2)
+
+                        @test isapprox(phase_int.B1.value, groundtruth_B1)
+                        @test isapprox(phase_int.B2.value, groundtruth_B2)
+                    end
                 end
             end
         end

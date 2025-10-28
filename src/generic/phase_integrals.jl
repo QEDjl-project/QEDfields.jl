@@ -7,10 +7,11 @@ function phase_integrals(
         field::AbstractPlaneWaveField{P},
         internal_integral_method::AbstractIntegrationMethod,
         phase_integral_method::AbstractIntegrationMethod,
-        pnum::Real,
-        beta1::Real,
-        beta2::Real
-    ) where {
+        pnum::T,
+        beta1::T,
+        beta2::T
+    )::PhaseIntegrals{Complex{T}} where {
+        T <: Real,
         P <: AbstractDefinitePolarization,
     }
 
@@ -18,11 +19,11 @@ function phase_integrals(
     max_amp = maximum_amplitude(field)
 
     # TODO: make max_amp factors global
-    integrand1 = x -> max_amp * _amplitude(field, x) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta1, beta2))
-    integrand2 = x -> max_amp^2 * _amplitude(field, x)^2 * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta1, beta2))
+    integrand1 = x -> max_amp * _amplitude(field, x) * exp(1im * pnum * x + 1im * volkov_phase(field, internal_integral_method, x, beta1, beta2))
+    integrand2 = x -> max_amp^2 * _amplitude(field, x)^2 * exp(1im * pnum * x + 1im * volkov_phase(field, internal_integral_method, x, beta1, beta2))
 
-    res1 = integrate(method, integrand1, dom)
-    res2 = integrate(method, integrand2, dom)
+    res1 = integrate(phase_integral_method, integrand1, dom)
+    res2 = integrate(phase_integral_method, integrand2, dom)
 
     return PhaseIntegrals(
         PhaseIntegralResult(_tuple_pack(res1)...),
