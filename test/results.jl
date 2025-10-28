@@ -9,8 +9,15 @@ function _check_internal_ints(internal_ints, I1, I2)
     @test isbits(internal_ints)
     @test internal_ints.I1 == I1
     @test internal_ints.I2 == I2
-    @test_throws "type InternalIntegrals has no field I11" internal_ints.I11
-    return @test_throws "type InternalIntegrals has no field I12" internal_ints.I12
+    if VERSION >= v"1.12"
+        @test_throws FieldError internal_ints.I11
+        @test_throws FieldError internal_ints.I12
+    else
+        @test_throws "type InternalIntegrals has no field I11" internal_ints.I11
+        @test_throws "type InternalIntegrals has no field I12" internal_ints.I12
+    end
+
+    return nothing
 end
 
 function _check_internal_ints(internal_ints, I11, I12, I2)
@@ -18,15 +25,26 @@ function _check_internal_ints(internal_ints, I11, I12, I2)
     @test internal_ints.I11 == I11
     @test internal_ints.I12 == I12
     @test internal_ints.I2 == I2
-    return @test_throws "type InternalIntegrals has no field I1" internal_ints.I1
+    return if VERSION >= v"1.12"
+        @test_throws FieldError internal_ints.I1
+    else
+        @test_throws "type InternalIntegrals has no field I1" internal_ints.I1
+    end
 end
 
 function _check_phase_ints(phase_ints, B1, B2)
     @test isbits(phase_ints)
     @test phase_ints.B1 == B1
     @test phase_ints.B2 == B2
-    @test_throws "type PhaseIntegrals has no field B11" phase_ints.B11
-    return @test_throws "type PhaseIntegrals has no field B12" phase_ints.B12
+    if VERSION >= v"1.12"
+        @test_throws FieldError phase_ints.B11
+        @test_throws FieldError phase_ints.B12
+    else
+        @test_throws "type PhaseIntegrals has no field B11" phase_ints.B11
+        @test_throws "type PhaseIntegrals has no field B12" phase_ints.B12
+    end
+
+    return nothing
 end
 
 function _check_phase_ints(phase_ints, B11, B12, B2)
@@ -34,8 +52,17 @@ function _check_phase_ints(phase_ints, B11, B12, B2)
     @test phase_ints.B11 == B11
     @test phase_ints.B12 == B12
     @test phase_ints.B2 == B2
-    return @test_throws "type PhaseIntegrals has no field B1" phase_ints.B1
+
+    if VERSION >= v"1.12"
+        @test_throws FieldError phase_ints.B1
+    else
+        @test_throws "type PhaseIntegrals has no field B1" phase_ints.B1
+    end
+
+    return nothing
 end
+
+
 @testset "dtype = $dtype" for dtype in DTYPES
     @testset "internal integral result" begin
         @testset "w/o error" begin
