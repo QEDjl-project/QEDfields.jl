@@ -11,10 +11,13 @@ struct InternalIntegralResult{T <: Number}
 end
 
 # Constructor for cases without error estimate
+InternalIntegralResult(value::Number, error::Number) = InternalIntegralResult(promote(value, error)...)
+InternalIntegralResult(value::Integer, error::Integer) = InternalIntegralResult(float(value), float(error))
+InternalIntegralResult(value::Integer) = InternalIntegralResult(float(value))
 InternalIntegralResult(value::T) where {T} = InternalIntegralResult(value, T(NaN))
 
-function Base.isapprox(res1::InternalIntegralResult, res2::InternalIntegralResult, kwargs...)
-    return isapprox(res1.value, res2.value, kwargs...)
+function Base.isapprox(res1::InternalIntegralResult, res2::InternalIntegralResult; kwargs...)
+    return isapprox(res1.value, res2.value; kwargs...)
 end
 
 """
@@ -84,6 +87,9 @@ struct PhaseIntegralResult{T <: Number}
 end
 
 # Constructor for cases without error estimate
+PhaseIntegralResult(value::Number, error::Number) = PhaseIntegralResult(promote(value, error)...)
+PhaseIntegralResult(value::Integer, error::Integer) = PhaseIntegralResult(float(value), float(error))
+PhaseIntegralResult(value::Integer) = PhaseIntegralResult(float(value))
 PhaseIntegralResult(value::T) where {T} = PhaseIntegralResult(value, T(NaN))
 
 function Base.isapprox(res1::PhaseIntegralResult, res2::PhaseIntegralResult, kwargs...)

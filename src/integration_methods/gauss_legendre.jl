@@ -12,13 +12,20 @@ struct GaussLegendreQuadrature{P, W} <: AbstractQuadratureMethod
     nodes::P
     weights::W
 
-    function GaussLegendreQuadrature(order::Int)
+    function GaussLegendreQuadrature(order::Int; dtype = nothing)
 
-        x, w = gausslegendre(order)
+        #x, w = gausslegendre(order)
+        x, w = legendre(order)
+        if dtype != nothing
+            x = convert(Vector{dtype}, x)
+            w = convert(Vector{dtype}, w)
+        end
         return new{typeof(x), typeof(w)}(order, x, w)
     end
 end
-
+function Base.show(io::IO, method::GaussLegendreQuadrature)
+    return print(io, "GaussLegendreQuadrature(order = $(method.order))")
+end
 function quadrature_nodes(method::GaussLegendreQuadrature, low, high)
     slope = (high - low) / 2
     shift = (low + high) / 2

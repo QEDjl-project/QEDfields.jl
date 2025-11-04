@@ -15,6 +15,7 @@ export AbstractBackgroundField
 
 # plane-wave fields
 export AbstractPlaneWaveField, polarization_type
+export oscillator
 export amplitude, reference_momentum, polarization, classical_nonlinearity_parameter
 export a0_parameter, internal_integrals, volkov_phase, phase_integrals
 export maximum_amplitude
@@ -26,7 +27,7 @@ export PulsedPlaneWaveField
 
 # pulse profiles
 export AbstractPulseProfile
-export domain, pulse_length, envelope
+export domain, compact_domain, pulse_length, envelope
 export CosSquarePulse
 export GaussianPulse
 
@@ -38,6 +39,7 @@ export Analytical
 
 using QuadGK
 using FastGaussQuadrature
+using GaussQuadrature
 using IntervalSets
 using LinearAlgebra
 
@@ -59,7 +61,9 @@ include("generic/volkov_phase.jl")
 include("generic/phase_integrals.jl")
 
 include("pulse_profiles/interface.jl")
+include("pulse_profiles/generic.jl")
 include("pulse_profiles/cos_square/impl.jl")
+include("pulse_profiles/cos_square/internal_integrals.jl")
 include("pulse_profiles/gaussian_pulse/impl.jl")
 
 include("pulsed_fields/interface.jl")

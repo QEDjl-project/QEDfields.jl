@@ -32,7 +32,7 @@ end
 The envelope of the Gaussian background field is defined according to the standard Gaussian distribution with `dphi` representing the distribution's standard deviation.
 """
 @inline function _unsafe_gaussian_envelope(phi, dphi)
-    return exp(-0.5 * (phi / dphi)^2)
+    return exp(-(phi / dphi)^2 / 2)
 end
 
 ####
@@ -41,6 +41,11 @@ end
 
 function domain(pulse::GaussianPulse)
     return Interval(-Inf, Inf)
+end
+
+function compact_domain(pulse::GaussianPulse)
+    delta = pulse_length(pulse)
+    return Interval(-7 * delta, 7 * delta)
 end
 
 pulse_length(pulse::GaussianPulse) = pulse.pulse_length

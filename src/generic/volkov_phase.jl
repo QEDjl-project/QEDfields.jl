@@ -35,6 +35,7 @@ function volkov_phase(
     return res
 end
 
+# WARN: Do not forget the xi-dependence!
 function _volkov_phase(
         field::AbstractBackgroundField{AbstractIndefinitePolarization},
         method::AbstractIntegrationMethod,

@@ -19,6 +19,12 @@ function _amplitude(
     return oscillator(field, phi) * _envelope(field, phi)
 end
 
+# delegation of internal integrals to pulse profiles
+
+@inline function _internal_integrals(field::AbstractPulsedPlaneWaveField, method::AbstractIntegrationMethod, phi::Real)
+    return _internal_integrals(pulse_profile(field), polarization(field), method, phi)
+end
+
 
 # generic spectrum
 

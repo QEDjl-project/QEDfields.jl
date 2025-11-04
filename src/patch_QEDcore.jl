@@ -15,6 +15,7 @@ where as for an indefinite polarization, a tuple of polarization vectors is retu
     return base_state(Photon(), Incoming(), mom, pol)
 end
 
+
 """
 
     oscillator(pol::AbstractPolarizaion, phi::Real)

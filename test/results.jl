@@ -3,7 +3,7 @@ using QEDfields
 
 RNG = Xoshiro(137)
 
-DTYPES = (Float16, Float32, Float64, Complex{Float16}, Complex{Float32}, Complex{Float64})
+DTYPES = (UInt32, UInt64, Int32, Int64, Float16, Float32, Float64, Complex{Float16}, Complex{Float32}, Complex{Float64})
 
 function _check_internal_ints(internal_ints, I1, I2)
     @test isbits(internal_ints)
@@ -71,7 +71,7 @@ end
             internal_integral_result = @inferred InternalIntegralResult(value)
 
             @test isbits(internal_integral_result)
-            @test internal_integral_result.value == value
+            @test isapprox(internal_integral_result.value, value, atol = 0, rtol = 0)
             @test isnan(internal_integral_result.error)
         end
 
@@ -81,8 +81,8 @@ end
             internal_integral_result = @inferred InternalIntegralResult(value, error)
 
             @test isbits(internal_integral_result)
-            @test internal_integral_result.value == value
-            @test internal_integral_result.error == error
+            @test isapprox(internal_integral_result.value, value, atol = 0, rtol = 0)
+            @test isapprox(internal_integral_result.error, error, atol = 0, rtol = 0)
         end
 
     end
@@ -136,7 +136,7 @@ end
             phase_integral_result = @inferred PhaseIntegralResult(value)
 
             @test isbits(phase_integral_result)
-            @test phase_integral_result.value == value
+            @test isapprox(phase_integral_result.value, value, atol = 0, rtol = 0)
             @test isnan(phase_integral_result.error)
         end
 
@@ -146,8 +146,8 @@ end
             phase_integral_result = @inferred PhaseIntegralResult(value, error)
 
             @test isbits(phase_integral_result)
-            @test phase_integral_result.value == value
-            @test phase_integral_result.error == error
+            @test isapprox(phase_integral_result.value, value, atol = 0, rtol = 0)
+            @test isapprox(phase_integral_result.error, error, atol = 0, rtol = 0)
         end
     end
 

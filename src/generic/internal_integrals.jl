@@ -9,7 +9,7 @@
     return InternalIntegrals(res1, res2)
 end
 
-# TODO: this needs to be tested
+# FIXME: This is wrong! We need to insert the xi-dependent terms
 @inline function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Real, P <: AbstractIndefinitePolarization}
     tmp_func11 = t -> _amplitude(field, t, PolX())
     tmp_func12 = t -> _amplitude(field, t, PolY())

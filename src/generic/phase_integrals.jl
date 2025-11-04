@@ -31,6 +31,8 @@ function phase_integrals(
     )
 end
 
+
+# FIXME: This is wrong! We need to insert the xi-dependent terms
 function phase_integrals(
         field::AbstractPlaneWaveField{P},
         internal_integral_method::AbstractIntegrationMethod,

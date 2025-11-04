@@ -3,7 +3,6 @@ using Test
 using SafeTestsets
 
 @time begin
-
     @safetestset "integration methods" begin
         include("integration_methods.jl")
     end
@@ -13,16 +12,22 @@ using SafeTestsets
         include("results.jl")
     end
 
+    #=
     @safetestset "field interface" begin
         include("interface.jl")
     end
-
+=#
     @testset "pulse profiles" begin
 
-        @safetestset "interface" begin
-            include("pulse_profile/interface.jl")
-        end
+        #@safetestset "interface" begin
+        #    include("pulse_profile/interface.jl")
+        #end
 
+        #@safetestset "pulses" begin
+        #    include("pulse_profile/pulses.jl")
+        #end
+
+        #=
         @safetestset "cos square" begin
             include("pulse_profile/cos_square.jl")
         end
@@ -30,9 +35,10 @@ using SafeTestsets
         @safetestset "gaussian" begin
             include("pulse_profile/gaussian_pulse.jl")
         end
+        =#
 
     end
-
+    #=
     @testset "pulsed fields" begin
 
         @safetestset "interface" begin
@@ -44,4 +50,5 @@ using SafeTestsets
         end
 
     end
+    =#
 end

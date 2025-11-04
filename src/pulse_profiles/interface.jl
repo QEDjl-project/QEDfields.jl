@@ -15,6 +15,7 @@ Abstract base type for pulse profiles.
 ```
 """
 abstract type AbstractPulseProfile end
+Base.broadcastable(p::AbstractPulseProfile) = Ref(p)
 
 """
 
