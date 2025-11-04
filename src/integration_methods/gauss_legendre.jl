@@ -14,8 +14,8 @@ struct GaussLegendreQuadrature{P, W} <: AbstractQuadratureMethod
 
     function GaussLegendreQuadrature(order::Int; dtype = nothing)
 
-        #x, w = gausslegendre(order)
-        x, w = legendre(order)
+        x, w = gausslegendre(order)
+        #x, w = legendre(order)
         if dtype != nothing
             x = convert(Vector{dtype}, x)
             w = convert(Vector{dtype}, w)
@@ -38,8 +38,7 @@ function quadrature_weights(method::GaussLegendreQuadrature, low, high)
 end
 
 function integrate(meth::GaussLegendreQuadrature, func::Function, low::Real, high::Real)
-    return LinearAlgebra.dot(
-        quadrature_weights(meth, low, high),
-        func.(quadrature_nodes(meth, low, high))
-    )
+    n = quadrature_nodes(meth, low, high)
+    w = quadrature_weights(meth, low, high)
+    return LinearAlgebra.dot(w, func.(n))
 end

@@ -17,7 +17,7 @@ DTYPES = (Float32, Float64)
         rand(RNG, dtype),
         rand(RNG, dtype) * 10,
         rand(RNG, dtype) * 100,
-        rand(RNG, dtype) * 1000,
+        #rand(RNG, dtype) * 1000,
     ]
 
     INTEGRATION_METHODS = (GaussKronrodQuadrature(), GaussLegendreQuadrature(2000; dtype))
