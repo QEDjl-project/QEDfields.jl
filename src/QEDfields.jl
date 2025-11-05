@@ -42,6 +42,8 @@ using FastGaussQuadrature
 using GaussQuadrature
 using IntervalSets
 using LinearAlgebra
+using SpecialFunctions
+
 
 using QEDcore
 using QEDbase

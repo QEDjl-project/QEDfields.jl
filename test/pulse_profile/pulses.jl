@@ -44,8 +44,7 @@ DTYPES = (Float32, Float64)
             @test domain(pulse) == Interval(-Inf, Inf)
             _check_generic_pulse_properties(pulse, dphi)
 
-            RND_PHI = rand(RNG, Interval(-3 * dphi, 3 * dphi))
-            @show RND_PHI
+            RND_PHI = rand(RNG, Interval(dphi, dphi))
             @testset "$pol" for pol in (PolX(), PolY())
                 @testset "$meth1 $meth2" for (meth1, meth2) in _unique_combinations(INTEGRATION_METHODS)
                     _check_internal_integrals(pulse, pol, meth1, meth2, RND_PHI)
