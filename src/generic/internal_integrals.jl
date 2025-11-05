@@ -21,7 +21,7 @@ end
     return InternalIntegrals(res12, res12, res2)
 end
 
-function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T} where {T <: Real, P <: AbstractDefinitePolarization}
+function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T, 2} where {T <: Real, P <: AbstractDefinitePolarization}
 
     dom = domain(field)
 

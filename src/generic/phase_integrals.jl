@@ -10,7 +10,7 @@ function phase_integrals(
         pnum::T,
         beta1::T,
         beta2::T
-    )::PhaseIntegrals{Complex{T}} where {
+    )::PhaseIntegrals{Complex{T}, 2} where {
         T <: Real,
         P <: AbstractDefinitePolarization,
     }
