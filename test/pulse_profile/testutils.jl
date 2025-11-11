@@ -47,6 +47,8 @@ function _check_internal_integrals(
     integrals1 = QEDfields._internal_integrals(pulse, pol, method1, phi)
     integrals2 = QEDfields._internal_integrals(pulse, pol, method2, phi)
 
-    return @test isapprox(integrals1.I1, integrals2.I1, rtol = 0.001)
-    #@test isapprox(integrals1.I2, integrals2.I2)
+    @test isapprox(integrals1.I1, integrals2.I1, rtol = 0.001)
+    @test isapprox(integrals1.I2, integrals2.I2, rtol = 0.01)
+
+    return
 end

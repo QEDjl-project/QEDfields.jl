@@ -33,7 +33,7 @@ DTYPES = (Float32, Float64)
             RND_PHI = rand(RNG, domain(pulse))
             @testset "$pol" for pol in (PolX(), PolY())
                 @testset "$meth1 $meth2" for (meth1, meth2) in _unique_combinations(INTEGRATION_METHODS_WITH_ANALYTIC)
-                    #_check_internal_integrals(pulse, pol, meth1, meth2, RND_PHI)
+                    _check_internal_integrals(pulse, pol, meth1, meth2, RND_PHI)
                 end
             end
         end

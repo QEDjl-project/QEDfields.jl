@@ -7,7 +7,6 @@ function _internal_integrals(pulse::AbstractPulseProfile, pol::P, method::Abstra
     tmp_func2 = t -> (oscillator(pol, t) * _envelope(pulse, t))^2
 
     res1 = integrate(method, tmp_func1, zero(T), phi)
-    #res1, err = quadgk(tmp_func1, zero(phi), phi)
     res2 = integrate(method, tmp_func2, zero(T), phi)
     return InternalIntegrals(res1, res2)
 end

@@ -18,27 +18,39 @@ end
 end
 
 @inline function _internal_integral2_cos_square(::PolX, phi, dphi)
-    k = pi / dphi
-    term1 = phi
-    term2 = sin(2 * phi) / 2
-    term3 = _sinc(k * phi) / 4
-    term4 = _sinc(2 * k * phi) / 8
-    term5 = (_sinc((k + 2) * phi) + _sinc((k - 2) * phi)) / 2
-    term6 = (_sinc((2 * k + 2) * phi) + _sinc((2 * k - 2) * phi)) / 8
+    k0 = pi / dphi
+    k1p = 1 + k0
+    k1m = 1 - k0
+    k2p = 2 + k0
+    k2m = 2 - k0
 
-    return 3 * (term1 + term2) / 16 + phi * (term3 + term4 + term5 + term6) / 4
+    res = 3 * phi
+    res += 4 * sin(k0 * phi) / k0
+    res += sin(2 * k0 * phi) / (2 * k0)
+    res += 3 * sin(2 * phi) / 2
+    res += phi * _sinc(2 * k1m * phi) / 2
+    res += phi * _sinc(2 * k1p * phi) / 2
+    res += 2 * phi * _sinc(k2m * phi)
+    res += 2 * phi * _sinc(k2p * phi)
+    return res / 16
 end
 
 @inline function _internal_integral2_cos_square(::PolY, phi, dphi)
-    k = pi / dphi
-    term1 = phi
-    term2 = sin(2 * phi) / 2
-    term3 = _sinc(k * phi) / 4
-    term4 = _sinc(2 * k * phi) / 8
-    term5 = (_sinc((k + 2) * phi) + _sinc((k - 2) * phi)) / 2
-    term6 = (_sinc((2 * k + 2) * phi) + _sinc((2 * k - 2) * phi)) / 8
+    k0 = pi / dphi
+    k1p = 1 + k0
+    k1m = 1 - k0
+    k2p = 2 + k0
+    k2m = 2 - k0
 
-    return 3 * (term1 - term2) / 16 + phi * (term3 + term4 - term5 - term6) / 4
+    res = 3 * phi
+    res += 4 * sin(k0 * phi) / k0
+    res += sin(2 * k0 * phi) / (2 * k0)
+    res -= 3 * sin(2 * phi) / 2
+    res -= phi * _sinc(2 * k1m * phi) / 2
+    res -= phi * _sinc(2 * k1p * phi) / 2
+    res -= 2 * phi * _sinc(k2m * phi)
+    res -= 2 * phi * _sinc(k2p * phi)
+    return res / 16
 end
 
 # FIXME: This is wrong! We need to insert the xi-dependent terms
