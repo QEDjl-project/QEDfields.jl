@@ -25,7 +25,7 @@ function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIn
 
     dom = domain(field)
 
-    phi_eval = phi <= minimum(dom) ? minimum(dom) : min(phi, maximum(dom))
+    phi_eval = phi <= infimum(dom) ? infimum(dom) : min(phi, supremum(dom))
     return _internal_integrals(field, method, phi_eval)
 
 end

@@ -17,7 +17,6 @@ using SafeTestsets
     @safetestset "field interface" begin
         include("interface.jl")
     end
-
     @testset "pulse profiles" begin
 
         @safetestset "interface" begin
@@ -25,13 +24,6 @@ using SafeTestsets
         end
         @safetestset "pulses" begin
             include("pulse_profile/pulses.jl")
-        end
-        @safetestset "cos square" begin
-            include("pulse_profile/cos_square.jl")
-        end
-
-        @safetestset "gaussian" begin
-            include("pulse_profile/gaussian_pulse.jl")
         end
     end
     @testset "pulsed fields" begin

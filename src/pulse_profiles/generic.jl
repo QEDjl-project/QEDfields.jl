@@ -25,10 +25,16 @@ end
     return InternalIntegrals(res12, res12, res2)
 end
 
+# TODO:
+# - consider using `endpoint_internal_integrals` to model the constant value of the
+# internal integral for phi not in the domain. This is especially important for infinte
+# domains, where simple quadrature does not work anymore, but needs to be replaced by the
+# actual value of the internal integral at the endpoint, e.g., by the integal from zero to
+# infinity.
 function internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T} where {T <: Real, P <: AbstractPolarization}
 
     dom = domain(pulse)
-    phi_eval = phi <= minimum(dom) ? minimum(dom) : min(phi, maximum(dom))
+    phi_eval = phi <= infimum(dom) ? infimum(dom) : min(phi, supremum(dom))
     return _internal_integrals(pulse, pol, method, phi_eval)
 
 end

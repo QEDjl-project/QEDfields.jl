@@ -41,7 +41,7 @@ DTYPES = (Float32, Float64)
         @testset "Gaussian Pulse" begin
             pulse = GaussianPulse(dphi)
 
-            @test domain(pulse) == Interval(-Inf, Inf)
+            @test domain(pulse) == OpenInterval(-Inf, Inf)
             _check_generic_pulse_properties(pulse, dphi)
 
             RND_PHI = rand(RNG, Interval(dphi, dphi))

@@ -40,7 +40,7 @@ end
 ####
 
 function domain(pulse::GaussianPulse)
-    return Interval(-Inf, Inf)
+    return OpenInterval(-Inf, Inf)
 end
 
 function compact_domain(pulse::GaussianPulse)

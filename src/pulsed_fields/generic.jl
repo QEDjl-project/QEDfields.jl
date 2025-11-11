@@ -6,6 +6,7 @@
 
 # delegations
 domain(field::AbstractPulsedPlaneWaveField) = domain(pulse_profile(field))
+compact_domain(field::AbstractPulsedPlaneWaveField) = compact_domain(pulse_profile(field))
 _envelope(field::AbstractPulsedPlaneWaveField, phi::Real) = _envelope(pulse_profile(field), phi)
 envelope(field::AbstractPulsedPlaneWaveField, phi::Real) = envelope(pulse_profile(field), phi)
 pulse_length(field::AbstractPulsedPlaneWaveField) = pulse_length(pulse_profile(field))
@@ -14,9 +15,11 @@ pulse_length(field::AbstractPulsedPlaneWaveField) = pulse_length(pulse_profile(f
 # amplitude functions
 
 function _amplitude(
-        field::AbstractPulsedPlaneWaveField{P}, phi::Real
+        field::AbstractPulsedPlaneWaveField{P},
+        pol::AbstractDefinitePolarization,
+        phi::Real
     ) where {P <: AbstractDefinitePolarization}
-    return oscillator(field, phi) * _envelope(field, phi)
+    return oscillator(pol, phi) * _envelope(field, phi)
 end
 
 # delegation of internal integrals to pulse profiles
