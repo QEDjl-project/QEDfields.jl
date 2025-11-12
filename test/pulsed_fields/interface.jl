@@ -5,6 +5,8 @@ using QEDfields
 using Random
 using IntervalSets
 
+include("testutils.jl")
+
 RNG = Xoshiro(137)
 ATOL = 0.0
 RTOL = sqrt(eps())

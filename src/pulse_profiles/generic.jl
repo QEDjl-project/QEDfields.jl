@@ -33,7 +33,7 @@ end
 # infinity.
 function internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T} where {T <: Real, P <: AbstractPolarization}
 
-    dom = domain(pulse)
+    dom = compact_domain(pulse)
     phi_eval = phi <= infimum(dom) ? infimum(dom) : min(phi, supremum(dom))
     return _internal_integrals(pulse, pol, method, phi_eval)
 

@@ -11,6 +11,7 @@ Interface funcitons:
 
 """
 abstract type AbstractBackgroundField{P <: AbstractPolarization} end
+Base.broadcastable(field::AbstractBackgroundField) = Ref(field)
 polarization_type(::AbstractBackgroundField{P}) where {P} = P
 
 """
@@ -47,6 +48,7 @@ Interface function for background fields. Returns the value of the amplitude at 
 """
 function _amplitude end
 
+#TODO: consider moving to generics
 @inline function _amplitude(field::AbstractPlaneWaveField{P}, phi::Real) where {P <: AbstractDefinitePolarization}
     return _amplitude(field, polarization(field), phi)
 end
@@ -58,6 +60,9 @@ end
 Interface function for plane-wave background fields. Return the domain of the field, i.e. the intervall, where the field has non-zero values.
 """
 function domain end
+
+#TODO: consider moving to generics
+@inline compact_domain(field::AbstractPlaneWaveField) = domain(field)
 
 """
 

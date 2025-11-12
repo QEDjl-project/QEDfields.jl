@@ -24,7 +24,7 @@ function volkov_phase(
         beta2::T
     )::T where {T <: Real}
 
-    dom = domain(field)
+    dom = compact_domain(field)
 
     if phi in dom
         res = _volkov_phase(field, method, phi, beta1, beta2)

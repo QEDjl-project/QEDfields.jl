@@ -23,7 +23,7 @@ end
 
 function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T, 2} where {T <: Real, P <: AbstractDefinitePolarization}
 
-    dom = domain(field)
+    dom = compact_domain(field)
 
     phi_eval = phi <= infimum(dom) ? infimum(dom) : min(phi, supremum(dom))
     return _internal_integrals(field, method, phi_eval)

@@ -4,6 +4,7 @@
 # inegration methods
 
 abstract type AbstractIntegrationMethod end
+Base.broadcastable(method::AbstractIntegrationMethod) = Ref(method)
 abstract type AbstractAnalyticalMethod <: AbstractIntegrationMethod end
 abstract type AbstractNumericalIntegrationMethod <: AbstractIntegrationMethod end
 
