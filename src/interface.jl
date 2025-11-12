@@ -33,10 +33,19 @@ Abstract base type for plane-wave fields.
 Interface functions:
 
 - `_amplitude(::AbstractPlaneWaveField, ::AbstractDefinitePolarization, ::Real)`
-_ `_domain(field::AbstractPlaneWaveField)`
+- `_domain(field::AbstractPlaneWaveField)`
 - `reference_momentum(::AbstractBackgroundField)::AbstractFourMomentum`
 - `classical_nonlinearity_parameter(::AbstractBackgroundField)::Real`
 - `polarization(::AbstractBackgroundField)::AbstractPolarization`
+
+!!! note "Definition: plane-wave fields"
+
+    Plane-wave fields are an idealization of electromagnetic fields from sources
+    infinitely far away. Mathematically, a field is referred to as plane-wave, if **any** of
+    the following equivalent points is fulfilled:
+    * the field only depends on \$\\phi=k\\cdot x = \\omega t - \\vec k \\vec x\$ (mostly minus metric),
+    * points with \$\\vec k \\vec x = \\mathrm{const.}\$ form parallel planes perpendicular to \$\\vec k\$,
+    * the field invariants vanish, i.e. \$F^{\\mu\\nu}F_{\\mu\\nu} = 0\$, \$\\epsilon_{\\mu\\nu\\tau\\lambda}F^{\\mu\\nu}F^{\\tau\\lambda}=0\$.
 """
 abstract type AbstractPlaneWaveField{P} <: AbstractBackgroundField{P} end
 

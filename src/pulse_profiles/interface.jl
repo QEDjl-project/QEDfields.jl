@@ -6,13 +6,10 @@ Abstract base type for pulse profiles.
 
 ## Interface functions:
 
-### Field interface (mandatory)
-
 - `domain(::AbstractPulseProfile)::AbstractInterval`
 - `pulse_length(::AbstractPulseProfile)::Real`
 - `_envelope(::AbstractPulseProfile,phi::Real)::Real`
 
-```
 """
 abstract type AbstractPulseProfile end
 Base.broadcastable(p::AbstractPulseProfile) = Ref(p)

@@ -1,7 +1,6 @@
 # TODO: consider using `Integrals.jl` here
 
-
-# inegration methods
+# integration methods
 
 abstract type AbstractIntegrationMethod end
 Base.broadcastable(method::AbstractIntegrationMethod) = Ref(method)
