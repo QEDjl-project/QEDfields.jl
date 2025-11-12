@@ -1,7 +1,7 @@
 ### Generic implementations for plane-wave fields
 
 # TODO: move oscillator to pulsed plane wave field. (or oscillating fields as a subtype?)
-# deligations
+# delegations
 oscillator(field::AbstractPlaneWaveField, phi::Real) = oscillator(polarization(field), phi)
 polarization_vector(field::AbstractPlaneWaveField) = polarization_vector(polarization(field), reference_momentum(field))
 

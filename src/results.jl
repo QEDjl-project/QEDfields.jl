@@ -21,7 +21,9 @@ function Base.isapprox(res1::InternalIntegralResult, res2::InternalIntegralResul
 end
 
 """
-    InternalIntegrals
+    InternalIntegrals(tuple_of_results)
+    InternalIntegrals(resuls1, result2, ... )
+
 
 Stores the values of internal integrals.
 
@@ -66,12 +68,12 @@ end
 Base.getproperty(ii::InternalIntegrals, s::Symbol) = getproperty(ii, Val(s))
 Base.getproperty(ii::InternalIntegrals, name::Val{T}) where {T} = getfield(ii, T)
 
-Base.getproperty(ii::InternalIntegrals{T, 2}, ::Val{:I1}) where {T} = @inline ii.data[1]
-Base.getproperty(ii::InternalIntegrals{T, 2}, ::Val{:I2}) where {T} = @inline ii.data[2]
+Base.getproperty(ii::InternalIntegrals{T, 2}, ::Val{:I1}) where {T} = @inbounds ii.data[1]
+Base.getproperty(ii::InternalIntegrals{T, 2}, ::Val{:I2}) where {T} = @inbounds ii.data[2]
 
-Base.getproperty(ii::InternalIntegrals{T, 3}, ::Val{:I11}) where {T} = @inline ii.data[1]
-Base.getproperty(ii::InternalIntegrals{T, 3}, ::Val{:I12}) where {T} = @inline ii.data[2]
-Base.getproperty(ii::InternalIntegrals{T, 3}, ::Val{:I2}) where {T} = @inline ii.data[3]
+Base.getproperty(ii::InternalIntegrals{T, 3}, ::Val{:I11}) where {T} = @inbounds ii.data[1]
+Base.getproperty(ii::InternalIntegrals{T, 3}, ::Val{:I12}) where {T} = @inbounds ii.data[2]
+Base.getproperty(ii::InternalIntegrals{T, 3}, ::Val{:I2}) where {T} = @inbounds ii.data[3]
 
 
 """
@@ -128,9 +130,9 @@ end
 Base.getproperty(ph_int::PhaseIntegrals, s::Symbol) = getproperty(ph_int, Val(s))
 Base.getproperty(ph_int::PhaseIntegrals, name::Val{T}) where {T} = getfield(ph_int, T)
 
-Base.getproperty(ph_int::PhaseIntegrals{T, 2}, ::Val{:B1}) where {T} = @inline ph_int.data[1]
-Base.getproperty(ph_int::PhaseIntegrals{T, 2}, ::Val{:B2}) where {T} = @inline ph_int.data[2]
+Base.getproperty(ph_int::PhaseIntegrals{T, 2}, ::Val{:B1}) where {T} = @inbounds ph_int.data[1]
+Base.getproperty(ph_int::PhaseIntegrals{T, 2}, ::Val{:B2}) where {T} = @inbounds ph_int.data[2]
 
-Base.getproperty(ph_int::PhaseIntegrals{T, 3}, ::Val{:B11}) where {T} = @inline ph_int.data[1]
-Base.getproperty(ph_int::PhaseIntegrals{T, 3}, ::Val{:B12}) where {T} = @inline ph_int.data[2]
-Base.getproperty(ph_int::PhaseIntegrals{T, 3}, ::Val{:B2}) where {T} = @inline ph_int.data[3]
+Base.getproperty(ph_int::PhaseIntegrals{T, 3}, ::Val{:B11}) where {T} = @inbounds ph_int.data[1]
+Base.getproperty(ph_int::PhaseIntegrals{T, 3}, ::Val{:B12}) where {T} = @inbounds ph_int.data[2]
+Base.getproperty(ph_int::PhaseIntegrals{T, 3}, ::Val{:B2}) where {T} = @inbounds ph_int.data[3]
