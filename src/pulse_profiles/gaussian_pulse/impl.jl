@@ -1,7 +1,3 @@
-############################
-# Gaussian pulsed plane wave
-############################
-
 """
     GaussianPulse(mom::M,pulse_length::T) where {M<:QEDbase.AbstractFourMomentum,T<:Real}
 
@@ -25,9 +21,7 @@ In order to fulfill the vacuum dispersion relation, k_mu*k^mu=0 is required.
     There is no envelope in the transverse directions.
 
 """
-struct GaussianPulse{M <: QEDbase.AbstractFourMomentum, T <: Real} <:
-    AbstractPulsedPlaneWaveField
-    mom::M
+struct GaussianPulse{T <: Real} <: AbstractPulseProfile
     pulse_length::T
 end
 
@@ -38,18 +32,20 @@ end
 The envelope of the Gaussian background field is defined according to the standard Gaussian distribution with `dphi` representing the distribution's standard deviation.
 """
 @inline function _unsafe_gaussian_envelope(phi, dphi)
-    return exp(-0.5 * (phi / dphi)^2)
+    return exp(-(phi / dphi)^2 / 2)
 end
 
 ####
 # interface functions
 ####
 
-reference_momentum(pulse::GaussianPulse) = pulse.mom
-
 function domain(pulse::GaussianPulse)
-    dphi = pulse.pulse_length
-    return Interval(-Inf, Inf)
+    return OpenInterval(-Inf, Inf)
+end
+
+function compact_domain(pulse::GaussianPulse)
+    delta = pulse_length(pulse)
+    return Interval(-7 * delta, 7 * delta)
 end
 
 pulse_length(pulse::GaussianPulse) = pulse.pulse_length

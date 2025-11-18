@@ -1,13 +1,3 @@
-#################
-# polarization vectors
-#
-# In this file, we provide an extension of the Polarizations of Photons from
-# QEDbase to define polarization states of background fields
-################
-#
-# TODO:
-#   * implement elliptical/circular polarisation
-
 """
 
     polarization_vector(pol::AbstractPolarization, mom::QEDbase.AbstractFourMomentum)
@@ -24,6 +14,7 @@ where as for an indefinite polarization, a tuple of polarization vectors is retu
 @inline function polarization_vector(pol::AbstractPolarization, mom)
     return base_state(Photon(), Incoming(), mom, pol)
 end
+
 
 """
 

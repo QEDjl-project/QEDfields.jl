@@ -2,20 +2,39 @@ using QEDfields
 using Test
 using SafeTestsets
 
-# -> this is covered by integration tests
-# @time @safetestset "downstream" begin
-#     include("downstream.jl")
-# end
+@time begin
+    @testset "utility" begin
+        @safetestset "integration methods" begin
+            include("integration_methods.jl")
+        end
 
-@time @safetestset "background field interface" begin
-    include("interfaces/background_field_interface.jl")
-end
+        # fields tests
+        @safetestset "result types" begin
+            include("results.jl")
+        end
+    end
 
-@time @safetestset "polarization" begin
-    include("polarization.jl")
-end
+    @safetestset "field interface" begin
+        include("interface.jl")
+    end
+    @testset "pulse profiles" begin
 
-@time @safetestset "pulses" begin
-    include("pulses/cos_square.jl")
-    include("pulses/gaussian.jl")
+        @safetestset "interface" begin
+            include("pulse_profile/interface.jl")
+        end
+        @safetestset "pulses" begin
+            include("pulse_profile/pulses.jl")
+        end
+    end
+    @testset "pulsed fields" begin
+
+        @safetestset "interface" begin
+            include("pulsed_fields/interface.jl")
+        end
+
+        @safetestset "implementation" begin
+            include("pulsed_fields/impl.jl")
+        end
+
+    end
 end
