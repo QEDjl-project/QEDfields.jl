@@ -2,17 +2,22 @@
     return domain(pulse::AbstractPulseProfile)
 end
 
-function _internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractNumericalIntegrationMethod, phi::T) where {T <: Real, P <: AbstractDefinitePolarization}
+function _internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractNumericalIntegrationMethod, phi::T) where {T <: Number, P <: AbstractDefinitePolarization}
     tmp_func1 = t -> oscillator(pol, t) * _envelope(pulse, t)
     tmp_func2 = t -> (oscillator(pol, t) * _envelope(pulse, t))^2
 
     res1 = integrate(method, tmp_func1, zero(T), phi)
     res2 = integrate(method, tmp_func2, zero(T), phi)
-    return InternalIntegrals(res1, res2)
+
+    # TODO: put in the correct errors!
+    return InternalIntegrals(
+        InternalIntegralResult(res1, zero(res1)),
+        InternalIntegralResult(res2, zero(res1))
+    )
 end
 
 # FIXME: This is wrong! We need to insert the xi-dependent terms
-@inline function _internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractNumericalIntegrationMethod, phi::T) where {T <: Real, P <: AbstractIndefinitePolarization}
+@inline function _internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractNumericalIntegrationMethod, phi::T) where {T <: Number, P <: AbstractIndefinitePolarization}
     tmp_func11 = t -> oscillator(PolX(), phi) * _envelope(pulse, phi)
     tmp_func12 = t -> oscillator(PolY(), phi) * _envelope(pulse, phi)
 
@@ -31,7 +36,7 @@ end
 # domains, where simple quadrature does not work anymore, but needs to be replaced by the
 # actual value of the internal integral at the endpoint, e.g., by the integal from zero to
 # infinity.
-function internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T} where {T <: Real, P <: AbstractPolarization}
+function internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T} where {T <: Number, P <: AbstractPolarization}
 
     dom = compact_domain(pulse)
     phi_eval = phi <= infimum(dom) ? infimum(dom) : min(phi, supremum(dom))

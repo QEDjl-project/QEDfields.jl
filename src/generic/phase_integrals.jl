@@ -1,6 +1,7 @@
 # TBW
 
-_tuple_pack(x::T) where {T <: Number} = (x,)
+_tuple_pack(x::Number) = (x,)
+_tuple_pack(x::AbstractVector) = Tuple(x)
 _tuple_pack(x::Tuple) = x
 
 function phase_integrals(
@@ -19,8 +20,8 @@ function phase_integrals(
     max_amp = maximum_amplitude(field)
 
     # TODO: make max_amp factors global
-    integrand1 = x -> max_amp * _amplitude(field, x) * exp(1im * pnum * x + 1im * volkov_phase(field, internal_integral_method, x, beta1, beta2))
-    integrand2 = x -> max_amp^2 * _amplitude(field, x)^2 * exp(1im * pnum * x + 1im * volkov_phase(field, internal_integral_method, x, beta1, beta2))
+    integrand1 = x -> max_amp * _amplitude(field, x) * exp(1im * pnum * x + 1im * _volkov_phase(field, internal_integral_method, x, beta1, beta2))
+    integrand2 = x -> max_amp^2 * _amplitude(field, x)^2 * exp(1im * pnum * x + 1im * _volkov_phase(field, internal_integral_method, x, beta1, beta2))
 
     res1 = integrate(phase_integral_method, integrand1, dom)
     res2 = integrate(phase_integral_method, integrand2, dom)
@@ -49,9 +50,9 @@ function phase_integrals(
     max_amp = maximum_amplitude(field)
 
     # TODO: make max_amp factors global
-    integrand11 = x -> max_amp * _amplitude(field, PolX(), x) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta11, beta12, beta2))
-    integrand12 = x -> max_amp * _amplitude(field, PolY(), x) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta11, beta12, beta2))
-    integrand2 = x -> max_amp^2 * (_amplitude(field, PolX(), x)^2 + _amplitude(field, PolY(), x)^2) * exp(1im * pnum * x + 1im * volkov_phase(field, x, beta11, beta12, beta2))
+    integrand11 = x -> max_amp * _amplitude(field, PolX(), x) * exp(1im * pnum * x + 1im * _volkov_phase(field, x, beta11, beta12, beta2))
+    integrand12 = x -> max_amp * _amplitude(field, PolY(), x) * exp(1im * pnum * x + 1im * _volkov_phase(field, x, beta11, beta12, beta2))
+    integrand2 = x -> max_amp^2 * (_amplitude(field, PolX(), x)^2 + _amplitude(field, PolY(), x)^2) * exp(1im * pnum * x + 1im * _volkov_phase(field, x, beta11, beta12, beta2))
 
     res11 = integrate(method, integrand11, dom)
     res12 = integrate(method, integrand12, dom)

@@ -10,7 +10,7 @@ Integration method using `QuadGK.quadgk`.
 """
 struct GaussKronrodQuadrature <: AbstractQuadratureMethod end
 
-function integrate(meth::GaussKronrodQuadrature, func::Function, low::Real, high::Real)
+function integrate(meth::GaussKronrodQuadrature, func::Function, low::Number, high::Number)
     res, _ = quadgk(func, low, 0, high)
     return res
 end

@@ -1,4 +1,5 @@
-@inline _sinc(x) = sinc(x / pi)
+@inline _sinc(x) = sin(x) / x
+@inline _sinc(x::Real) = sinc(x / pi)
 
 @inline function _internal_integral1_cos_square(::PolX, phi, dphi)
 
@@ -63,7 +64,7 @@ end
 
 # interface
 
-@inline function _internal_integrals(pulse::CosSquarePulse, pol::P, method::Analytical, phi::T) where {T <: Real, P <: AbstractDefinitePolarization}
+@inline function _internal_integrals(pulse::CosSquarePulse, pol::P, method::Analytical, phi::T) where {T <: Number, P <: AbstractDefinitePolarization}
 
     pulse_len = pulse_length(pulse)
     value_I1 = _internal_integral1_cos_square(pol, phi, pulse_len)
@@ -76,7 +77,7 @@ end
 end
 
 # FIXME: This is wrong! We need to insert the xi-dependent terms
-@inline function _internal_integrals(pulse::CosSquarePulse, pol::P, method::Analytical, phi::T) where {T <: Real, P <: AbstractIndefinitePolarization}
+@inline function _internal_integrals(pulse::CosSquarePulse, pol::P, method::Analytical, phi::T) where {T <: Number, P <: AbstractIndefinitePolarization}
     pulse_len = pulse_length(pulse)
     value_I11 = _internal_integral1_cos_square(PolX(), phi, pulse_len)
     value_I12 = _internal_integral2_cos_square(PolY(), phi, pulse_len)
