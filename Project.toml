@@ -10,6 +10,7 @@ authors = [
 ]
 
 [deps]
+FCCQuad = "7e58c0cd-f370-453c-9274-eb333b7aace6"
 FastGaussQuadrature = "442a2c76-b920-505d-bb47-c5924d526838"
 IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -25,6 +26,7 @@ FCCQuadrature = "7e58c0cd-f370-453c-9274-eb333b7aace6"
 FCCQuadratureExt = "FCCQuadrature"
 
 [compat]
+FCCQuad = "0.4.16"
 FastGaussQuadrature = "1.0.2"
 IntervalSets = "0.7"
 LinearAlgebra = "1.10.0"

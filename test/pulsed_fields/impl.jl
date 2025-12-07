@@ -9,7 +9,11 @@ using QEDbase
 using QEDcore
 using QEDfields
 using QuadGK
+<<<<<<< HEAD
 using FCCQuadrature
+=======
+using FCCQuad
+>>>>>>> 5cdaa78 (added fccquad integrator)
 
 include("testutils.jl")
 
