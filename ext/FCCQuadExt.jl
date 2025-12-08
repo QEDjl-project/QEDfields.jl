@@ -51,13 +51,12 @@ function QEDfields.phase_integrals(
     max_amp = maximum_amplitude(field)
 
     # TODO: make max_amp factors global
+    osc = x -> exp(1im * QEDfields._volkov_phase(field, internal_integral_method, x, beta1, beta2))
     pre1 = x -> max_amp * QEDfields._amplitude(field, x)
-    osc1 = x -> exp(1im * QEDfields._volkov_phase(field, internal_integral_method, x, beta1, beta2))
     pre2 = x -> max_amp^2 * QEDfields._amplitude(field, x)^2
-    osc2 = x -> exp(1im * QEDfields._volkov_phase(field, internal_integral_method, x, beta1, beta2))
 
-    res1, nevals1 = _fccquad(pre1, osc1, _as_vec(pnum); xmin = a, xmax = b, integrator = phase_integral_method)
-    res2, nevals2 = _fccquad(pre2, osc2, _as_vec(pnum); xmin = a, xmax = b, integrator = phase_integral_method)
+    res1, nevals1 = _fccquad(pre1, osc, _as_vec(pnum); xmin = a, xmax = b, integrator = phase_integral_method)
+    res2, nevals2 = _fccquad(pre2, osc, _as_vec(pnum); xmin = a, xmax = b, integrator = phase_integral_method)
     return PhaseIntegrals(
         PhaseIntegralResult(QEDfields._tuple_pack(res1[:, 1])...),
         PhaseIntegralResult(QEDfields._tuple_pack(res2[:, 1])...),

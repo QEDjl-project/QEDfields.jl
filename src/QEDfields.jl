@@ -40,7 +40,6 @@ export Analytical
 
 using QuadGK
 using FastGaussQuadrature
-using GaussQuadrature
 using IntervalSets
 using LinearAlgebra
 using SpecialFunctions
