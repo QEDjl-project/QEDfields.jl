@@ -4,5 +4,5 @@ FCCQuad = "7e58c0cd-f370-453c-9274-eb333b7aace6"
 QEDfields = "ac3a6c97-e859-4b9f-96bb-63d2a216042c"
 
 [sources]
-FCCQuad = {rev = "master", url = "https://github.com/dkm2/FCCQuad.jl"}
-QEDfields = {path = "/Users/uwe/Work/jlProjects/QEDjl-project/forks/QEDfields.jl"}
+FCCQuad = { rev = "master", url = "https://github.com/dkm2/FCCQuad.jl" }
+QEDfields = { path = "/Users/uwe/Work/jlProjects/QEDjl-project/forks/QEDfields.jl" }
