@@ -17,17 +17,23 @@ pulse_length(field::AbstractPulsedPlaneWaveField) = pulse_length(pulse_profile(f
 function _amplitude(
         field::AbstractPulsedPlaneWaveField{P},
         pol::AbstractDefinitePolarization,
-        phi::Real
+        phi::Number
     ) where {P <: AbstractDefinitePolarization}
     return oscillator(pol, phi) * _envelope(field, phi)
 end
 
 # delegation of internal integrals to pulse profiles
-
-@inline function _internal_integrals(field::AbstractPulsedPlaneWaveField, method::AbstractIntegrationMethod, phi::Number)
+# NOTE: the separation of definite and indefinite pols is done on the level of pulse_profile
+# (see pulse_profiles/generic.jl)
+@inline function _internal_integrals(
+        field::AbstractPulsedPlaneWaveField{P},
+        method::AbstractIntegrationMethod,
+        phi::Number
+    ) where {
+        P <: AbstractPolarization,
+    }
     return _internal_integrals(pulse_profile(field), polarization(field), method, phi)
 end
-
 
 # generic spectrum
 

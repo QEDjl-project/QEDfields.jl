@@ -1,3 +1,5 @@
+# TODO: implement kin factors for indefinite polarization (see offline note)
+
 # kinematic factors
 
 """
