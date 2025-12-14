@@ -9,7 +9,7 @@ using QEDbase
 using QEDcore
 using QEDfields
 using QuadGK
-using FCCQuad
+using FCCQuadrature
 
 include("testutils.jl")
 
@@ -26,7 +26,7 @@ MOM = SFourMomentum(rand(RNG, 4))
 FCC_METHODS = (:plain, :tone, :chirp, :degree, :nonadaptive)
 
 INTERNAL_INTEGRATION_METHODS = (GaussLegendreQuadrature(1000),)
-PHASE_INTEGRATION_METHODS = (GaussKronrodQuadrature(), [FCCQuadrature(method = m) for m in FCC_METHODS]...)
+PHASE_INTEGRATION_METHODS = (GaussKronrodQuadrature(), [FilonClenshawCurtisQuadrature(method = m) for m in FCC_METHODS]...)
 # TODO: enable this again, if endpoint internal integrals are introduced for infinite
 # domains
 #PHASE_INTEGRATION_METHODS= (GaussKronrodQuadrature(),GaussLegendreQuadrature(1000))

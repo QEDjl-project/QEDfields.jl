@@ -31,7 +31,7 @@ _as_vec(x::Number) = [x]
 function _groundtruth_phase_integrals(
         field::AbstractPlaneWaveField{P},
         internal_integral_method::QEDfields.AbstractIntegrationMethod,
-        phase_integral_method::FCCQuadrature,
+        phase_integral_method::FilonClenshawCurtisQuadrature,
         pnum::T,
         beta1::T,
         beta2::T

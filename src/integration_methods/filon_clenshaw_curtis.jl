@@ -64,5 +64,3 @@ struct FilonClenshawCurtisQuadrature{T, V} <: QEDfields.AbstractIntegrationMetho
         )
     end
 end
-
-const FCCQuadrature = FilonClenshawCurtisQuadrature

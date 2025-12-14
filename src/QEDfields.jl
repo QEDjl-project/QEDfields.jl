@@ -35,7 +35,7 @@ export GaussianPulse
 export integrate
 export GaussKronrodQuadrature
 export GaussLegendreQuadrature
-export FilonClenshawCurtisQuadrature, FCCQuadrature
+export FilonClenshawCurtisQuadrature
 export Analytical
 
 using QuadGK

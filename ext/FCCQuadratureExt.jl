@@ -1,6 +1,6 @@
-module FCCQuadExt
+module FCCQuadratureExt
 
-using FCCQuad
+using FCCQuadrature
 using QEDfields
 using IntervalSets
 
