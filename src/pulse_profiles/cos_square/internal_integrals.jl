@@ -1,5 +1,4 @@
-@inline _sinc(x) = sin(x) / x
-@inline _sinc(x::Real) = sinc(x / pi)
+@inline _sinc(x) = sinc(x / pi)
 
 @inline function _internal_integral1_cos_square(::PolX, phi, dphi)
 

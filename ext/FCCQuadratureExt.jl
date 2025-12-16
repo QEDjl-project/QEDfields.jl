@@ -1,9 +1,9 @@
 module FCCQuadratureExt
 
 using FCCQuadrature
+using FCCQuadrature.Duals: Dual
 using QEDfields
 using IntervalSets
-
 
 @inline function _fccquad(
         prefactor::Function,
@@ -62,5 +62,7 @@ function QEDfields.phase_integrals(
         PhaseIntegralResult(QEDfields._tuple_pack(res2[:, 1])...),
     )
 end
+
+QEDfields._sinc(d::Dual) = iszero(d.a) ? Dual(one(d.a), zero(d.a)) : sin(d) / d
 
 end
