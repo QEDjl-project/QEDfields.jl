@@ -78,7 +78,6 @@ end
     )
 end
 
-# FIXME: This is wrong! We need to insert the xi-dependent terms
 @inline function _internal_integrals(pulse::CosSquarePulse, pol::P, method::Analytical, phi::T) where {T <: Number, P <: AbstractIndefinitePolarization}
     pulse_len = pulse_length(pulse)
     value_I11 = oscillator(PolX(), pol.xi) * _internal_integral1_cos_square(PolX(), phi, pulse_len)

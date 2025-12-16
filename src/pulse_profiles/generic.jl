@@ -16,7 +16,6 @@ function _internal_integrals(pulse::AbstractPulseProfile, pol::P, method::Abstra
     )
 end
 
-# FIXME: This is wrong! We need to insert the xi-dependent terms
 @inline function _internal_integrals(pulse::AbstractPulseProfile, pol::P, method::AbstractNumericalIntegrationMethod, phi::T) where {T <: Number, P <: AbstractIndefinitePolarization}
     pol_fac_X = oscillator(PolX(), pol.xi)
     pol_fac_Y = oscillator(PolY(), pol.xi)
