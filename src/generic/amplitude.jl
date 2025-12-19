@@ -4,6 +4,7 @@
 # delegations
 oscillator(field::AbstractPlaneWaveField, phi::Real) = oscillator(polarization(field), phi)
 polarization_vector(field::AbstractPlaneWaveField) = polarization_vector(polarization(field), reference_momentum(field))
+polarization_vector(field::AbstractPlaneWaveField, pol::AbstractDefinitePolarization) = polarization_vector(polarization(pol), reference_momentum(field))
 
 """
 

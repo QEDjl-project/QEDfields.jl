@@ -14,12 +14,23 @@ pulse_length(field::AbstractPulsedPlaneWaveField) = pulse_length(pulse_profile(f
 
 # amplitude functions
 
+# TODO: consider making this with two args (field,phi), because it is deligated to
+# _amplitude(field,polarization(field),phi) anyways.
 function _amplitude(
         field::AbstractPulsedPlaneWaveField{P},
         pol::AbstractDefinitePolarization,
         phi::Number
     ) where {P <: AbstractDefinitePolarization}
     return oscillator(pol, phi) * _envelope(field, phi)
+end
+
+function _amplitude(
+        field::AbstractPulsedPlaneWaveField{P},
+        pol::AbstractDefinitePolarization,
+        phi::Number
+    ) where {P <: EllipticPolarization}
+    xi = polarization(field).xi
+    return oscillator(pol, xi) * oscillator(pol, phi) * _envelope(field, phi)
 end
 
 # delegation of internal integrals to pulse profiles
