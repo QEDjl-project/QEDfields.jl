@@ -33,7 +33,7 @@ end
 
 # TODO: consider moving this to phase integrals and using the IntegralMethod interface
 
-@inline function _fourier_transform(func::Function, domain::Interval, l::Number)
+@inline function _fourier_transform(func::Function, domain::Interval, l::Real)
     return quadgk(t -> func(t) * exp(1im * t * l), endpoints(domain)...)[1]
 end
 
@@ -56,7 +56,7 @@ Return the generic spectrum of the given field, for the given polarization direc
     where ``g(\\phi)`` is the [`envelope`](@ref) and ``l`` the photon number parameter.
 """
 function generic_spectrum(
-        field::AbstractPulsedPlaneWaveField, pnum::Number
+        field::AbstractPulsedPlaneWaveField, pnum::Real
     )
     return _fourier_transform(t -> _amplitude(field, t), domain(field), pnum)
 end
