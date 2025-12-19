@@ -57,7 +57,7 @@ end
     return res / 16
 end
 
-@inline function _internal_integral2_cos_square(phi, dphi, xi)
+@inline function _internal_integral2_cos_square_indef(phi, dphi, xi)
     value_I21 = oscillator(PolX(), pol.xi)^2 * _internal_integral2_cos_square(pol, phi, pulse_len)
     value_I22 = oscillator(PolY(), pol.xi)^2 * _internal_integral2_cos_square(pol, phi, pulse_len)
 
@@ -78,12 +78,12 @@ end
     )
 end
 
-@inline function _internal_integrals(pulse::CosSquarePulse, pol::P, method::Analytical, phi::T) where {T <: Number, P <: AbstractIndefinitePolarization}
+@inline function _internal_integrals(pulse::CosSquarePulse, pol::EllipticPolarization, method::Analytical, phi::T) where {T <: Number}
     pulse_len = pulse_length(pulse)
     value_I11 = oscillator(PolX(), pol.xi) * _internal_integral1_cos_square(PolX(), phi, pulse_len)
     value_I12 = oscillator(PolY(), pol.xi) * _internal_integral2_cos_square(PolY(), phi, pulse_len)
 
-    value_I2 = _internal_integral2_cos_square(phi, pulse_len, pol.xi)
+    value_I2 = _internal_integral2_cos_square_indef(phi, pulse_len, pol.xi)
 
     return InternalIntegrals(res12, res12, res2)
 end
