@@ -1,6 +1,6 @@
 ### internal integrals
 
-@inline function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Real, P <: AbstractDefinitePolarization}
+@inline function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Number, P <: AbstractDefinitePolarization}
     tmp_func1 = t -> _amplitude(field, t)
     tmp_func2 = t -> _amplitude(field, t)^2
 
@@ -10,7 +10,7 @@
 end
 
 # FIXME: This is wrong! We need to insert the xi-dependent terms
-@inline function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Real, P <: AbstractIndefinitePolarization}
+@inline function _internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T) where {T <: Number, P <: AbstractIndefinitePolarization}
     tmp_func11 = t -> _amplitude(field, t, PolX())
     tmp_func12 = t -> _amplitude(field, t, PolY())
     tmp_func2 = t -> _amplitude(field, t, PolX())^2 + _amplitude(field, t, PolY())^2
@@ -21,7 +21,7 @@ end
     return InternalIntegrals(res12, res12, res2)
 end
 
-function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T, 2} where {T <: Real, P <: AbstractDefinitePolarization}
+function internal_integrals(field::AbstractPlaneWaveField{P}, method::AbstractIntegrationMethod, phi::T)::InternalIntegrals{T, 2} where {T <: Number, P <: AbstractDefinitePolarization}
 
     dom = compact_domain(field)
 

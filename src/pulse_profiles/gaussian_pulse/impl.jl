@@ -50,6 +50,6 @@ end
 
 pulse_length(pulse::GaussianPulse) = pulse.pulse_length
 
-function _envelope(pulse::GaussianPulse, phi::Real)
+function _envelope(pulse::GaussianPulse, phi::Number)
     return _unsafe_gaussian_envelope(phi, pulse.pulse_length)
 end

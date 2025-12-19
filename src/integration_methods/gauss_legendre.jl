@@ -37,7 +37,7 @@ function quadrature_weights(method::GaussLegendreQuadrature, low, high)
     return @. fac * method.weights
 end
 
-function integrate(meth::GaussLegendreQuadrature, func::Function, low::Real, high::Real)
+function integrate(meth::GaussLegendreQuadrature, func::Function, low::Number, high::Number)
     n = quadrature_nodes(meth, low, high)
     w = quadrature_weights(meth, low, high)
     return LinearAlgebra.dot(w, func.(n))

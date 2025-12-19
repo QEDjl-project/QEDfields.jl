@@ -3,9 +3,9 @@
 function _volkov_phase(
         field::AbstractBackgroundField{<:AbstractDefinitePolarization},
         method::AbstractIntegrationMethod,
-        phi::Real,
-        beta1::Real,
-        beta2::Real
+        phi::Number,
+        beta1::Number,
+        beta2::Number
     )
 
     max_amp = maximum_amplitude(field)
@@ -22,7 +22,7 @@ function volkov_phase(
         phi::T,
         beta1::T,
         beta2::T
-    )::T where {T <: Real}
+    )::T where {T <: Number}
 
     dom = compact_domain(field)
 
@@ -39,10 +39,10 @@ end
 function _volkov_phase(
         field::AbstractBackgroundField{AbstractIndefinitePolarization},
         method::AbstractIntegrationMethod,
-        phi::Real,
-        beta11::Real,
-        beta12::Real,
-        beta2::Real
+        phi::Number,
+        beta11::Number,
+        beta12::Number,
+        beta2::Number
     )
     # add volkov phase for indefinite polarization
 

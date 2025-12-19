@@ -43,6 +43,6 @@ function _envelope end
 
 Return value of the envelope with bound-check.
 """
-function envelope(field::AbstractPulseProfile, phi::Real)
+function envelope(field::AbstractPulseProfile, phi::Number)
     return phi in domain(field) ? _envelope(field, phi) : zero(phi)
 end

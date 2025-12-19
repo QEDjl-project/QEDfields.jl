@@ -33,6 +33,6 @@ end
 
 pulse_length(pulse::CosSquarePulse) = pulse.pulse_length
 
-function _envelope(pulse::CosSquarePulse, phi::Real)
+function _envelope(pulse::CosSquarePulse, phi::Number)
     return _unsafe_cos_square_envelope(phi, pulse.pulse_length)
 end

@@ -24,7 +24,7 @@ end
 
 # delegation of internal integrals to pulse profiles
 
-@inline function _internal_integrals(field::AbstractPulsedPlaneWaveField, method::AbstractIntegrationMethod, phi::Real)
+@inline function _internal_integrals(field::AbstractPulsedPlaneWaveField, method::AbstractIntegrationMethod, phi::Number)
     return _internal_integrals(pulse_profile(field), polarization(field), method, phi)
 end
 

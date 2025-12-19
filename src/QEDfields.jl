@@ -35,11 +35,11 @@ export GaussianPulse
 export integrate
 export GaussKronrodQuadrature
 export GaussLegendreQuadrature
+export FilonClenshawCurtisQuadrature
 export Analytical
 
 using QuadGK
 using FastGaussQuadrature
-using GaussQuadrature
 using IntervalSets
 using LinearAlgebra
 using SpecialFunctions
@@ -54,6 +54,7 @@ include("results.jl")
 include("integration_methods/interface.jl")
 include("integration_methods/gauss_kronrod.jl")
 include("integration_methods/gauss_legendre.jl")
+include("integration_methods/filon_clenshaw_curtis.jl")
 include("integration_methods/analytical.jl")
 
 include("interface.jl")
