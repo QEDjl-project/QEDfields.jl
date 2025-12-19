@@ -32,8 +32,6 @@ function phase_integrals(
     )
 end
 
-
-# FIXME: This is wrong! We need to insert the xi-dependent terms
 function phase_integrals(
         field::AbstractPlaneWaveField{P},
         internal_integral_method::AbstractIntegrationMethod,
@@ -46,7 +44,7 @@ function phase_integrals(
         P <: AbstractIndefinitePolarization,
     }
 
-    dom = domain(field)
+    dom = compact_domain(field)
     max_amp = maximum_amplitude(field)
 
     # TODO: make max_amp factors global

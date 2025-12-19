@@ -1,5 +1,6 @@
 @inline _sinc(x) = sinc(x / pi)
 
+# solved integral_0^phi dphi' g(phi') * cos(phi)
 @inline function _internal_integral1_cos_square(::PolX, phi, dphi)
 
     fac_plus = pi / dphi + 1
@@ -7,6 +8,7 @@
     return sin(phi) / 2 + phi / 4 * (_sinc(fac_plus * phi) + _sinc(fac_minus * phi))
 end
 
+# solved integral_0^phi dphi' g(phi') * sin(phi)
 @inline function _internal_integral1_cos_square(::PolY, phi, dphi)
 
     fac_plus = 1 + pi / dphi
@@ -17,6 +19,7 @@ end
     )
 end
 
+# solved integral_0^phi dphi' (g(phi') * cos(phi))^2
 @inline function _internal_integral2_cos_square(::PolX, phi, dphi)
     k0 = pi / dphi
     k1p = 1 + k0
@@ -35,6 +38,7 @@ end
     return res / 16
 end
 
+# solved integral_0^phi dphi' (g(phi') * sin(phi))^2
 @inline function _internal_integral2_cos_square(::PolY, phi, dphi)
     k0 = pi / dphi
     k1p = 1 + k0
@@ -53,10 +57,9 @@ end
     return res / 16
 end
 
-# FIXME: This is wrong! We need to insert the xi-dependent terms
-@inline function _internal_integral2_cos_square(phi, dphi)
-    value_I21 = _internal_integral2_cos_square(pol, phi, pulse_len)
-    value_I22 = _internal_integral2_cos_square(pol, phi, pulse_len)
+@inline function _internal_integral2_cos_square_indef(phi, dphi, xi)
+    value_I21 = oscillator(PolX(), pol.xi)^2 * _internal_integral2_cos_square(pol, phi, pulse_len)
+    value_I22 = oscillator(PolY(), pol.xi)^2 * _internal_integral2_cos_square(pol, phi, pulse_len)
 
     return value_I21 + value_I22
 end
@@ -75,14 +78,12 @@ end
     )
 end
 
-# FIXME: This is wrong! We need to insert the xi-dependent terms
-@inline function _internal_integrals(pulse::CosSquarePulse, pol::P, method::Analytical, phi::T) where {T <: Number, P <: AbstractIndefinitePolarization}
+@inline function _internal_integrals(pulse::CosSquarePulse, pol::EllipticPolarization, method::Analytical, phi::T) where {T <: Number}
     pulse_len = pulse_length(pulse)
-    value_I11 = _internal_integral1_cos_square(PolX(), phi, pulse_len)
-    value_I12 = _internal_integral2_cos_square(PolY(), phi, pulse_len)
+    value_I11 = oscillator(PolX(), pol.xi) * _internal_integral1_cos_square(PolX(), phi, pulse_len)
+    value_I12 = oscillator(PolY(), pol.xi) * _internal_integral2_cos_square(PolY(), phi, pulse_len)
 
-    # TODO: update with xi!
-    value_I2 = _internal_integral2_cos_square(phi, pulse_len)
+    value_I2 = _internal_integral2_cos_square_indef(phi, pulse_len, pol.xi)
 
     return InternalIntegrals(res12, res12, res2)
 end

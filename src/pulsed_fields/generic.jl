@@ -14,26 +14,43 @@ pulse_length(field::AbstractPulsedPlaneWaveField) = pulse_length(pulse_profile(f
 
 # amplitude functions
 
+# TODO: consider making this with two args (field,phi), because it is deligated to
+# _amplitude(field,polarization(field),phi) anyways.
 function _amplitude(
         field::AbstractPulsedPlaneWaveField{P},
         pol::AbstractDefinitePolarization,
-        phi::Real
+        phi::Number
     ) where {P <: AbstractDefinitePolarization}
     return oscillator(pol, phi) * _envelope(field, phi)
 end
 
-# delegation of internal integrals to pulse profiles
-
-@inline function _internal_integrals(field::AbstractPulsedPlaneWaveField, method::AbstractIntegrationMethod, phi::Number)
-    return _internal_integrals(pulse_profile(field), polarization(field), method, phi)
+function _amplitude(
+        field::AbstractPulsedPlaneWaveField{P},
+        pol::AbstractDefinitePolarization,
+        phi::Number
+    ) where {P <: EllipticPolarization}
+    xi = polarization(field).xi
+    return oscillator(pol, xi) * oscillator(pol, phi) * _envelope(field, phi)
 end
 
+# delegation of internal integrals to pulse profiles
+# NOTE: the separation of definite and indefinite pols is done on the level of pulse_profile
+# (see pulse_profiles/generic.jl)
+@inline function _internal_integrals(
+        field::AbstractPulsedPlaneWaveField{P},
+        method::AbstractIntegrationMethod,
+        phi::Number
+    ) where {
+        P <: AbstractPolarization,
+    }
+    return _internal_integrals(pulse_profile(field), polarization(field), method, phi)
+end
 
 # generic spectrum
 
 # TODO: consider moving this to phase integrals and using the IntegralMethod interface
 
-@inline function _fourier_transform(func::Function, domain::Interval, l::Real)
+@inline function _fourier_transform(func::Function, domain::Interval, l::Number)
     return quadgk(t -> func(t) * exp(1im * t * l), endpoints(domain)...)[1]
 end
 
@@ -56,7 +73,7 @@ Return the generic spectrum of the given field, for the given polarization direc
     where ``g(\\phi)`` is the [`envelope`](@ref) and ``l`` the photon number parameter.
 """
 function generic_spectrum(
-        field::AbstractPulsedPlaneWaveField, pnum::Real
+        field::AbstractPulsedPlaneWaveField, pnum::Number
     )
     return _fourier_transform(t -> _amplitude(field, t), domain(field), pnum)
 end

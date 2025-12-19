@@ -35,7 +35,6 @@ function volkov_phase(
     return res
 end
 
-# WARN: Do not forget the xi-dependence!
 function _volkov_phase(
         field::AbstractBackgroundField{AbstractIndefinitePolarization},
         method::AbstractIntegrationMethod,
@@ -44,6 +43,11 @@ function _volkov_phase(
         beta12::Number,
         beta2::Number
     )
-    # add volkov phase for indefinite polarization
+    max_amp = maximum_amplitude(field)
+
+    ii = _internal_integrals(field, method, phi)
+
+    # "-" comes from eps_BG*eps_BG
+    return max_amp * (beta11 * ii.I11.value + beta12 * ii.I12.value) - max_amp^2 * beta2 * ii.I2.value
 
 end

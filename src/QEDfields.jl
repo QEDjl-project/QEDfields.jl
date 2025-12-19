@@ -50,6 +50,7 @@ using QEDbase
 
 include("patch_QEDcore.jl")
 include("results.jl")
+include("polarization.jl")
 
 include("integration_methods/interface.jl")
 include("integration_methods/gauss_kronrod.jl")
@@ -62,6 +63,8 @@ include("generic/amplitude.jl")
 include("generic/internal_integrals.jl")
 include("generic/volkov_phase.jl")
 include("generic/phase_integrals.jl")
+
+include("kinematic_factors.jl")
 
 include("pulse_profiles/interface.jl")
 include("pulse_profiles/generic.jl")

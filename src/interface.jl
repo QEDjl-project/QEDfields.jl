@@ -58,6 +58,8 @@ Interface function for background fields. Returns the value of the amplitude at 
 function _amplitude end
 
 #TODO: consider moving to generics
+# - OR consider making this the actual interface function, because the three-args version
+# is never called.
 @inline function _amplitude(field::AbstractPlaneWaveField{P}, phi::Real) where {P <: AbstractDefinitePolarization}
     return _amplitude(field, polarization(field), phi)
 end
