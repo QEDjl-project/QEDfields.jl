@@ -1,13 +1,7 @@
 name = "QEDfields"
 uuid = "ac3a6c97-e859-4b9f-96bb-63d2a216042c"
 version = "0.3.1"
-authors = [
-    "Uwe Hernandez Acosta <u.hernandez@hzdr.de>",
-    "Simeon Ehrig",
-    "Klaus Steiniger",
-    "Tom Jungnickel",
-    "Anton Reinhard",
-]
+authors = ["Uwe Hernandez Acosta <u.hernandez@hzdr.de>", "Simeon Ehrig", "Klaus Steiniger", "Tom Jungnickel", "Anton Reinhard"]
 
 [deps]
 FastGaussQuadrature = "442a2c76-b920-505d-bb47-c5924d526838"
@@ -25,6 +19,7 @@ FCCQuadrature = "7e58c0cd-f370-453c-9274-eb333b7aace6"
 FCCQuadratureExt = "FCCQuadrature"
 
 [compat]
+FCCQuadrature = "1"
 FastGaussQuadrature = "1.0.2"
 IntervalSets = "0.7"
 LinearAlgebra = "1.10.0"
@@ -35,11 +30,11 @@ SpecialFunctions = "2.6.1"
 julia = "1.10"
 
 [extras]
+FCCQuadrature = "7e58c0cd-f370-453c-9274-eb333b7aace6"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-FCCQuadrature = "7e58c0cd-f370-453c-9274-eb333b7aace6"
 
 [targets]
 test = ["Pkg", "Random", "SafeTestsets", "Test", "FCCQuadrature"]
